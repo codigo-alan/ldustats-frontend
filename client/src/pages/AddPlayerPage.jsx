@@ -1,14 +1,21 @@
 import { useForm } from "react-hook-form";
 import { addPlayer } from "../services/players.services";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export function AddPlayerPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
     const navigate = useNavigate()
     const save = handleSubmit(async data => {
-         const res = await addPlayer(data)
-         navigate("/players/" + res.data.id)
+        try {
+            const res = await addPlayer(data)
+            toast.success(`Agregado exitosamente\n${res.data.name}`)
+            navigate("/players/" + res.data.id)
+        } catch (error) {
+            toast.error('Error al crear el jugador')
+        }
+         
     })
 
     return (

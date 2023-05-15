@@ -14,3 +14,5 @@ export const getPlayerById = (id) => playersApi.get('/' + id)
 export const addPlayer = (player) => playersApi.post('/', player)
 
 export const deletePlayer = (id) => playersApi.delete(`/${id}`)
+
+export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player)
