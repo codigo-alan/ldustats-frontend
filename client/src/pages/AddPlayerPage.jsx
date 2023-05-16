@@ -36,7 +36,7 @@ export function AddPlayerPage() {
                     {...register('position', { required: true })}
                 />
                 {errors.position && <span>Campo requerido</span>}
-                <button type="submit">Guardar</button>
+                <button  className="btn btn-primary" type="submit">Guardar</button>
             </form>
         </div>
     )
