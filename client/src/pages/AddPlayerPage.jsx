@@ -3,6 +3,9 @@ import { addPlayer } from "../services/players.services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 export function AddPlayerPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
@@ -19,25 +22,73 @@ export function AddPlayerPage() {
     })
 
     return (
-        <div>
+        <div className="container p-2">
             <h2>Agregar jugador</h2>
-            <form onSubmit={save}>
-                <input 
-                    type="text" 
-                    placeholder="Nombre"
-                    {...register('name', { required: true })}
-                />
-                {errors.name && <span>Campo requerido</span>}
-                <input type="date" placeholder="Fecha nacimiento"
-                    {...register('birth', { required: true })}
-                />
-                {errors.birth && <span>Campo requerido</span>}
-                <input type="text" placeholder="Posición"
-                    {...register('position', { required: true })}
-                />
-                {errors.position && <span>Campo requerido</span>}
-                <button  className="btn btn-primary" type="submit">Guardar</button>
-            </form>
+            <div className="d-flex justify-content-center">
+                <form className="d-grid gap-2 col-6" onSubmit={save}>
+                    <div className="form-group">
+                        <label>Nombre</label>
+                        <input
+                            type="text"
+                            placeholder="Nombre"
+                            className="form-control"
+                            {...register('name', { required: true })}
+                        />
+                        {errors.name && <span className="text-danger">Campo requerido</span>}
+                    </div>
+                    <div className="form-group">
+                        <label >Fecha de nacimiento</label>
+                        <input
+                            type="date"
+                            placeholder="Fecha nacimiento"
+                            className="form-control"
+                            {...register('birth', { required: true })}
+                        />
+                        {errors.birth && <span className="text-danger">Campo requerido</span>}
+                    </div>
+                    <div className="form-group">
+                        <label >Posición</label>
+                        <input
+                            type="text"
+                            placeholder="Posición"
+                            className="form-control"
+                            {...register('position', { required: true })}
+                        />
+                        {errors.position && <span className="text-danger">Campo requerido</span>}
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <button  className="btn btn-primary" type="submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            {/* <Form onSubmit={save}>
+                <Form.Group className="mb-3" >
+                    <Form.Label>Nombre</Form.Label>
+                    <Form.Control type="text" placeholder="Ingresa nombre" />
+                    <Form.Text className="text-muted" {...register('name', { required: true })} >
+                        Este campo es requerido.
+                    </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Nacimiento</Form.Label>
+                    <Form.Control type="date" placeholder="Fecha nacimiento" />
+                </Form.Group>
+
+                <Form.Group className="mb-3" >
+                    <Form.Label>Posición</Form.Label>
+                    <Form.Control type="text" placeholder="Ingresa posición" />
+                    <Form.Text className="text-muted" {...register('name', { required: true })} >
+                        Este campo es requerido.
+                    </Form.Text>
+                </Form.Group>
+                
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form> */}
         </div>
+        
+
     )
 }

@@ -1,4 +1,4 @@
-import { TableComponent } from "../components/TableComponent";
+import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react"
 import { getAllPlayers } from "../services/players.services";
 
@@ -24,8 +24,8 @@ export function PlayersPage() {
 
 
   return (
-    <div>
-      <h2>Players</h2>
+    <div className="container p-2">
+      <h2>Lista de jugadores</h2>
       <div>
         <TableComponent data={players}></TableComponent>
       </div>

@@ -1,0 +1,8 @@
+
+
+const positions = {
+    GOALKEEPER: 'ARQUERO',
+    DEFENDER: 'DEFENSOR',
+    MIDFIELD: 'CENTROCAMPISTA',
+    FORWARD: 'DELANTERO',
+}
