@@ -4,19 +4,31 @@ import { getPlayerById, deletePlayer, updatePlayer } from "../services/players.s
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-//import { NotFoundPage } from "./NotFoundPage";
+import { positions } from "../models/Organisation";
 import images from "../assets/images";
 
 
 export function PlayerDetailPage() {
 
-    const [player, setPlayer] = useState([])
-    const [age, setAge] = useState('0')
     const { id } = useParams()
-    const [error, setError] = useState("")
     const navigate = useNavigate()
-    const [isEditing, setIsEditing] = useState(false)
+    const [error, setError] = useState("") //not in use
+
+    const [player, setPlayer] = useState([])
+    const [age, setAge] = useState('0') //player age obtained from calculate function
+    const [positionImage, setPositionImage] = useState(images.FIELD)
+
+    const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
+
+    //select options
+    const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
+    const onOptionChangeHandler = (event) => {
+        console.log("User Selected Value - ", event.target.value)
+        setPositionImage(getPositionImage(event.target.value))
+    }
+
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
+    //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
             const res = await updatePlayer(id, data)
@@ -28,10 +40,32 @@ export function PlayerDetailPage() {
         
    })
 
+   const handleChange = event => {
+    console.log('holla')
+    console.log(event.target.value);
+    //setSelected(event.target.value);
+  };
+
     function calculateAge(birth) {
         const difference = new Date() - (new Date(birth))
         const calculatedAge = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25))
         return `${calculatedAge}`
+    }
+    function getPositionImage(position) {
+        console.log(position)
+        switch (position) {
+            case 'ARQUERO':
+                return images.GOALKEEPER
+            case 'DEFENSOR':
+                return images.DEFENDER
+            case 'CENTROCAMPISTA':
+                return images.MIDFIELD
+            case 'DELANTERO':
+                return images.FORWARD
+            default:
+                return images.FIELD
+                
+        }
     }
 
     //Change value of id
@@ -53,94 +87,104 @@ export function PlayerDetailPage() {
             }
         }
 
-        /* function calculateAge(birth) {
-            const difference = new Date() - (new Date(birth))
-            const calculatedAge = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25))
-            return calculatedAge
-        } */
-
-        getPlayer()
+        getPlayer() //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
     //Change value of player
     useEffect(() => {
         setAge(calculateAge(player.birth))
+        setPositionImage(getPositionImage(player.position))
       }, [player]);
     
 
     return(
         <div className="container p-2">
             <h2>{player.name}</h2>
-            <div><img src={images.GOALKEEPER} alt="goalkeeper" /></div>
+            
             <div className="d-flex gap-3 flex-column">
 
-                <form className="d-grid gap-2 col-6 mx-auto" onSubmit={update}>
-                    <div className="card gap-2 p-2 bg-light">
-                        <div className="form-group row">
-                            <label className="col-3 col-form-label">Nombre:</label>
-                            <div className="col-8">
-                                <input
-                                    type="text"
-                                    placeholder="Nombre"
-                                    className="form-control"
-                                    readOnly={!isEditing}
-                                    {...register('name', { required: true })}
-                                />
-                                {errors.name && <span className="text-danger" >Campo requerido</span>}
-                            </div>
-                            
-                        </div>
-                        
-                        <div className="form-group row">
-                            <label className="col-3 col-form-label">Posición:</label>
-                            <div className="col-8">
-                                <input
-                                    type="text"
-                                    placeholder="Posición"
-                                    className="form-control"
-                                    readOnly={!isEditing}
-                                    {...register('position', { required: true })}
-                                />
-                                {errors.position && <span className="text-danger" >Campo requerido</span>}
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-3 col-form-label">Edad:</label>
-                            <div className="col-8">
-                                <input
-                                    type="text"
-                                    placeholder="Edad"
-                                    className="form-control"
-                                    readOnly={true}
-                                    value={age}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-3 col-form-label">Nacimiento:</label>
-                            <div className="col-8">
-                                <input
-                                    type="date"
-                                    placeholder="Fecha nacimiento"
-                                    className="form-control"
-                                    readOnly={!isEditing}
-                                    {...register('birth', { required: true })}
-                                />
-                                {errors.birth && <span className="text-danger" >Campo requerido</span>}
-                            </div>
-                        </div>
-                    </div>
-
-                    {isEditing && (
-                    <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary" type="submit">Guardar cambios</button>
-                    </div>
-                    )}
+                <div className="row">
+                    <form className="d-grid gap-2 col-6" onSubmit={update}>
+                        <div className="card gap-2 p-2 bg-light">
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Nombre:</label>
+                                <div className="col-8">
+                                    <input
+                                        type="text"
+                                        placeholder="Nombre"
+                                        className="form-control"
+                                        readOnly={!isEditing}
+                                        {...register('name', { required: true })}
+                                    />
+                                    {errors.name && <span className="text-danger" >Campo requerido</span>}
+                                </div>
                     
+                            </div>
+                    
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Posición:</label>
+                                <div className="col-8">
+                                    <select 
+                                        className="form-select" 
+                                        /* onChange={onOptionChangeHandler} */
+                                        disabled={!isEditing}
+                                        {...register('position', { required: true })}
+                                        >
+                                            {options.map((option, index) => {
+                                                return <option key={index} >
+                                                        {option}
+                                                        </option>
+                                        })}
+                                    </select>
+                                    {errors.position && <span className="text-danger" >Campo requerido</span>}
 
-                </form>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Edad:</label>
+                                <div className="col-8">
+                                    <input
+                                        type="text"
+                                        placeholder="Edad"
+                                        className="form-control"
+                                        readOnly={true}
+                                        value={age}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Nacimiento:</label>
+                                <div className="col-8">
+                                    <input
+                                        type="date"
+                                        placeholder="Fecha nacimiento"
+                                        className="form-control"
+                                        readOnly={!isEditing}
+                                        {...register('birth', { required: true })}
+                                    />
+                                    {errors.birth && <span className="text-danger" >Campo requerido</span>}
+                                </div>
+                            </div>
+                        </div>
+                        {isEditing && (
+                        <div className="d-flex justify-content-end">
+                            <button className="btn btn-primary" type="submit">Guardar cambios</button>
+                        </div>
+                        )}
+                    
+                    </form>
+                    <div className="col-3 d-flex justify-content-center">
+                        <img className="w-50" src={positionImage} alt="positionImage" />
+                    </div>
+                    <div className="col-3 d-flex justify-content-center">
+                        <div className="card col-6 h-50">
+                            <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
+                        </div>
+                    </div>
+                </div>
 
-                <div className="d-flex justify-content-end gap-2 col-6 mx-auto">
+                {/* Edit and Delete buttons */}            
+                <div className="d-flex justify-content-start gap-2 col-6">
                     <button
                         className="btn btn-secondary"
                         onClick={ () => {
@@ -150,7 +194,7 @@ export function PlayerDetailPage() {
                     <button
                         className="btn btn-danger"
                         onClick={ async () => {
-                            const accepted = window.confirm('Se eliminarán todos los registros del jugador.\n Está seguro?')
+                            const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
                             if (accepted) {
                                 await deletePlayer(id)
                                 navigate('/players/')

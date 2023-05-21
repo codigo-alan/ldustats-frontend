@@ -1,6 +1,6 @@
 
 
-const positions = {
+export const positions = {
     GOALKEEPER: 'ARQUERO',
     DEFENDER: 'DEFENSOR',
     MIDFIELD: 'CENTROCAMPISTA',
