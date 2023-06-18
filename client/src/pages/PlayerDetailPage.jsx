@@ -40,12 +40,6 @@ export function PlayerDetailPage() {
         
    })
 
-   const handleChange = event => {
-    console.log('holla')
-    console.log(event.target.value);
-    //setSelected(event.target.value);
-  };
-
     function calculateAge(birth) {
         const difference = new Date() - (new Date(birth))
         const calculatedAge = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25))
@@ -98,7 +92,7 @@ export function PlayerDetailPage() {
     
 
     return(
-        <div className="container p-2">
+        <div className="container p-3">
             <h2>{player.name}</h2>
             
             <div className="d-flex gap-3 flex-column">
