@@ -4,6 +4,12 @@ import { useForm } from "react-hook-form";
 import { getAllPlayers, addFile } from "../services/players.services";
 import { toast } from "react-hot-toast";
 import Papa from "papaparse";
+import { format } from "../utils/DateFormat";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faCheck, faCross);
 
 export function PlayersPage() {
 
@@ -14,7 +20,6 @@ export function PlayersPage() {
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    setFile(selectedFile);
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -33,23 +38,22 @@ export function PlayersPage() {
 
     
 
-  const save = handleSubmit(async data => {
-    try {
-      // Create a FormData instance
-      const formData = new FormData();
-      formData.append('file', file);
-      console.log(file);
-      console.log(data);
-      console.log(formData);
+  const save = handleSubmit(() => {
 
-      //const res = await addFile(formData)
-      toast.success(`Agregado exitosamente\n${res.data}`)
-
-    } catch (error) {
-      toast.error('Error al cargar archivo')
-    }
-
-  })
+    const sessions = JSON.parse(jsonData);
+    var errors = 0;
+      sessions.forEach(async element => {
+        element.date = format(new Date(element.date));
+        console.log(element.date);
+        try {
+          await addFile(element);
+        } catch (error) {
+          toast.error(`Error al cargar la sesión de ${element.name}`);
+          errors += 1;
+        }
+      });
+      toast(`Se ha cargado el archivo con ${errors} errores.`);
+  });
 
   /*
       This function is executed each time
@@ -57,7 +61,23 @@ export function PlayersPage() {
   */
   useEffect(() => {
 
-    console.log(jsonData);
+    function addSession() {
+      const sessions = JSON.parse(jsonData);
+      sessions.forEach(async element => {
+        element.date = format(new Date(element.date));
+        console.log(element.date);
+        try {
+          await addFile(element);
+        } catch (error) {
+          toast.error('Error al cargar la sesión')
+        }
+         
+      });
+    };
+
+    if(jsonData != null){
+      //addSession();
+    }
 
   }, [jsonData]);
 
@@ -83,9 +103,9 @@ export function PlayersPage() {
         <h2 className="col-6" >Lista de jugadores</h2>
         <div className="d-flex col-6 align-items-center">
           <form onSubmit={save}>
-            <div className="card">
-              <input type="file" onChange={handleFileChange} />
-              <button type="submit">Enviar</button>
+            <div className="d-flex gap-1">
+              <input className="form-control" type="file" onChange={handleFileChange} />
+              {jsonData != null && <button className="btn btn-primary" type="submit"><FontAwesomeIcon icon={faCheck}/></button>}
             </div>
           </form>
         </div>

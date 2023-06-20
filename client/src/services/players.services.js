@@ -21,4 +21,4 @@ export const deletePlayer = (id) => playersApi.delete(`/${id}`)
 
 export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player)
 
-export const addFile = (file) => playersApiUploadCsv.post('/', file)
+export const addFile = (session) => playersApiUploadCsv.post('/', session)
