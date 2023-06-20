@@ -5,7 +5,7 @@ const playersApi = axios.create({
     baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/players/'
 })
 
-const playersApiUploadCsv = axios.create({
+const sessionsApi = axios.create({
     baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/sessions/'
 })
 
@@ -21,4 +21,6 @@ export const deletePlayer = (id) => playersApi.delete(`/${id}`)
 
 export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player)
 
-export const addFile = (session) => playersApiUploadCsv.post('/', session)
+export const addSession = (session) => sessionsApi.post('/', session)
+
+export const getAllSessions = () => sessionsApi.get('/')

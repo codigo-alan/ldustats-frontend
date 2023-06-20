@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { positions } from "../models/Organisation";
 import images from "../assets/images";
+import { calculateAge } from "../utils/CalculateAge";
 
 
 export function PlayerDetailPage() {
@@ -40,11 +41,6 @@ export function PlayerDetailPage() {
         
    })
 
-    function calculateAge(birth) {
-        const difference = new Date() - (new Date(birth))
-        const calculatedAge = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25))
-        return `${calculatedAge}`
-    }
     function getPositionImage(position) {
         console.log(position)
         switch (position) {

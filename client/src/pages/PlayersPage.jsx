@@ -1,7 +1,7 @@
 import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getAllPlayers, addFile } from "../services/players.services";
+import { getAllPlayers, addSession } from "../services/players.services";
 import { toast } from "react-hot-toast";
 import Papa from "papaparse";
 import { format } from "../utils/DateFormat";
@@ -44,42 +44,19 @@ export function PlayersPage() {
     var errors = 0;
       sessions.forEach(async element => {
         element.date = format(new Date(element.date));
-        console.log(element.date);
         try {
-          await addFile(element);
+          await addSession(element);
         } catch (error) {
           toast.error(`Error al cargar la sesión de ${element.name}`);
           errors += 1;
         }
       });
-      toast(`Se ha cargado el archivo con ${errors} errores.`);
+      if (errors == 0) {
+        toast.success(`Se ha cargado el archivo sin errores`);
+      } else {
+        toast(`Se ha cargado el archivo con ${errors} errores.`);
+      }
   });
-
-  /*
-      This function is executed each time
-      that jsonData change its value
-  */
-  useEffect(() => {
-
-    function addSession() {
-      const sessions = JSON.parse(jsonData);
-      sessions.forEach(async element => {
-        element.date = format(new Date(element.date));
-        console.log(element.date);
-        try {
-          await addFile(element);
-        } catch (error) {
-          toast.error('Error al cargar la sesión')
-        }
-         
-      });
-    };
-
-    if(jsonData != null){
-      //addSession();
-    }
-
-  }, [jsonData]);
 
   /*
       This function is executed each time
@@ -111,7 +88,7 @@ export function PlayersPage() {
         </div>
       </div>
       <div className="row">
-        <TableComponent data={players}></TableComponent>
+        <TableComponent data={players} type={'players'}></TableComponent>
       </div>
     </div>
   )
