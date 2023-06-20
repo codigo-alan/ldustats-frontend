@@ -3,17 +3,31 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { getAllPlayers, addFile } from "../services/players.services";
 import { toast } from "react-hot-toast";
+import Papa from "papaparse";
 
 export function PlayersPage() {
 
   const [players, setPlayers] = useState([]) //properly way to use a variable in react
   const [file, setFile] = useState(null);
+  const [jsonData, setJsonData] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log(event.target.files[0]);
     setFile(selectedFile);
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const csv = e.target.result;
+      Papa.parse(csv, {
+        header: true,
+        complete: (results) => {
+          setJsonData(JSON.stringify(results.data));
+          
+        }
+      });
+    }
+    reader.readAsText(selectedFile);
   };
 
 
@@ -24,9 +38,11 @@ export function PlayersPage() {
       // Create a FormData instance
       const formData = new FormData();
       formData.append('file', file);
+      console.log(file);
+      console.log(data);
       console.log(formData);
 
-      const res = await addFile(formData)
+      //const res = await addFile(formData)
       toast.success(`Agregado exitosamente\n${res.data}`)
 
     } catch (error) {
@@ -34,6 +50,16 @@ export function PlayersPage() {
     }
 
   })
+
+  /*
+      This function is executed each time
+      that jsonData change its value
+  */
+  useEffect(() => {
+
+    console.log(jsonData);
+
+  }, [jsonData]);
 
   /*
       This function is executed each time

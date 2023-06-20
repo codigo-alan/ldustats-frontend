@@ -6,7 +6,7 @@ const playersApi = axios.create({
 })
 
 const playersApiUploadCsv = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/uploadcsv/'
+    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/sessions/'
 })
 
 export const getAllPlayers = () => {
