@@ -9,6 +9,10 @@ const sessionsApi = axios.create({
     baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/sessions/'
 })
 
+const filesApi = axios.create({
+    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/files/'
+})
+
 export const getAllPlayers = () => {
     return playersApi.get('/')
 }
@@ -19,8 +23,14 @@ export const addPlayer = (player) => playersApi.post('/', player)
 
 export const deletePlayer = (id) => playersApi.delete(`/${id}`)
 
-export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player)
+export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player) //Not update the id BUG
 
 export const addSession = (session) => sessionsApi.post('/', session)
 
-export const getAllSessions = () => sessionsApi.get('/')
+export const getAllSessions = () => sessionsApi.get('/');
+
+export const getSessionsByPlayer = (playerName) => sessionsApi.get('/' + playerName); //Not properly yet
+
+export const getAllFiles = () => filesApi.get(`/`);
+
+export const addFile = (file) => filesApi.post('/', file);

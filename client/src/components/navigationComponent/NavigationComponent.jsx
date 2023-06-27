@@ -14,6 +14,7 @@ export function NavigationComponent() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="col-12 d-flex justify-content-between">
                         <NavLink className="navLink" to="/players">Jugadores</NavLink>
+                        <NavLink className="navLink" to="/files">Ficheros</NavLink>
                         <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
                         <NavLink className="navLink" to="player-add">Agregar jugador</NavLink>
                         <NavDropdown className="dropdownLink" title="Mi perfil" id="basic-nav-dropdown">

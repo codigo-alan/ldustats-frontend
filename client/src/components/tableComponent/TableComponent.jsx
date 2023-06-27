@@ -6,7 +6,6 @@ import { calculateAge } from "../../utils/CalculateAge";
 export function TableComponent({data, type}) {
 
     const [caption, setCaption] = useState('');
-    const [headers, setHeaders] = useState([]);
 
     /*
       This function is executed each time
@@ -20,6 +19,9 @@ export function TableComponent({data, type}) {
             }
             if (type == 'players') {
                 setCaption('Jugadores Reserva');
+            }
+            if (type == 'files') {
+                setCaption('Ficheros');
             }
         }
 
@@ -56,7 +58,11 @@ export function TableComponent({data, type}) {
                             <th>Distancia</th>
                         </tr> 
                     }
-                    
+                    {(type == 'files') && 
+                        <tr>
+                            <th>Fecha</th>
+                        </tr> 
+                    }
                 </thead>
                 <tbody>
                     
@@ -76,6 +82,14 @@ export function TableComponent({data, type}) {
                                 <td>{element.name}</td>
                                 <td>{element.date}</td>
                                 <td>{element.distance}</td>
+                            </tr>
+                        )
+                    })}
+                    {(type == 'files') && data.map((element) => {
+                        return (
+                            <tr className="tableRow" key={element.id} >
+                                <td>{element.id}</td>
+                                <td>{element.date}</td>
                             </tr>
                         )
                     })}

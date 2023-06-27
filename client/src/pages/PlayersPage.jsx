@@ -1,7 +1,7 @@
 import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getAllPlayers, addSession } from "../services/players.services";
+import { getAllPlayers, addSession, addFile } from "../services/players.services";
 import { toast } from "react-hot-toast";
 import Papa from "papaparse";
 import { format } from "../utils/DateFormat";
@@ -28,7 +28,6 @@ export function PlayersPage() {
         header: true,
         complete: (results) => {
           setJsonData(JSON.stringify(results.data));
-          
         }
       });
     }
@@ -53,10 +52,16 @@ export function PlayersPage() {
       });
       if (errors == 0) {
         toast.success(`Se ha cargado el archivo sin errores`);
+        console.log(sessions);
+        addModifiedFile(sessions);
       } else {
         toast(`Se ha cargado el archivo con ${errors} errores.`);
       }
   });
+
+  async function addModifiedFile(modifiedFile) {
+    await addFile(modifiedFile);
+  }
 
   /*
       This function is executed each time

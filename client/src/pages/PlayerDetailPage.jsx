@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getPlayerById, deletePlayer, updatePlayer } from "../services/players.services";
+import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../services/players.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { positions } from "../models/Organisation";
 import images from "../assets/images";
 import { calculateAge } from "../utils/CalculateAge";
+import { TableComponent } from "../components/tableComponent/TableComponent";
 
 
 export function PlayerDetailPage() {
@@ -18,6 +19,7 @@ export function PlayerDetailPage() {
     const [player, setPlayer] = useState([])
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
+    const [sessions, setSessions] = useState([]);
 
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
 
@@ -32,7 +34,7 @@ export function PlayerDetailPage() {
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data)
+            const res = await updatePlayer(id, data) //Not works properly, not update id, create a new player with diff id
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -40,6 +42,7 @@ export function PlayerDetailPage() {
         }
         
    })
+
 
     function getPositionImage(position) {
         console.log(position)
@@ -57,6 +60,8 @@ export function PlayerDetailPage() {
                 
         }
     }
+    const normalizedName = (name) => name.replace(/\s/g, "").toLowerCase();
+    
 
     //Change value of id
     useEffect( () => {
@@ -66,6 +71,7 @@ export function PlayerDetailPage() {
                 setPlayer(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
+                setValue('id', res.data.id) 
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
@@ -77,13 +83,21 @@ export function PlayerDetailPage() {
             }
         }
 
-        getPlayer() //call above declared function to get player when id(obtained from params) changes
+        getPlayer(); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
     //Change value of player
     useEffect(() => {
-        setAge(calculateAge(player.birth))
-        setPositionImage(getPositionImage(player.position))
+        async function getPlayerSessions(name) {
+            const res = await getSessionsByPlayer(name);
+            setSessions(res.data);
+        }
+
+        setAge(calculateAge(player.birth));
+        setPositionImage(getPositionImage(player.position));
+        if (player.name == undefined) return; //to avoid keys and avoid error of undefined name
+        getPlayerSessions(normalizedName(player.name));
+        
       }, [player]);
     
 
@@ -96,6 +110,21 @@ export function PlayerDetailPage() {
                 <div className="row">
                     <form className="d-grid gap-2 col-6" onSubmit={update}>
                         <div className="card gap-2 p-2 bg-light">
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Id:</label>
+                                <div className="col-8">
+                                    <input
+                                        type="text"
+                                        placeholder="Id"
+                                        className="form-control"
+                                        readOnly={!isEditing}
+                                        {...register('id', { required: true })}
+                                    />
+                                    {errors.id && <span className="text-danger" >Campo requerido</span>}
+                                </div>
+
+                            </div>
+
                             <div className="form-group row">
                                 <label className="col-3 col-form-label">Nombre:</label>
                                 <div className="col-8">
@@ -193,6 +222,10 @@ export function PlayerDetailPage() {
                     </button>
                 </div>
 
+            </div>
+            <h2>Sesiones del jugador</h2>
+            <div>
+                <TableComponent data={sessions} type={'sessions'} ></TableComponent>
             </div>
         </div>
     )

@@ -27,6 +27,16 @@ export function AddPlayerPage() {
             <div className="d-flex justify-content-center">
                 <form className="d-grid gap-2 col-6" onSubmit={save}>
                     <div className="form-group">
+                        <label>Id</label>
+                        <input
+                            type="text"
+                            placeholder="Id"
+                            className="form-control"
+                            {...register('id', { required: true })}
+                        />
+                        {errors.id && <span className="text-danger">Campo requerido</span>}
+                    </div>
+                    <div className="form-group">
                         <label>Nombre</label>
                         <input
                             type="text"

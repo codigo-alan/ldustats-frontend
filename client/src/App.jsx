@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PlayersPage } from "./pages/PlayersPage";
 import { SessionsPage } from "./pages/SessionsPage";
+import { FilesPage } from "./pages/FilesPage";
 import { AddPlayerPage } from "./pages/AddPlayerPage";
 import { PlayerDetailPage } from "./pages/PlayerDetailPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -19,6 +20,7 @@ export function App() {
           <Route path='/' element={<Navigate to='/players' />}></Route>
           <Route path='/players' element={<PlayersPage />}></Route>
           <Route path='/sessions' element={<SessionsPage/>}></Route>
+          <Route path='/files' element={<FilesPage/>}></Route>
           <Route path='/players/:id' element={<PlayerDetailPage />}></Route>
           <Route path='/player-add' element={<AddPlayerPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
