@@ -56,6 +56,8 @@ export function TableComponent({data, type}) {
                             <th>Nombre</th>
                             <th>Fecha</th>
                             <th>Distancia</th>
+                            <th>Id Jugador</th>
+                            <th>Id File</th>
                         </tr> 
                     }
                     {(type == 'files') && 
@@ -82,6 +84,8 @@ export function TableComponent({data, type}) {
                                 <td>{element.name}</td>
                                 <td>{element.date}</td>
                                 <td>{element.distance}</td>
+                                <td>{element.idPlayer}</td>
+                                <td>{element.idFile}</td>
                             </tr>
                         )
                     })}

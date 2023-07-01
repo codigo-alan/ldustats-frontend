@@ -23,13 +23,13 @@ export const addPlayer = (player) => playersApi.post('/', player)
 
 export const deletePlayer = (id) => playersApi.delete(`/${id}`)
 
-export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player) //Not update the id BUG
+export const updatePlayer = (id, player) => playersApi.put(`/${id}/`, player) //BUG -> Not update the id
 
 export const addSession = (session) => sessionsApi.post('/', session)
 
 export const getAllSessions = () => sessionsApi.get('/');
 
-export const getSessionsByPlayer = (playerName) => sessionsApi.get('/' + playerName); //Not properly yet
+export const getSessionsByPlayer = (playerId) => playersApi.get(`/${playerId}/sessions`); 
 
 export const getAllFiles = () => filesApi.get(`/`);
 

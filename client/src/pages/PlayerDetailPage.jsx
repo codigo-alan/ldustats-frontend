@@ -19,7 +19,7 @@ export function PlayerDetailPage() {
     const [player, setPlayer] = useState([])
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
-    const [sessions, setSessions] = useState([]);
+    const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
 
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
 
@@ -88,15 +88,16 @@ export function PlayerDetailPage() {
     }, [id] )
     //Change value of player
     useEffect(() => {
-        async function getPlayerSessions(name) {
-            const res = await getSessionsByPlayer(name);
-            setSessions(res.data);
+        async function getPlayerSessions(id) {
+            const res = await getSessionsByPlayer(id);
+            setSessionsByPlayerId(res.data);
+            console.log(id);
         }
 
         setAge(calculateAge(player.birth));
         setPositionImage(getPositionImage(player.position));
         if (player.name == undefined) return; //to avoid keys and avoid error of undefined name
-        getPlayerSessions(normalizedName(player.name));
+        getPlayerSessions(player.id); //execute the async function
         
       }, [player]);
     
@@ -225,7 +226,7 @@ export function PlayerDetailPage() {
             </div>
             <h2>Sesiones del jugador</h2>
             <div>
-                <TableComponent data={sessions} type={'sessions'} ></TableComponent>
+                <TableComponent data={sessionsByPlayerId} type={'sessions'} ></TableComponent>
             </div>
         </div>
     )
