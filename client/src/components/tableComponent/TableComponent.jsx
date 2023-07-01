@@ -33,6 +33,9 @@ export function TableComponent({data, type}) {
     const clicked = (id) => {
         navigate(`/players/${id}`)
     };
+    const fileClicked = (id) => {
+        navigate(`/files/${id}`)
+    };
 
     const getAge = (birth) => {
         return(calculateAge(birth));
@@ -91,7 +94,7 @@ export function TableComponent({data, type}) {
                     })}
                     {(type == 'files') && data.map((element) => {
                         return (
-                            <tr className="tableRow" key={element.id} >
+                            <tr className="tableRow" onClick={ () => fileClicked(element.id) } key={element.id} >
                                 <td>{element.id}</td>
                                 <td>{element.date}</td>
                             </tr>

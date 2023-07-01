@@ -31,6 +31,8 @@ export const getAllSessions = () => sessionsApi.get('/');
 
 export const getSessionsByPlayer = (playerId) => playersApi.get(`/${playerId}/sessions`); 
 
+export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`);
+
 export const getAllFiles = () => filesApi.get(`/`);
 
 export const addFile = (file) => filesApi.post('/', file);

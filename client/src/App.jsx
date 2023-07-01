@@ -8,6 +8,7 @@ import { PlayerDetailPage } from "./pages/PlayerDetailPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { NavigationComponent } from "./components/navigationComponent/NavigationComponent";
 import { Toaster } from "react-hot-toast";
+import { FileDetailPage } from './pages/FilesDetailPage';
 
 
 export function App() {
@@ -23,6 +24,7 @@ export function App() {
           <Route path='/files' element={<FilesPage/>}></Route>
           <Route path='/players/:id' element={<PlayerDetailPage />}></Route>
           <Route path='/player-add' element={<AddPlayerPage />}></Route>
+          <Route path='/files/:id' element={<FileDetailPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
         </Routes>
         <Toaster></Toaster>
