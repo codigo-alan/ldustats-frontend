@@ -40,11 +40,16 @@ export function PlayersPage() {
   const save = handleSubmit(() => {
 
     const sessions = JSON.parse(jsonData);
+    //TODO obtain date of at least one session from sessions[]
+    //create endpoint to addFile with auto id
+    //add the new file
     var errors = 0;
       sessions.forEach(async element => {
         element.date = format(new Date(element.date));
         try {
-          await addSession(element);
+          //add the session with corresponding id of file recently created
+          //take id value consulting last entrance in db OR creating a randomId manually from file and use this variable here to create session
+          await addSession(element); 
         } catch (error) {
           toast.error(`Error al cargar la sesión de ${element.name}`);
           errors += 1;
