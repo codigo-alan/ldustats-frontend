@@ -50,7 +50,7 @@ export function PlayersPage() {
     
 
   const save = handleSubmit(() => {
-    addModifiedFile(new File(1, date)); //TODO modify this hardcode id
+    addModifiedFile(new File(date)); //TODO modify this hardcode id
   });
 
   async function addModifiedFile(newFile) {

@@ -1,6 +1,5 @@
 export class File {
-    constructor(id, date){
-        this.id = id;
+    constructor(date){
         this.date = date;
     }
 
