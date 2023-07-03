@@ -8,6 +8,8 @@ import { format } from "../utils/DateFormat";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { File } from "../models/File";
+import { Session } from "../models/Session";
 
 library.add(faCheck, faCross);
 
@@ -16,7 +18,16 @@ export function PlayersPage() {
   const [players, setPlayers] = useState([]) //properly way to use a variable in react
   const [file, setFile] = useState(null);
   const [jsonData, setJsonData] = useState(null);
+  const [date, setDate] = useState(null);
+  const [createdId, setCreatedId] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
+
+  function obtainOneDate(result) {
+    if (result != undefined && result.length != 0) {
+      return format(new Date(result[0].date));
+    }
+    else return null;
+  }
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -28,6 +39,7 @@ export function PlayersPage() {
         header: true,
         complete: (results) => {
           setJsonData(JSON.stringify(results.data));
+          setDate(obtainOneDate(results.data));
         }
       });
     }
@@ -38,34 +50,12 @@ export function PlayersPage() {
     
 
   const save = handleSubmit(() => {
-
-    const sessions = JSON.parse(jsonData);
-    //TODO obtain date of at least one session from sessions[]
-    //create endpoint to addFile with auto id
-    //add the new file
-    var errors = 0;
-      sessions.forEach(async element => {
-        element.date = format(new Date(element.date));
-        try {
-          //add the session with corresponding id of file recently created
-          //take id value consulting last entrance in db OR creating a randomId manually from file and use this variable here to create session
-          await addSession(element); 
-        } catch (error) {
-          toast.error(`Error al cargar la sesión de ${element.name}`);
-          errors += 1;
-        }
-      });
-      if (errors == 0) {
-        toast.success(`Se ha cargado el archivo sin errores`);
-        console.log(sessions);
-        addModifiedFile(sessions);
-      } else {
-        toast(`Se ha cargado el archivo con ${errors} errores.`);
-      }
+    addModifiedFile(new File(1, date)); //TODO modify this hardcode id
   });
 
-  async function addModifiedFile(modifiedFile) {
-    await addFile(modifiedFile);
+  async function addModifiedFile(newFile) {
+    const res = await addFile(newFile);
+    setCreatedId(JSON.parse(res.request.response).id);
   }
 
   /*
@@ -83,6 +73,35 @@ export function PlayersPage() {
 
   }, []);
 
+  useEffect(() => {
+
+    if (createdId != null) {
+      console.log(createdId);
+      const sessions = JSON.parse(jsonData);
+
+      var errors = 0;
+      sessions.forEach(async element => {
+        element.date = format(new Date(element.date));
+        const session = new Session(element.name, element.date, element.distance, element.id, createdId);
+        try {
+          await addSession(session); 
+        } catch (error) {
+          toast.error(`Error al cargar la sesión de ${session.name}`);
+          errors += 1;
+        }
+      });
+      if (errors == 0) {
+        toast.success(`Se ha cargado el archivo sin errores`);
+        console.log(sessions);
+      } else {
+        toast(`Se ha cargado el archivo con ${errors} errores.`);
+      }
+    }
+
+  }, [createdId]);
+
+  
+
 
   return (
     <div className="container p-3">
@@ -92,7 +111,8 @@ export function PlayersPage() {
           <form onSubmit={save}>
             <div className="d-flex gap-1">
               <input className="form-control" type="file" onChange={handleFileChange} />
-              {jsonData != null && <button className="btn btn-primary" type="submit"><FontAwesomeIcon icon={faCheck}/></button>}
+              {jsonData != null && date != null && <button className="btn btn-primary" type="submit"><FontAwesomeIcon icon={faCheck}/></button>}
+              {jsonData != null && date == null && <span  className="text-danger" >La fecha no se obtuvo correctamente</span>}
             </div>
           </form>
         </div>
