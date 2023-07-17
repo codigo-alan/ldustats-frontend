@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../services/players.services";
+import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer, getFile } from "../services/players.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -8,6 +8,7 @@ import { positions } from "../models/Organisation";
 import images from "../assets/images";
 import { calculateAge } from "../utils/CalculateAge";
 import { TableComponent } from "../components/tableComponent/TableComponent";
+import { Session } from "../models/Session";
 
 
 export function PlayerDetailPage() {
@@ -20,6 +21,9 @@ export function PlayerDetailPage() {
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
     const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
+    const [filesIdList, setFilesIdList] = useState([]);
+    const [filesWithPlayer, setFilesWithPlayer] = useState([]);
+
 
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
 
@@ -34,7 +38,7 @@ export function PlayerDetailPage() {
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data) //Not works properly, not update id, create a new player with diff id
+            const res = await updatePlayer(id, data) //Not works properly, not update id, it creates a new player with diff id
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -45,7 +49,7 @@ export function PlayerDetailPage() {
 
 
     function getPositionImage(position) {
-        console.log(position)
+
         switch (position) {
             case 'ARQUERO':
                 return images.GOALKEEPER
@@ -91,7 +95,6 @@ export function PlayerDetailPage() {
         async function getPlayerSessions(id) {
             const res = await getSessionsByPlayer(id);
             setSessionsByPlayerId(res.data);
-            console.log(id);
         }
 
         setAge(calculateAge(player.birth));
@@ -100,7 +103,36 @@ export function PlayerDetailPage() {
         getPlayerSessions(player.id); //execute the async function
         
       }, [player]);
+
+      //Change value of sessions of the player
+      useEffect(() => {
+        function getPlayerFiles(sessions) {
+
+            let filesId = [];
+            sessions.forEach(session => filesId.push(session.idFile));
+            setFilesIdList(new Set(filesId));
+
+        }
+        getPlayerFiles(sessionsByPlayerId)
+      }, [sessionsByPlayerId])
+
+      
     
+    //change value of id list files with player session
+    useEffect(() => {
+        //TODO optimize with only one request with ids in paramenter -> /?ids=3,4,5,6,7
+        function getFiles(idList) {
+            let newList = [];
+            idList.forEach(async fileId => {
+                const res = await getFile(fileId);
+                newList = [...newList, res.data];
+                setFilesWithPlayer(newList);
+            });
+        }
+
+        getFiles(filesIdList) 
+
+    }, [filesIdList])
 
     return(
         <div className="container p-3">
@@ -227,6 +259,10 @@ export function PlayerDetailPage() {
             <h2>Sesiones del jugador</h2>
             <div>
                 <TableComponent data={sessionsByPlayerId} type={'sessions'} ></TableComponent>
+            </div>
+            <h2>Ficheros del jugador</h2>
+            <div >
+                <TableComponent data={filesWithPlayer} type={'files'}></TableComponent>
             </div>
         </div>
     )

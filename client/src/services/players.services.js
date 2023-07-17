@@ -35,4 +35,6 @@ export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`)
 
 export const getAllFiles = () => filesApi.get(`/`);
 
+export const getFile = (id) => filesApi.get(`/${id}`); //TODO may be not
+
 export const addFile = (file) => filesApi.post('/', file);

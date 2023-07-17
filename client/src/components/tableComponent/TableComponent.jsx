@@ -65,6 +65,7 @@ export function TableComponent({data, type}) {
                     }
                     {(type == 'files') && 
                         <tr>
+                            <th>Id</th>
                             <th>Fecha</th>
                         </tr> 
                     }
