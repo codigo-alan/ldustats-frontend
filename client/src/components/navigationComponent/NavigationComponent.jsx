@@ -30,32 +30,5 @@ export function NavigationComponent() {
         </Navbar>
     )
 
-    /* <nav className="navbar navbar-expand-sm navBar">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="navLink" to='/players'>Jugadores</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="navLink" to='player-add'>Agregar jugador</Link>
-                    </li>
-                    
-                    
-                    <li className="nav-item dropdown">
-                        <Link  id="navbarDropdown" role="button" data-bs-toggle="dropdown" className="navLink dropdown-toggle" to='player-add'>Mi perfil</Link>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav> */
-
     
 }

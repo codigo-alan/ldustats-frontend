@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer, getFile } from "../services/players.services";
+import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer, getFilesByIds } from "../services/players.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -8,7 +8,7 @@ import { positions } from "../models/Organisation";
 import images from "../assets/images";
 import { calculateAge } from "../utils/CalculateAge";
 import { TableComponent } from "../components/tableComponent/TableComponent";
-import { Session } from "../models/Session";
+
 
 
 export function PlayerDetailPage() {
@@ -120,14 +120,10 @@ export function PlayerDetailPage() {
     
     //change value of id list files with player session
     useEffect(() => {
-        //TODO optimize with only one request with ids in paramenter -> /?ids=3,4,5,6,7
-        function getFiles(idList) {
-            let newList = [];
-            idList.forEach(async fileId => {
-                const res = await getFile(fileId);
-                newList = [...newList, res.data];
-                setFilesWithPlayer(newList);
-            });
+        async function getFiles(idList) {
+            const idString = Array.from(idList).join(); //set to array, and after to string
+            const res = await getFilesByIds(idString);
+            setFilesWithPlayer(res.data);
         }
 
         getFiles(filesIdList) 
