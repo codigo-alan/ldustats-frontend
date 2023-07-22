@@ -3,7 +3,7 @@ import './tableComponent.css'
 import { useEffect, useState } from "react";
 import { calculateAge } from "../../utils/CalculateAge";
 
-export function TableComponent({data, type}) {
+export function TableComponent({data, type, idPlayer}) {
 
     const [caption, setCaption] = useState('');
 
@@ -34,7 +34,12 @@ export function TableComponent({data, type}) {
         navigate(`/players/${id}`)
     };
     const fileClicked = (id) => {
-        navigate(`/files/${id}`)
+        if (idPlayer == undefined) {
+            navigate(`/files/${id}`)
+        }else {
+            navigate(`/files/${id}/${idPlayer}`)
+        } 
+        
     };
 
     const getAge = (birth) => {

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export function FilesPage(){
     const [files, setFiles] = useState([]); //declare files
+
     /*
         get Files and set the value
     */

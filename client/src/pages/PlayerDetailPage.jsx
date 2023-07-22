@@ -47,6 +47,10 @@ export function PlayerDetailPage() {
         
    })
 
+   const clickedFile = (item) => {
+    console.log('Hiciste clic en el elemento:', item.name, 'desde el lugar B');
+  };
+
 
     function getPositionImage(position) {
 
@@ -103,7 +107,6 @@ export function PlayerDetailPage() {
         getPlayerSessions(player.id); //execute the async function
         
       }, [player]);
-
       //Change value of sessions of the player
       useEffect(() => {
         function getPlayerFiles(sessions) {
@@ -115,9 +118,6 @@ export function PlayerDetailPage() {
         }
         getPlayerFiles(sessionsByPlayerId)
       }, [sessionsByPlayerId])
-
-      
-    
     //change value of id list files with player session
     useEffect(() => {
         async function getFiles(idList) {
@@ -258,7 +258,7 @@ export function PlayerDetailPage() {
             </div>
             <h2>Ficheros del jugador</h2>
             <div >
-                <TableComponent data={filesWithPlayer} type={'files'}></TableComponent>
+                <TableComponent data={filesWithPlayer} type={'files'} idPlayer={id}></TableComponent>
             </div>
         </div>
     )

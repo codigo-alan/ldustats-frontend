@@ -17,6 +17,10 @@ const filesFilterApi = axios.create({
     baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/files-filters/'
 })
 
+const sessionsFilterApi = axios.create({
+    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/sessions-filters/'
+})
+
 export const getAllPlayers = () => {
     return playersApi.get('/')
 }
@@ -40,5 +44,8 @@ export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`)
 export const getAllFiles = () => filesApi.get(`/`);
 
 export const getFilesByIds = (ids) => filesFilterApi.get('/', {params: {ids: ids},});
+
+export const getSessionByPlayerAndFile = (idPlayer, idFile) => sessionsFilterApi.get('/', 
+    {params: {idfile: idFile, idplayer: idPlayer}});
 
 export const addFile = (file) => filesApi.post('/', file);
