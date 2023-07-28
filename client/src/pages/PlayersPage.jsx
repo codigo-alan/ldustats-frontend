@@ -24,7 +24,7 @@ export function PlayersPage() {
 
   function obtainOneDate(result) {
     if (result != undefined && result.length != 0) {
-      return format(new Date(result[0].date));
+      return format(new Date(result[0]['Session Date']));
     }
     else return null;
   }
@@ -38,8 +38,8 @@ export function PlayersPage() {
       Papa.parse(csv, {
         header: true,
         complete: (results) => {
-          setJsonData(JSON.stringify(results.data));
-          setDate(obtainOneDate(results.data));
+          setJsonData(JSON.stringify(results.data)); // obtain data from csv
+          setDate(obtainOneDate(results.data)); // one date from csv -> convert to specific Date format
         }
       });
     }
@@ -50,12 +50,12 @@ export function PlayersPage() {
     
 
   const save = handleSubmit(() => {
-    addModifiedFile(new File(date)); //TODO modify this hardcode id. Modified?
+    addModifiedFile(new File(date)); //add file to backend with formated date
   });
 
   async function addModifiedFile(newFile) {
     const res = await addFile(newFile);
-    setCreatedId(JSON.parse(res.request.response).id);
+    setCreatedId(JSON.parse(res.request.response).id);// obtain the created id from the http response
   }
 
   /*
@@ -73,16 +73,24 @@ export function PlayersPage() {
 
   }, []);
 
+  // execute when createdId of http response file changes
   useEffect(() => {
 
     if (createdId != null) {
       console.log(createdId);
       const sessions = JSON.parse(jsonData);
-
+      console.log(sessions);
       var errors = 0;
       sessions.forEach(async element => {
-        element.date = format(new Date(element.date));
-        const session = new Session(element.name, element.date, element.distance, element.id, createdId);
+        element['Session Date'] = format(new Date(element['Session Date']));
+        const session = new Session(
+          element['Player Display Name'], element['Session Date'], element['Drill Title'],
+          element['Total Time'], element['Distance Total'], element['Distance Per Min'],
+          element['Distance Zone 4 (Absolute)'], element['Distance Zone 5 (Absolute)'],
+          element['Distance Zone 6 (Absolute)'], element['High Speed Running (Absolute)'],
+          element['HSR Per Minute (Absolute)'], element['Max Speed'], element['Sprints'],
+          element['Sprint Distance'], element['Accelerations'], element['Decelerations'],
+          0, 0, element['HML Distance'], element['idPlayer'], createdId);
         try {
           await addSession(session); 
         } catch (error) {

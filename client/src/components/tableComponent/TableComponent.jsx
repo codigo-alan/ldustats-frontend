@@ -92,7 +92,7 @@ export function TableComponent({data, type, idPlayer}) {
                                 <td>{element.id}</td>
                                 <td>{element.name}</td>
                                 <td>{element.date}</td>
-                                <td>{element.distance}</td>
+                                <td>{element.totalDistance}</td>
                                 <td>{element.idPlayer}</td>
                                 <td>{element.idFile}</td>
                             </tr>
