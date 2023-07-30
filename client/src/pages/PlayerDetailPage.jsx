@@ -178,10 +178,10 @@ export function PlayerDetailPage() {
                                         disabled={!isEditing}
                                         {...register('position', { required: true })}
                                         >
-                                            {options.map((option, index) => {
-                                                return <option key={index} >
-                                                        {option}
-                                                        </option>
+                                        {options.map((option, index) => {
+                                            return <option key={index} >
+                                                {option}
+                                            </option>
                                         })}
                                     </select>
                                     {errors.position && <span className="text-danger" >Campo requerido</span>}
