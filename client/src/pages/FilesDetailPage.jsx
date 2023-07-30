@@ -1,7 +1,7 @@
-import { getSessionsByFile, getSessionByPlayerAndFile } from "../services/players.services";
-import { TableComponent } from "../components/tableComponent/TableComponent";
+import { getSessionByPlayerAndFile } from "../services/players.services";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -27,7 +27,7 @@ export function FileDetailPage() {
                 <h2>Sessiones del fichero {id}</h2>
             </div>
             <div className="row">
-                <TableComponent data={sessions} type={'sessions'} ></TableComponent>
+                <TableSessionComponent data={sessions} type={'sessions'} ></TableSessionComponent>
             </div>
         </div>
     );

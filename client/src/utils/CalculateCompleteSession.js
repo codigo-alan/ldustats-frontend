@@ -19,3 +19,16 @@ export function calculateCompleteSession(sessions) {
         sessions[0].sprintDistance, sessions[0].accelerations, sessions[0].decelerations,
         0, 0, sessions[0].hmlDistance, sessions[0].idPlayer, sessions[0].idFile)];
 }
+
+export function calculateByTime(value, time) {
+
+    return (value/time).toFixed(2);
+}
+
+export function convertTimeToMinutes(timeString) {
+    console.log(timeString);
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const totalSeconds = hours * 60 * 60 + minutes * 60 + seconds;
+    return (totalSeconds/60).toFixed(5);
+}
+

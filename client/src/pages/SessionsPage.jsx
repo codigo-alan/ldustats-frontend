@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { TableComponent } from "../components/tableComponent/TableComponent";
 import { getAllSessions } from "../services/players.services";
+import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
 
 export function SessionsPage() {
 
@@ -24,7 +24,7 @@ export function SessionsPage() {
                 <h2>Sesiones registradas</h2>
             </div>
             <div className="row">
-                <TableComponent data={sessions} type={'sessions'}></TableComponent>
+                <TableSessionComponent data={sessions} type={'sessions'}></TableSessionComponent>
             </div>
         </div>
     );
