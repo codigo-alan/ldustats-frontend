@@ -1,8 +1,8 @@
 import { getSessionByPlayerAndFile } from "../services/players.services";
-import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
+import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
 
 export function SessionPlayerDetail() {
 
@@ -33,23 +33,17 @@ export function SessionPlayerDetail() {
     
     return (
         <div className="container p-3">
-            <div>
-                <h2>Resumen 1er tiempo jugador</h2>
-            </div>
+            
             <div className="row">
-                <TableComponent data={sessions.filter(session => session.drillTitle?.includes('PRIMER'))} type={'sessions'} ></TableComponent>
+                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
             </div>
-            <div>
-                <h2>Resumen 2do tiempo jugador</h2>
-            </div>
+            
             <div className="row">
-                <TableComponent data={sessions.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'sessions'} ></TableComponent>
+                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'second'} ></TableSessionComponent>
             </div>
-            <div>
-                <h2>Resumen completo jugador</h2>
-            </div>
+            
             <div className="row">
-                <TableComponent data={sessionsComplete} type={'sessions'} ></TableComponent>
+                <TableSessionComponent data={sessionsComplete} type={'complete'} ></TableSessionComponent>
             </div>
         </div>
         

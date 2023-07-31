@@ -10,6 +10,7 @@ import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { File } from "../models/File";
 import { Session } from "../models/Session";
+import { calculateByTime, convertTimeToMinutes } from "../utils/CalculateCompleteSession";
 
 library.add(faCheck, faCross);
 
@@ -83,6 +84,9 @@ export function PlayersPage() {
       var errors = 0;
       sessions.forEach(async element => {
         element['Session Date'] = format(new Date(element['Session Date']));
+        const timeMinutes = convertTimeToMinutes( element['Total Time']);
+        const accByMin = calculateByTime(element['Accelerations'], timeMinutes);
+        const decByMin = calculateByTime(element['Decelerations'], timeMinutes);
         const session = new Session(
           element['Player Display Name'], element['Session Date'], element['Drill Title'],
           element['Total Time'], element['Distance Total'], element['Distance Per Min'],
@@ -90,7 +94,8 @@ export function PlayersPage() {
           element['Distance Zone 6 (Absolute)'], element['High Speed Running (Absolute)'],
           element['HSR Per Minute (Absolute)'], element['Max Speed'], element['Sprints'],
           element['Sprint Distance'], element['Accelerations'], element['Decelerations'],
-          0, 0, element['HML Distance'], element['idPlayer'], createdId);
+          accByMin, decByMin, element['HML Distance'], element['idPlayer'], createdId);
+
         try {
           await addSession(session); 
         } catch (error) {

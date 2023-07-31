@@ -178,10 +178,10 @@ export function PlayerDetailPage() {
                                         disabled={!isEditing}
                                         {...register('position', { required: true })}
                                         >
-                                            {options.map((option, index) => {
-                                                return <option key={index} >
-                                                        {option}
-                                                        </option>
+                                        {options.map((option, index) => {
+                                            return <option key={index} >
+                                                {option}
+                                            </option>
                                         })}
                                     </select>
                                     {errors.position && <span className="text-danger" >Campo requerido</span>}
@@ -252,11 +252,11 @@ export function PlayerDetailPage() {
                 </div>
 
             </div>
-            <h2>Sesiones del jugador</h2>
+            {/* <h2>Sesiones del jugador</h2>
             <div>
                 <TableComponent data={sessionsByPlayerId} type={'sessions'} ></TableComponent>
-            </div>
-            <h2>Ficheros del jugador</h2>
+            </div> */}
+            <h2 className="mt-4">Ficheros del jugador</h2>
             <div >
                 <TableComponent data={filesWithPlayer} type={'files'} idPlayer={id}></TableComponent>
             </div>
