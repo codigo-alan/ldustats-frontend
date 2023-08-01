@@ -4,11 +4,11 @@ function getCommonValue() {
     return 0.0;
 }
 
-function makeAverage(value) {
-    return (value/2).toFixed(2);
+function makeAverage(value, quantity=2) {
+    return (value/quantity).toFixed(2);
 }
 
-export function calculateCompleteSession(sessions) {
+export function calculateCompleteSession(sessions, groupal=false) {
     console.log(sessions)
     //TODO totalTime
     let totalDistance = getCommonValue();
@@ -46,14 +46,27 @@ export function calculateCompleteSession(sessions) {
 
     });
 
-    return [new Session(
-        sessions[0].name, sessions[0].date, 'COMPLETO',
-        sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin),
-        zone4.toFixed(2), zone5.toFixed(2),
-        zone6.toFixed(2), hsr.toFixed(2),
-        makeAverage(hsrMin), makeAverage(maxSpeed), spints,
-        sprintDistance.toFixed(2), accelerations, decelerations,
-        makeAverage(accMin), makeAverage(decMin), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile)];
+    if (groupal) {
+        const quantity = sessions.length;
+        return [new Session(
+            '','','',
+            '', makeAverage(totalDistance, quantity), makeAverage(dtMin, quantity),
+            makeAverage(zone4, quantity), makeAverage(zone5, quantity),
+            makeAverage(zone6, quantity), makeAverage(hsr, quantity),
+            makeAverage(hsrMin, quantity), makeAverage(maxSpeed, quantity), makeAverage(spints, quantity),
+            makeAverage(sprintDistance, quantity), makeAverage(accelerations, quantity), makeAverage(decelerations, quantity),
+            makeAverage(accMin, quantity), makeAverage(decMin, quantity), makeAverage(hmlDistance, quantity), '', '')];
+    } else {
+        return [new Session(
+            sessions[0].name, sessions[0].date, 'COMPLETO',
+            sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin),
+            zone4.toFixed(2), zone5.toFixed(2),
+            zone6.toFixed(2), hsr.toFixed(2),
+            makeAverage(hsrMin), makeAverage(maxSpeed), spints,
+            sprintDistance.toFixed(2), accelerations, decelerations,
+            makeAverage(accMin), makeAverage(decMin), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile)];
+    }
+    
 }
 
 export function calculateByTime(value, time) {
