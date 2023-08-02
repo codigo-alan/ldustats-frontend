@@ -78,9 +78,7 @@ export function PlayersPage() {
   useEffect(() => {
 
     if (createdId != null) {
-      console.log(createdId);
       const sessions = JSON.parse(jsonData);
-      console.log(sessions);
       var errors = 0;
       sessions.forEach(async element => {
         element['Session Date'] = format(new Date(element['Session Date']));

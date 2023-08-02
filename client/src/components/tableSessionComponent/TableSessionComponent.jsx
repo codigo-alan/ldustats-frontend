@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../tableComponent/tableComponent.css'
 
-export function TableSessionComponent({data, type, idPlayer}) {
+export function TableSessionComponent({data, type='other', idPlayer, personalizedCaption=''}) {
 
     const [caption,setCaption] = useState('');
 
@@ -19,6 +19,9 @@ export function TableSessionComponent({data, type, idPlayer}) {
             }
             if (type == 'sessions') {
                 setCaption('Sesiones');
+            }
+            if (type == 'other') {
+                setCaption(personalizedCaption);
             }
         }
 
