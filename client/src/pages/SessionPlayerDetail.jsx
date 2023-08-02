@@ -43,8 +43,15 @@ export function SessionPlayerDetail() {
             </div>
             
             <div className="row">
-                <TableSessionComponent data={sessionsComplete} type={'complete'} ></TableSessionComponent>
+                <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
             </div>
+            {sessions.forEach(s => {
+                return(
+                    <div className="row">
+                        <TableSessionComponent data={sessions} type={'complete'}></TableSessionComponent>
+                    </div>
+                )
+            })}
         </div>
         
     );
