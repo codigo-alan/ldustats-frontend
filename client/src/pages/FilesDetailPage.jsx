@@ -12,10 +12,25 @@ export function FileDetailPage() {
     const [sessionsSecondAvg, setSessionsSecondAvg] = useState([]);
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
 
+    function obtainPlayersId() {
+        let ids = [];
+        sessions.forEach(s => {
+            if (!ids.includes(s.idPlayer)) {
+                ids.push(s.idPlayer);
+            }
+        });
+        return ids;
+    }
+
     function completeSessionEachPlayer() {
-        //TODO obtain by idPlayer
+        let completeSessions = [];
         //calculateCompleteSession for each idPlayer
-        //return a list of complete session
+        obtainPlayersId().forEach(id => {
+            let playerSessions = [];
+            sessions.forEach(s => {if (s.idPlayer == id) playerSessions.push(s)});
+            completeSessions.push(calculateCompleteSession(playerSessions)[0]);
+        });
+        return completeSessions; //return a list of complete session
     }
 
     //call when id from params change
@@ -34,11 +49,11 @@ export function FileDetailPage() {
         if (sessions.length > 0) {
             const firstTimeSessions = sessions.filter(session => session.drillTitle?.includes('PRIMER'));
             const secondTimeSessions = sessions.filter(session => session.drillTitle?.includes('SEGUNDO'));
-            //TODO calculate properly the complete session for each player with a for
             const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
-            setSessionsFirstAvg(calculateCompleteSession(firstTimeSessions, true));
-            setSessionsSecondAvg(calculateCompleteSession(secondTimeSessions, true));
-            //setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true));
+            setSessionsComplete(completeTimeSessions);
+            setSessionsFirstAvg(calculateCompleteSession(firstTimeSessions, true)); //complete average data from firstTime
+            setSessionsSecondAvg(calculateCompleteSession(secondTimeSessions, true)); //complete average data from secondTime
+            setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch
         }
 
     }, [sessions]);
@@ -52,12 +67,11 @@ export function FileDetailPage() {
                 <h4 className="col-6">Fecha: {sessions[0]?.date}</h4>
             </div>
             <div className="row">
-                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
-                <TableSessionComponent data={sessionsFirstAvg} type={'first'} ></TableSessionComponent>
+                <TableSessionComponent data={sessions?.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
             </div>
             
             <div className="row">
-                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'second'} ></TableSessionComponent>
+                <TableSessionComponent data={sessions?.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'second'} ></TableSessionComponent>
             </div>
             
             <div className="row">

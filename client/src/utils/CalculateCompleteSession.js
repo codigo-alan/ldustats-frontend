@@ -9,7 +9,6 @@ function makeAverage(value, quantity=2) {
 }
 
 export function calculateCompleteSession(sessions, groupal=false) {
-    console.log(sessions)
     //TODO totalTime
     let totalDistance = getCommonValue();
     let dtMin = getCommonValue();//average
@@ -75,7 +74,6 @@ export function calculateByTime(value, time) {
 }
 
 export function convertTimeToMinutes(timeString) {
-    console.log(timeString);
     const [hours, minutes, seconds] = timeString.split(':').map(Number);
     const totalSeconds = hours * 60 * 60 + minutes * 60 + seconds;
     return (totalSeconds/60).toFixed(5);
