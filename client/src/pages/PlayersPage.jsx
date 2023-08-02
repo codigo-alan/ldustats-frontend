@@ -95,6 +95,7 @@ export function PlayersPage() {
           element['HSR Per Minute (Absolute)'], element['Max Speed'], element['Sprints'],
           element['Sprint Distance'], element['Accelerations'], element['Decelerations'],
           accByMin, decByMin, element['HML Distance'], element['idPlayer'], createdId);
+
         try {
           await addSession(session); 
         } catch (error) {

@@ -6,7 +6,7 @@ export class Session {
         this.name = name;
         this.date = date;
         this.drillTitle = drillTitle;   
-        this.totalTime = totalTime; // TODO convert the string to time
+        this.totalTime = totalTime;
         this.totalDistance = totalDistance;
         this.dtMin = dtMin;
         this.zone4 = zone4;
