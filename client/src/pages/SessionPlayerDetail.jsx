@@ -34,7 +34,7 @@ export function SessionPlayerDetail() {
     return (
         <div className="container p-3">
             
-            <div className="row">
+            {/* <div className="row">
                 <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
             </div>
             
@@ -44,14 +44,20 @@ export function SessionPlayerDetail() {
             
             <div className="row">
                 <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
-            </div>
-            {sessions.forEach(s => {
+            </div> */}
+            {sessions.map((s, index) => {
                 return(
-                    <div className="row">
-                        <TableSessionComponent data={sessions} type={'complete'}></TableSessionComponent>
+                    <div key={index} className="row">
+                        <TableSessionComponent data={sessions.filter(session => session.drillTitle == s.drillTitle)} personalizedCaption={s.drillTitle}></TableSessionComponent>
                     </div>
-                )
+                );
             })}
+            {(sessions?.length > 1) &&
+                <div className="row">
+                    <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
+                </div>
+            }
+            
         </div>
         
     );

@@ -4,11 +4,12 @@ function getCommonValue() {
     return 0.0;
 }
 
-function makeAverage(value, quantity=2) {
+function makeAverage(value, quantity) {
     return (value/quantity).toFixed(2);
 }
 
 export function calculateCompleteSession(sessions, groupal=false) {
+    const quantity = sessions.length;
     //TODO totalTime
     let totalDistance = getCommonValue();
     let dtMin = getCommonValue();//average
@@ -46,7 +47,6 @@ export function calculateCompleteSession(sessions, groupal=false) {
     });
 
     if (groupal) {
-        const quantity = sessions.length;
         return [new Session(
             '','','',
             '', makeAverage(totalDistance, quantity), makeAverage(dtMin, quantity),
@@ -58,12 +58,12 @@ export function calculateCompleteSession(sessions, groupal=false) {
     } else {
         return [new Session(
             sessions[0].name, sessions[0].date, 'COMPLETO',
-            sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin),
+            sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin, quantity),
             zone4.toFixed(2), zone5.toFixed(2),
             zone6.toFixed(2), hsr.toFixed(2),
-            makeAverage(hsrMin), makeAverage(maxSpeed), spints,
+            makeAverage(hsrMin, quantity), makeAverage(maxSpeed, quantity), spints,
             sprintDistance.toFixed(2), accelerations, decelerations,
-            makeAverage(accMin), makeAverage(decMin), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile)];
+            makeAverage(accMin, quantity), makeAverage(decMin, quantity), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile)];
     }
     
 }

@@ -15,13 +15,13 @@ export function TableSessionComponent({data, type='other', idPlayer, personalize
                 setCaption('Segundo tiempo');
             }
             if (type == 'complete') {
-                setCaption('Resumen completo');
+                setCaption('RESUMEN COMPLETO');
             }
             if (type == 'sessions') {
-                setCaption('Sesiones');
+                setCaption('SESIONES');
             }
             if (type == 'other') {
-                setCaption(personalizedCaption);
+                setCaption(personalizedCaption.toUpperCase());
             }
         }
 
@@ -61,7 +61,6 @@ export function TableSessionComponent({data, type='other', idPlayer, personalize
                 <tbody>
                     
                     {data.map((element) => {
-                        console.log(element);
                         return (
                             <tr className="tableRow" key={element.id} >
                                 <td>{element.name}</td>

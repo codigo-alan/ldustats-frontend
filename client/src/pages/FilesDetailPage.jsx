@@ -3,6 +3,7 @@ import { TableSessionComponent } from "../components/tableSessionComponent/Table
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
+import { obtainDrillTitleCount } from "../utils/ObtainDistinctDrillTitle";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -11,6 +12,7 @@ export function FileDetailPage() {
     const [sessionsFirstAvg, setSessionsFirstAvg] = useState([]);
     const [sessionsSecondAvg, setSessionsSecondAvg] = useState([]);
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
+    const [drillTitlesSet, setDrillTitlesSet] = useState([]);
 
     function obtainPlayersId() {
         let ids = [];
@@ -47,6 +49,8 @@ export function FileDetailPage() {
 
     useEffect( () => {
         if (sessions.length > 0) {
+            setDrillTitlesSet(obtainDrillTitleCount(sessions));
+
             const firstTimeSessions = sessions.filter(session => session.drillTitle?.includes('PRIMER'));
             const secondTimeSessions = sessions.filter(session => session.drillTitle?.includes('SEGUNDO'));
             const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
@@ -66,7 +70,7 @@ export function FileDetailPage() {
                 <h4 className="col-6">Sessiones del fichero {id}</h4>
                 <h4 className="col-6">Fecha: {sessions[0]?.date}</h4>
             </div>
-            <div className="row">
+            {/* <div className="row">
                 <TableSessionComponent data={sessions?.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
             </div>
             
@@ -76,7 +80,21 @@ export function FileDetailPage() {
             
             <div className="row">
                 <TableSessionComponent data={sessionsComplete} type={'complete'} ></TableSessionComponent>
-            </div>
+            </div> */}
+
+            {drillTitlesSet.map((e, i) => {
+                return(
+                    <div key={i} className="row">
+                        <TableSessionComponent data={sessions.filter(session => session.drillTitle == e)} personalizedCaption={e}></TableSessionComponent>
+                    </div>
+                );
+            })}
+            {(sessions?.length > 1) &&
+                <div className="row">
+                    <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
+                </div>
+            }
+
         </div>
     );
 
