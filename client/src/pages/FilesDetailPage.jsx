@@ -13,6 +13,7 @@ export function FileDetailPage() {
     const [sessionsSecondAvg, setSessionsSecondAvg] = useState([]);
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
+    const [eachCompletedList, setEachCompletedList] = useState([]);
 
     function obtainPlayersId() {
         let ids = [];
@@ -51,16 +52,46 @@ export function FileDetailPage() {
         if (sessions.length > 0) {
             setDrillTitlesSet(obtainDrillTitleCount(sessions));
 
-            const firstTimeSessions = sessions.filter(session => session.drillTitle?.includes('PRIMER'));
+            /* const firstTimeSessions = sessions.filter(session => session.drillTitle?.includes('PRIMER'));
             const secondTimeSessions = sessions.filter(session => session.drillTitle?.includes('SEGUNDO'));
             const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
             setSessionsComplete(completeTimeSessions);
             setSessionsFirstAvg(calculateCompleteSession(firstTimeSessions, true)); //complete average data from firstTime
             setSessionsSecondAvg(calculateCompleteSession(secondTimeSessions, true)); //complete average data from secondTime
-            setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch
+            setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch */
         }
 
     }, [sessions]);
+
+    useEffect( () => {
+        if (drillTitlesSet.length > 0) {
+
+            const calculatedCompleteSessionsList = []; //will be a list of lists
+            drillTitlesSet.forEach(e => {
+                const requiredSessions = sessions.filter(session => session.drillTitle == e);
+                calculatedCompleteSessionsList.push(calculateCompleteSession(requiredSessions, true, e));
+            });
+
+            setEachCompletedList(calculatedCompleteSessionsList); 
+
+            
+
+            const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
+            setSessionsComplete(completeTimeSessions);
+            setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch
+        }
+
+    }, [drillTitlesSet]);
+
+    
+    useEffect( () => {
+        if (eachCompletedList.length > 0) {
+            console.log(eachCompletedList.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle)[0][0].drillTitle)
+        }
+
+    }, [eachCompletedList]);
+
+
 
     
 
@@ -70,28 +101,22 @@ export function FileDetailPage() {
                 <h4 className="col-6">Sessiones del fichero {id}</h4>
                 <h4 className="col-6">Fecha: {sessions[0]?.date}</h4>
             </div>
-            {/* <div className="row">
-                <TableSessionComponent data={sessions?.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
-            </div>
-            
-            <div className="row">
-                <TableSessionComponent data={sessions?.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'second'} ></TableSessionComponent>
-            </div>
-            
-            <div className="row">
-                <TableSessionComponent data={sessionsComplete} type={'complete'} ></TableSessionComponent>
-            </div> */}
+
 
             {drillTitlesSet.map((e, i) => {
                 return(
                     <div key={i} className="row">
-                        <TableSessionComponent data={sessions.filter(session => session.drillTitle == e)} personalizedCaption={e}></TableSessionComponent>
+                        <TableSessionComponent 
+                            data={sessions?.filter(session => session.drillTitle == e)
+                                .concat(eachCompletedList.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))} 
+                            personalizedCaption={e}>
+                        </TableSessionComponent>
                     </div>
                 );
             })}
             {(sessions?.length > 1) &&
                 <div className="row">
-                    <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
+                    <TableSessionComponent data={sessionsComplete?.concat(sessionsCompleteAvg)} type={'complete'}></TableSessionComponent>
                 </div>
             }
 

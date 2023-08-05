@@ -8,7 +8,7 @@ function makeAverage(value, quantity) {
     return (value/quantity).toFixed(2);
 }
 
-export function calculateCompleteSession(sessions, groupal=false) {
+export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal='') {
     const quantity = sessions.length;
     //TODO totalTime
     let totalDistance = getCommonValue();
@@ -48,7 +48,7 @@ export function calculateCompleteSession(sessions, groupal=false) {
 
     if (groupal) {
         return [new Session(
-            '','','',
+            '','',drillIfGroupal,
             '', makeAverage(totalDistance, quantity), makeAverage(dtMin, quantity),
             makeAverage(zone4, quantity), makeAverage(zone5, quantity),
             makeAverage(zone6, quantity), makeAverage(hsr, quantity),
