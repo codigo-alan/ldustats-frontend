@@ -86,7 +86,7 @@ export function FileDetailPage() {
     
     useEffect( () => {
         if (eachCompletedList.length > 0) {
-            console.log(eachCompletedList.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle)[0][0].drillTitle)
+            console.log(eachCompletedList?.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))
         }
 
     }, [eachCompletedList]);
@@ -108,7 +108,7 @@ export function FileDetailPage() {
                     <div key={i} className="row">
                         <TableSessionComponent 
                             data={sessions?.filter(session => session.drillTitle == e)
-                                .concat(eachCompletedList.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))} 
+                                .concat(eachCompletedList?.filter(sessionList => e == sessionList[0]?.drillTitle))} 
                             personalizedCaption={e}>
                         </TableSessionComponent>
                     </div>
