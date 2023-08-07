@@ -31,7 +31,7 @@ export function FileDetailPage() {
         obtainPlayersId().forEach(id => {
             let playerSessions = [];
             sessions.forEach(s => {if (s.idPlayer == id) playerSessions.push(s)});
-            completeSessions.push(calculateCompleteSession(playerSessions)[0]);
+            completeSessions.push(calculateCompleteSession(playerSessions));
         });
         return completeSessions; //return a list of complete session
     }
@@ -51,14 +51,6 @@ export function FileDetailPage() {
     useEffect( () => {
         if (sessions.length > 0) {
             setDrillTitlesSet(obtainDrillTitleCount(sessions));
-
-            /* const firstTimeSessions = sessions.filter(session => session.drillTitle?.includes('PRIMER'));
-            const secondTimeSessions = sessions.filter(session => session.drillTitle?.includes('SEGUNDO'));
-            const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
-            setSessionsComplete(completeTimeSessions);
-            setSessionsFirstAvg(calculateCompleteSession(firstTimeSessions, true)); //complete average data from firstTime
-            setSessionsSecondAvg(calculateCompleteSession(secondTimeSessions, true)); //complete average data from secondTime
-            setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch */
         }
 
     }, [sessions]);
@@ -86,7 +78,8 @@ export function FileDetailPage() {
     
     useEffect( () => {
         if (eachCompletedList.length > 0) {
-            console.log(eachCompletedList?.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))
+            //console.log(eachCompletedList?.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))
+            //console.log(eachCompletedList?.filter(session => 'Sprint U19' == session.drillTitle)[0].drillTitle)
         }
 
     }, [eachCompletedList]);
@@ -108,7 +101,7 @@ export function FileDetailPage() {
                     <div key={i} className="row">
                         <TableSessionComponent 
                             data={sessions?.filter(session => session.drillTitle == e)
-                                .concat(eachCompletedList?.filter(sessionList => e == sessionList[0]?.drillTitle))} 
+                                .concat(eachCompletedList?.filter(session => e == session.drillTitle))} 
                             personalizedCaption={e}>
                         </TableSessionComponent>
                     </div>

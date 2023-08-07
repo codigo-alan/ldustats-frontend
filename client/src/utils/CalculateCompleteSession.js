@@ -47,23 +47,23 @@ export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal
     });
 
     if (groupal) {
-        return [new Session(
+        return new Session(
             '','',drillIfGroupal,
             '', makeAverage(totalDistance, quantity), makeAverage(dtMin, quantity),
             makeAverage(zone4, quantity), makeAverage(zone5, quantity),
             makeAverage(zone6, quantity), makeAverage(hsr, quantity),
             makeAverage(hsrMin, quantity), makeAverage(maxSpeed, quantity), makeAverage(spints, quantity),
             makeAverage(sprintDistance, quantity), makeAverage(accelerations, quantity), makeAverage(decelerations, quantity),
-            makeAverage(accMin, quantity), makeAverage(decMin, quantity), makeAverage(hmlDistance, quantity), '', '')];
+            makeAverage(accMin, quantity), makeAverage(decMin, quantity), makeAverage(hmlDistance, quantity), '', '');
     } else {
-        return [new Session(
+        return new Session(
             sessions[0].name, sessions[0].date, 'COMPLETO',
             sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin, quantity),
             zone4.toFixed(2), zone5.toFixed(2),
             zone6.toFixed(2), hsr.toFixed(2),
             makeAverage(hsrMin, quantity), makeAverage(maxSpeed, quantity), spints,
             sprintDistance.toFixed(2), accelerations, decelerations,
-            makeAverage(accMin, quantity), makeAverage(decMin, quantity), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile)];
+            makeAverage(accMin, quantity), makeAverage(decMin, quantity), hmlDistance.toFixed(2), sessions[0].idPlayer, sessions[0].idFile);
     }
     
 }

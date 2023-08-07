@@ -25,7 +25,7 @@ export function SessionPlayerDetail() {
     useEffect( () => {
 
         if (sessions.length > 0) {
-            setSessionsComplete(calculateCompleteSession(sessions));
+            setSessionsComplete([calculateCompleteSession(sessions)]);
         }
 
     }, [sessions] );
@@ -33,18 +33,7 @@ export function SessionPlayerDetail() {
     
     return (
         <div className="container p-3">
-            
-            {/* <div className="row">
-                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('PRIMER'))} type={'first'} ></TableSessionComponent>
-            </div>
-            
-            <div className="row">
-                <TableSessionComponent data={sessions.filter(session => session.drillTitle?.includes('SEGUNDO'))} type={'second'} ></TableSessionComponent>
-            </div>
-            
-            <div className="row">
-                <TableSessionComponent data={sessionsComplete} type={'complete'}></TableSessionComponent>
-            </div> */}
+
             {sessions.map((s, index) => {
                 return(
                     <div key={index} className="row">
