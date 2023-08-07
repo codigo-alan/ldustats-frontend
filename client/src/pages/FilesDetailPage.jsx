@@ -1,4 +1,4 @@
-import { getSessionByPlayerAndFile } from "../services/players.services";
+import { getSessionByPlayerAndFile } from "../services/sessions.services";
 import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,8 +9,6 @@ export function FileDetailPage() {
     const { id, idplayer } = useParams();
     const [sessions, setSessions] = useState([]);
     const [sessionsComplete, setSessionsComplete] = useState([]);
-    const [sessionsFirstAvg, setSessionsFirstAvg] = useState([]);
-    const [sessionsSecondAvg, setSessionsSecondAvg] = useState([]);
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
     const [eachCompletedList, setEachCompletedList] = useState([]);
@@ -39,7 +37,6 @@ export function FileDetailPage() {
     //call when id from params change
     useEffect( () => {
         async function getSessions(idPlayer, idFile) {
-            //const res = await getSessionsByFile(id);
             const res = await getSessionByPlayerAndFile(idPlayer, idFile);
             setSessions(res.data);
         }
@@ -49,16 +46,13 @@ export function FileDetailPage() {
     }, [id]);
 
     useEffect( () => {
-        if (sessions.length > 0) {
-            setDrillTitlesSet(obtainDrillTitleCount(sessions));
-        }
-
+        if (sessions.length > 0) setDrillTitlesSet(obtainDrillTitleCount(sessions));
     }, [sessions]);
 
     useEffect( () => {
         if (drillTitlesSet.length > 0) {
 
-            const calculatedCompleteSessionsList = []; //will be a list of lists
+            const calculatedCompleteSessionsList = []; //will be a list of sessions complete
             drillTitlesSet.forEach(e => {
                 const requiredSessions = sessions.filter(session => session.drillTitle == e);
                 calculatedCompleteSessionsList.push(calculateCompleteSession(requiredSessions, true, e));
@@ -66,27 +60,13 @@ export function FileDetailPage() {
 
             setEachCompletedList(calculatedCompleteSessionsList); 
 
-            
-
-            const completeTimeSessions = completeSessionEachPlayer(); //return a list of complete sessions
+            const completeTimeSessions = completeSessionEachPlayer(); //return a Session complete 
             setSessionsComplete(completeTimeSessions);
             setSessionsCompleteAvg(calculateCompleteSession(completeTimeSessions, true)); //complete average data from completeMatch
         }
 
     }, [drillTitlesSet]);
 
-    
-    useEffect( () => {
-        if (eachCompletedList.length > 0) {
-            //console.log(eachCompletedList?.filter(sessionList => 'Sprint U19' == sessionList[0]?.drillTitle))
-            //console.log(eachCompletedList?.filter(session => 'Sprint U19' == session.drillTitle)[0].drillTitle)
-        }
-
-    }, [eachCompletedList]);
-
-
-
-    
 
     return (
         <div className="container p-3">

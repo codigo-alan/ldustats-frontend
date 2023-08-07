@@ -1,7 +1,9 @@
 import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getAllPlayers, addSession, addFile } from "../services/players.services";
+import { getAllPlayers } from "../services/players.services";
+import { addSession } from "../services/sessions.services";
+import { addFile } from "../services/files.services";
 import { toast } from "react-hot-toast";
 import Papa from "papaparse";
 import { format } from "../utils/DateFormat";

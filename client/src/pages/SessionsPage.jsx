@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
-import { getAllSessions } from "../services/players.services";
+import { getAllSessions } from "../services/sessions.services";
 
 export function SessionsPage() {
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer, getFilesByIds } from "../services/players.services";
+import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../services/players.services";
+import { getFilesByIds } from "../services/files.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -252,10 +253,6 @@ export function PlayerDetailPage() {
                 </div>
 
             </div>
-            {/* <h2>Sesiones del jugador</h2>
-            <div>
-                <TableComponent data={sessionsByPlayerId} type={'sessions'} ></TableComponent>
-            </div> */}
             <h2 className="mt-4">Ficheros del jugador</h2>
             <div >
                 <TableComponent data={filesWithPlayer} type={'files'} idPlayer={id}></TableComponent>

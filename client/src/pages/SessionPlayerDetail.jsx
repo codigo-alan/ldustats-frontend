@@ -1,4 +1,4 @@
-import { getSessionByPlayerAndFile } from "../services/players.services";
+import { getSessionByPlayerAndFile } from "../services/sessions.services";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";

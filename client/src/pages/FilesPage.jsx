@@ -1,4 +1,4 @@
-import { getAllFiles } from "../services/players.services";
+import { getAllFiles } from "../services/files.services";
 import { TableComponent } from "../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react";
 

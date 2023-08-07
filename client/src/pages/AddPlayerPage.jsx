@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { positions } from "../models/Organisation";
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-
 export function AddPlayerPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
