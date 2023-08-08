@@ -10,7 +10,7 @@ function makeAverage(value, quantity) {
 
 export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal='') {
     const quantity = sessions.length;
-    //TODO totalTime
+    let totalTime = getCommonValue();
     let totalDistance = getCommonValue();
     let dtMin = getCommonValue();//average
     let zone4 = getCommonValue();
@@ -28,6 +28,7 @@ export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal
     let hmlDistance = getCommonValue();
 
     sessions.forEach(element => {
+        totalTime += Number(convertTimeToMinutes(element.totalTime));
         totalDistance += Number(element.totalDistance);
         dtMin += Number(element.dtMin);
         zone4 += Number(element.zone4);
@@ -43,7 +44,6 @@ export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal
         accMin += Number(element.accMin);
         decMin += Number(element.decMin);
         hmlDistance += Number(element.hmlDistance);
-
     });
 
     if (groupal) {
@@ -58,7 +58,7 @@ export function calculateCompleteSession(sessions, groupal=false, drillIfGroupal
     } else {
         return new Session(
             sessions[0].name, sessions[0].date, 'COMPLETO',
-            sessions[0].totalTime, totalDistance.toFixed(2), makeAverage(dtMin, quantity),
+            formatTime(totalTime), totalDistance.toFixed(2), makeAverage(dtMin, quantity),
             zone4.toFixed(2), zone5.toFixed(2),
             zone6.toFixed(2), hsr.toFixed(2),
             makeAverage(hsrMin, quantity), makeAverage(maxSpeed, quantity), spints,
@@ -79,3 +79,10 @@ export function convertTimeToMinutes(timeString) {
     return (totalSeconds/60).toFixed(5);
 }
 
+export function formatTime(timeNumber) {
+    const hours = Math.floor(timeNumber / 60);
+    const remainingMinutes = timeNumber % 60;
+    const minutes = Math.floor(remainingMinutes);
+    const seconds = Math.floor((remainingMinutes % 2) * 60);
+    return `${hours}:${minutes}:${seconds}`;
+}
