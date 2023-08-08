@@ -1,28 +1,16 @@
 import { useState, useEffect } from 'react';
-import '../tableComponent/tableComponent.css'
+//import '../tableComponent/tableComponent.css'
+import './tableSessionComponent.css'
 
-export function TableSessionComponent({data, type='other', idPlayer, personalizedCaption=''}) {
+export function TableSessionComponent({data, type='other', personalizedCaption=''}) {
 
     const [caption,setCaption] = useState('');
 
     useEffect(() => {
 
         function setCaptionValue() {
-            if (type == 'first') {
-                setCaption('Primer tiempo');
-            }
-            if (type == 'second') {
-                setCaption('Segundo tiempo');
-            }
-            if (type == 'complete') {
-                setCaption('RESUMEN COMPLETO');
-            }
-            if (type == 'sessions') {
-                setCaption('SESIONES');
-            }
-            if (type == 'other') {
-                setCaption(personalizedCaption.toUpperCase());
-            }
+            if (type == 'complete') setCaption('RESUMEN COMPLETO');
+            if (type == 'other') setCaption(personalizedCaption.toUpperCase());
         }
 
         setCaptionValue();
@@ -30,8 +18,8 @@ export function TableSessionComponent({data, type='other', idPlayer, personalize
     }, [type]);
 
     return (
-        <div>
-            <table className="table table-hover border table-borderless caption-top">
+        <div className='table-responsive'>
+            <table className="table table-hover border table-borderless caption-top table-sm table-bordered">
                 <caption>{caption}</caption>
                 <thead className="bg-light ">
 
