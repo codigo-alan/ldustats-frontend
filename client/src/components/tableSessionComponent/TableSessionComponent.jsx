@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 //import '../tableComponent/tableComponent.css'
 import './tableSessionComponent.css'
+import Tooltip from '@mui/material/Tooltip';
+import { reduceLength } from "../../utils/LimitLengthText";
 
 export function TableSessionComponent({data, type='other', personalizedCaption=''}) {
 
@@ -18,15 +20,15 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
     }, [type]);
 
     return (
-        <div className='table-responsive'>
-            <table className="table table-hover border table-borderless caption-top table-sm table-bordered">
+        <div className='overflow-scroll card bg-light my-2 myDiv'>
+            <table className="table table-hover border caption-top table-sm table-bordered table-striped">
                 <caption>{caption}</caption>
-                <thead className="bg-light ">
+                <thead className="bg-light">
 
-                        <tr>
+                        <tr className='text-center'>
                             <th>Nombre</th>
-                            <th>Fecha</th>
-                            <th>Dril</th>
+                            {/* <th>Fecha</th>
+                            <th>Dril</th> */}
                             <th>Tiempo total</th>
                             <th>Distancia total</th>
                             <th>Dt/min</th>
@@ -50,10 +52,12 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                     
                     {data.map((element) => {
                         return (
-                            <tr className="tableRow" key={element.id} >
+                            <tr className="tableRow text-center" key={element.id} >
                                 <td>{element.name}</td>
-                                <td>{element.date}</td>
-                                <td>{element.drillTitle}</td>
+                                {/* <td>{element.date}</td>
+                                <Tooltip title={element.drillTitle}>
+                                    <td>{reduceLength(element.drillTitle, 3)}</td>
+                                </Tooltip> */}
                                 <td>{element.totalTime}</td>
                                 <td>{element.totalDistance}</td>
                                 <td>{element.dtMin}</td>
