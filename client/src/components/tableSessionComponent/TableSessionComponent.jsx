@@ -7,35 +7,18 @@ import { reduceLength } from "../../utils/LimitLengthText";
 export function TableSessionComponent({data, type='other', personalizedCaption=''}) {
 
     const [caption,setCaption] = useState('');
-    const allHeaders = ['Nombre','Fecha','Dril','Tiempo total','Distancia total','Dt/min',
-                        'Zona 4','Zona 5','Zona 6','HSR','HSR/min','Vel. máx.','Sprints',
-                        'Sprints distancia','Aceleraciones','Desaceleraciones','Ac/min',
-                        'Dec/min','HML distancia'];
-                        
-    const [headers, setHeaders] = useState([]);
-    const [values, setValues] = useState([]);
 
     useEffect(() => {
 
         function setCaptionValue() {
             if (type == 'complete') setCaption('RESUMEN COMPLETO');
-            if (type == 'allSessions') {
-                setCaption('TODAS LAS SESIONES')
-                setHeaders(allHeaders.filter((e) => e == 'HSR'))
-            };
+            if (type == 'allSessions') setCaption('TODAS LAS SESIONES');
             if (type == 'other') setCaption(personalizedCaption.toUpperCase());
         }
 
         setCaptionValue();
 
     }, [type]);
-
-    useEffect(() => {
-        function putHeaders() {
-            setHeaders()
-        }
-
-    }, [data]);
 
     return (
         <div className='overflow-scroll card bg-light my-2 myDiv'>
@@ -44,15 +27,9 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                 <thead className="bg-light">
 
                         <tr className='text-center'>
-                            {headers.map((e) => {
-                                 return (
-                                    <th>{e}</th>
-                                 );
-                            }
-                            )}
-                            {/* <th>Nombre</th>
-                            <th>Fecha</th>
-                            <th>Dril</th>
+                            <th>Nombre</th>
+                            {/* <th>Fecha</th>
+                            <th>Dril</th> */}
                             <th>Tiempo total</th>
                             <th>Distancia total</th>
                             <th>Dt/min</th>
@@ -68,7 +45,7 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                             <th>Desaceleraciones</th>
                             <th>Ac/min</th>
                             <th>Dec/min</th>
-                            <th>HML distancia</th> */}
+                            <th>HML distancia</th>
                         </tr> 
                         
                 </thead>
