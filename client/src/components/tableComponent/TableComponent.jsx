@@ -58,16 +58,6 @@ export function TableComponent({data, type, idPlayer}) {
                             <th>Posición</th>
                         </tr> 
                     }
-                    {(type == 'sessions') && 
-                        <tr>
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Fecha</th>
-                            <th>Distancia</th>
-                            <th>Id Jugador</th>
-                            <th>Id File</th>
-                        </tr> 
-                    }
                     {(type == 'files') && 
                         <tr>
                             <th>Id</th>

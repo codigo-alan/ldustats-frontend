@@ -24,7 +24,7 @@ export function SessionsPage() {
                 <h2>Sesiones registradas</h2>
             </div>
             <div className="row">
-                <TableSessionComponent data={sessions} type={'sessions'}></TableSessionComponent>
+                <TableSessionComponent data={sessions} type='allSessions'></TableSessionComponent>
             </div>
         </div>
     );
