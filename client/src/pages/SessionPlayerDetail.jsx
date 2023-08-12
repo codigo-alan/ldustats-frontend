@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
 import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
+import { ConfigurationButton } from "../components/configurationButton/ConfigurationButton";
 
 export function SessionPlayerDetail() {
 
@@ -33,6 +34,9 @@ export function SessionPlayerDetail() {
     
     return (
         <div className="container p-3">
+            <div className="d-flex justify-content-end">
+                <ConfigurationButton></ConfigurationButton>
+            </div>
 
             {sessions.map((s, index) => {
                 return(

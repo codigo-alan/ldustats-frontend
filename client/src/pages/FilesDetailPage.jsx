@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
 import { obtainDrillTitleCount } from "../utils/ObtainDistinctDrillTitle";
+import { ConfigurationButton } from "../components/configurationButton/ConfigurationButton";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -71,8 +72,13 @@ export function FileDetailPage() {
     return (
         <div className="container p-3">
             <div className="row">
-                <h4 className="col-6">Sessiones del fichero {id}</h4>
-                <h4 className="col-6">Fecha: {sessions[0]?.date}</h4>
+                <div className="col-6">
+                    <h4>Sessiones del fichero {id}</h4>
+                    <h4>Fecha: {sessions[0]?.date}</h4>
+                </div>
+                <div className="col-6 d-flex justify-content-end">
+                    <ConfigurationButton></ConfigurationButton>
+                </div>
             </div>
 
 
