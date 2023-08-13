@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
 import { obtainDrillTitleCount } from "../utils/ObtainDistinctDrillTitle";
 import { ConfigurationButton } from "../components/configurationButton/ConfigurationButton";
+import { allSessionHeaders } from "../models/Organisation";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -13,6 +14,13 @@ export function FileDetailPage() {
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
     const [eachCompletedList, setEachCompletedList] = useState([]);
+    const [headers, setHeaders] = useState(allSessionHeaders);
+    const [selectedHeaders, setSelectedHeaders] = useState([]);
+
+    const changeHeaders = (selected) => {
+        setSelectedHeaders(selected);
+      };
+    
 
     function obtainPlayersId() {
         let ids = [];
@@ -47,7 +55,9 @@ export function FileDetailPage() {
     }, [id]);
 
     useEffect( () => {
-        if (sessions.length > 0) setDrillTitlesSet(obtainDrillTitleCount(sessions));
+        if (sessions.length > 0) {
+            setDrillTitlesSet(obtainDrillTitleCount(sessions));
+        };
     }, [sessions]);
 
     useEffect( () => {
@@ -77,7 +87,7 @@ export function FileDetailPage() {
                     <h4>Fecha: {sessions[0]?.date}</h4>
                 </div>
                 <div className="col-6 d-flex justify-content-end">
-                    <ConfigurationButton></ConfigurationButton>
+                    <ConfigurationButton outputHeaders={changeHeaders}></ConfigurationButton>
                 </div>
             </div>
 
@@ -88,7 +98,8 @@ export function FileDetailPage() {
                         <TableSessionComponent 
                             data={sessions?.filter(session => session.drillTitle == e)
                                 .concat(eachCompletedList?.filter(session => e == session.drillTitle))} 
-                            personalizedCaption={e}>
+                            personalizedCaption={e}
+                            headersToShow={selectedHeaders}>
                         </TableSessionComponent>
                     </div>
                 );

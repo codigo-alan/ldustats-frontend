@@ -4,7 +4,7 @@ import './tableSessionComponent.css'
 import Tooltip from '@mui/material/Tooltip';
 import { reduceLength } from "../../utils/LimitLengthText";
 
-export function TableSessionComponent({data, type='other', personalizedCaption=''}) {
+export function TableSessionComponent({data, type='other', personalizedCaption='', headersToShow=[]}) {
 
     const [caption,setCaption] = useState('');
 
@@ -20,6 +20,13 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
 
     }, [type]);
 
+    useEffect(() => {
+
+        
+        console.log(headersToShow);
+
+    }, [headersToShow]);
+
     return (
         <div className='overflow-scroll card bg-light my-2 myDiv'>
             <table className="table table-hover border caption-top table-sm table-bordered table-striped">
@@ -27,9 +34,14 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                 <thead className="bg-light">
 
                         <tr className='text-center'>
-                            <th>Nombre</th>
-                            {/* <th>Fecha</th>
-                            <th>Dril</th> */}
+                            {headersToShow.map((h) => {
+                                return(
+                                    <th>{h}</th>
+                                );
+                            })}
+                            {/* <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th>Dril</th> 
                             <th>Tiempo total</th>
                             <th>Distancia total</th>
                             <th>Dt/min</th>
@@ -45,7 +57,7 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                             <th>Desaceleraciones</th>
                             <th>Ac/min</th>
                             <th>Dec/min</th>
-                            <th>HML distancia</th>
+                            <th>HML distancia</th> */}
                         </tr> 
                         
                 </thead>
@@ -58,7 +70,7 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                                 {/* <td>{element.date}</td>
                                 <Tooltip title={element.drillTitle}>
                                     <td>{reduceLength(element.drillTitle, 3)}</td>
-                                </Tooltip> */}
+                                </Tooltip>  */}
                                 <td>{element.totalTime}</td>
                                 <td>{element.totalDistance}</td>
                                 <td>{element.dtMin}</td>
