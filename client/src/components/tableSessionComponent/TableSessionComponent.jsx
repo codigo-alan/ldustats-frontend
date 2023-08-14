@@ -28,8 +28,12 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
 
                         <tr className='text-center'>
                             <th>Nombre</th>
-                            {/* <th>Fecha</th>
-                            <th>Dril</th> */}
+                            {type == 'allSessions' &&
+                                <>
+                                    <th>Fecha</th>
+                                    <th>Dril</th>
+                                </>
+                            }
                             <th>Tiempo total</th>
                             <th>Distancia total</th>
                             <th>Dt/min</th>
@@ -55,6 +59,14 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
                         return (
                             <tr className="tableRow text-center" key={element.id} >
                                 <td>{element.name}</td>
+                                {type == 'allSessions' &&
+                                    <>
+                                        <td>{element.date}</td>
+                                        <Tooltip title={element.drillTitle}>
+                                            <td>{reduceLength(element.drillTitle, 3)}</td>
+                                        </Tooltip>
+                                    </>
+                                }
                                 {/* <td>{element.date}</td>
                                 <Tooltip title={element.drillTitle}>
                                     <td>{reduceLength(element.drillTitle, 3)}</td>
