@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { File } from "../models/File";
 import { Session } from "../models/Session";
 import { calculateByTime, convertTimeToMinutes } from "../utils/CalculateCompleteSession";
+import { SearchBarComponent } from "../components/searchBarComponent/SearchBarComponent";
 
 library.add(faCheck, faCross);
 
@@ -24,6 +25,11 @@ export function PlayersPage() {
   const [date, setDate] = useState(null);
   const [createdId, setCreatedId] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
+  const [playersFiltered, setPlayersFiltered] = useState([]);
+  
+  const handleSearch = (query) => {
+    setPlayersFiltered(players.filter((e) => e.name.toLowerCase().includes(query.toLowerCase())))
+  };
 
   function obtainOneDate(result) {
     if (result != undefined && result.length != 0) {
@@ -49,9 +55,6 @@ export function PlayersPage() {
     reader.readAsText(selectedFile);
   };
 
-
-    
-
   const save = handleSubmit(() => {
     addModifiedFile(new File(date)); //add file to backend with formated date
   });
@@ -68,11 +71,12 @@ export function PlayersPage() {
   useEffect(() => {
 
     async function getPlayers() {
-      const res = await getAllPlayers()
-      setPlayers(res.data)
+      const res = await getAllPlayers();
+      setPlayers(res.data);
+      setPlayersFiltered(res.data);
     }
 
-    getPlayers()
+    getPlayers();
 
   }, []);
 
@@ -130,8 +134,11 @@ export function PlayersPage() {
           </form>
         </div>
       </div>
+      <div className="my-2">
+        <SearchBarComponent onSearch={handleSearch}></SearchBarComponent>
+      </div>
       <div className="row">
-        <TableComponent data={players} type={'players'}></TableComponent>
+        <TableComponent data={playersFiltered} type={'players'}></TableComponent>
       </div>
     </div>
   )

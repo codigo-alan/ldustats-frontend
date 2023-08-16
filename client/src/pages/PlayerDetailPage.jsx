@@ -9,6 +9,7 @@ import { positions } from "../models/Organisation";
 import images from "../assets/images";
 import { calculateAge } from "../utils/CalculateAge";
 import { TableComponent } from "../components/tableComponent/TableComponent";
+import { SearchBarComponent } from "../components/searchBarComponent/SearchBarComponent";
 
 
 
@@ -24,9 +25,12 @@ export function PlayerDetailPage() {
     const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
     const [filesIdList, setFilesIdList] = useState([]);
     const [filesWithPlayer, setFilesWithPlayer] = useState([]);
-
-
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
+    const [filesWithPlayerFiltered, setFilesWithPlayerFiltered] = useState([]);
+  
+    const handleSearch = (query) => {
+        setFilesWithPlayerFiltered(filesWithPlayer.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
+    };
 
     //select options
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
@@ -125,6 +129,7 @@ export function PlayerDetailPage() {
             const idString = Array.from(idList).join(); //set to array, and after to string
             const res = await getFilesByIds(idString);
             setFilesWithPlayer(res.data);
+            setFilesWithPlayerFiltered(res.data);
         }
 
         getFiles(filesIdList) 
@@ -254,8 +259,11 @@ export function PlayerDetailPage() {
 
             </div>
             <h2 className="mt-4">Ficheros del jugador</h2>
+            <div className="my-2">
+                <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
+            </div>
             <div >
-                <TableComponent data={filesWithPlayer} type={'files'} idPlayer={id}></TableComponent>
+                <TableComponent data={filesWithPlayerFiltered} type={'files'} idPlayer={id}></TableComponent>
             </div>
         </div>
     )
