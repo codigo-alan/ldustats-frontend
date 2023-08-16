@@ -1,15 +1,15 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { PlayersPage } from "./pages/PlayersPage";
-import { SessionsPage } from "./pages/SessionsPage";
-import { FilesPage } from "./pages/FilesPage";
-import { AddPlayerPage } from "./pages/AddPlayerPage";
-import { PlayerDetailPage } from "./pages/PlayerDetailPage";
+import { PlayersPage } from "./pages/playersPage/PlayersPage";
+import { SessionsPage } from "./pages/sessionsPage/SessionsPage";
+import { FilesPage } from "./pages/filesPage/FilesPage";
+import { AddPlayerPage } from "./pages/addPlayerPage/AddPlayerPage";
+import { PlayerDetailPage } from "./pages/playerDetailPage/PlayerDetailPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { NavigationComponent } from "./components/navigationComponent/NavigationComponent";
 import { Toaster } from "react-hot-toast";
-import { FileDetailPage } from './pages/FilesDetailPage';
-import { SessionPlayerDetail } from './pages/SessionPlayerDetail';
+import { FileDetailPage } from './pages/filesDetailPage/FilesDetailPage';
+import { SessionPlayerDetail } from './pages/sessionPlayerDetail/SessionPlayerDetail';
 
 
 export function App() {

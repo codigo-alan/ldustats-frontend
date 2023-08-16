@@ -1,9 +1,9 @@
-import { getSessionByPlayerAndFile } from "../services/sessions.services";
-import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
+import { getSessionByPlayerAndFile } from "../../services/sessions.services";
+import { TableSessionComponent } from "../../components/tableSessionComponent/TableSessionComponent";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
-import { obtainDrillTitleCount } from "../utils/ObtainDistinctDrillTitle";
+import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
+import { obtainDrillTitleCount } from "../../utils/ObtainDistinctDrillTitle";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();

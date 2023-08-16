@@ -1,6 +1,6 @@
-import { getAllFiles } from "../services/files.services";
-import { TableComponent } from "../components/tableComponent/TableComponent";
-import { SearchBarComponent } from "../components/searchBarComponent/SearchBarComponent";
+import { getAllFiles } from "../../services/files.services";
+import { TableComponent } from "../../components/tableComponent/TableComponent";
+import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
 import { useEffect, useState } from "react";
 
 export function FilesPage(){

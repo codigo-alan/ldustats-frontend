@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../services/players.services";
-import { getFilesByIds } from "../services/files.services";
+import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../../services/players.services";
+import { getFilesByIds } from "../../services/files.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions } from "../models/Organisation";
-import images from "../assets/images";
-import { calculateAge } from "../utils/CalculateAge";
-import { TableComponent } from "../components/tableComponent/TableComponent";
-import { SearchBarComponent } from "../components/searchBarComponent/SearchBarComponent";
+import { positions } from "../../models/Organisation";
+import images from "../../assets/images";
+import { calculateAge } from "../../utils/CalculateAge";
+import { TableComponent } from "../../components/tableComponent/TableComponent";
+import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
 
 
 

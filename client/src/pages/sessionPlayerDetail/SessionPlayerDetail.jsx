@@ -1,8 +1,8 @@
-import { getSessionByPlayerAndFile } from "../services/sessions.services";
+import { getSessionByPlayerAndFile } from "../../services/sessions.services";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { calculateCompleteSession } from "../utils/CalculateCompleteSession";
-import { TableSessionComponent } from "../components/tableSessionComponent/TableSessionComponent";
+import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
+import { TableSessionComponent } from "../../components/tableSessionComponent/TableSessionComponent";
 
 export function SessionPlayerDetail() {
 

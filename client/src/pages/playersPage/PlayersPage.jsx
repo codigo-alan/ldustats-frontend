@@ -1,19 +1,19 @@
-import { TableComponent } from "../components/tableComponent/TableComponent";
+import { TableComponent } from "../../components/tableComponent/TableComponent";
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
-import { getAllPlayers } from "../services/players.services";
-import { addSession } from "../services/sessions.services";
-import { addFile } from "../services/files.services";
+import { getAllPlayers } from "../../services/players.services";
+import { addSession } from "../../services/sessions.services";
+import { addFile } from "../../services/files.services";
 import { toast } from "react-hot-toast";
 import Papa from "papaparse";
-import { format } from "../utils/DateFormat";
+import { format } from "../../utils/DateFormat";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { File } from "../models/File";
-import { Session } from "../models/Session";
-import { calculateByTime, convertTimeToMinutes } from "../utils/CalculateCompleteSession";
-import { SearchBarComponent } from "../components/searchBarComponent/SearchBarComponent";
+import { File } from "../../models/File";
+import { Session } from "../../models/Session";
+import { calculateByTime, convertTimeToMinutes } from "../../utils/CalculateCompleteSession";
+import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
 
 library.add(faCheck, faCross);
 

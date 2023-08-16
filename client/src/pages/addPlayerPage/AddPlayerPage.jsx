@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { addPlayer } from "../services/players.services";
+import { addPlayer } from "../../services/players.services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions } from "../models/Organisation";
+import { positions } from "../../models/Organisation";
 
 export function AddPlayerPage() {
 
