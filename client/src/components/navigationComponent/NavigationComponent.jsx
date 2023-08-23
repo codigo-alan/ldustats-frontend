@@ -20,7 +20,7 @@ export function NavigationComponent() {
                         <NavDropdown className="dropdownLink" title="Mi perfil" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">User Name</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
+                            <NavDropdown.Item href="/login">
                                 Cerrar sesión
                             </NavDropdown.Item>
                         </NavDropdown>

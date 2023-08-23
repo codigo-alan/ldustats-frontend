@@ -10,6 +10,8 @@ import { NavigationComponent } from "./components/navigationComponent/Navigation
 import { Toaster } from "react-hot-toast";
 import { FileDetailPage } from './pages/filesDetailPage/FilesDetailPage';
 import { SessionPlayerDetail } from './pages/sessionPlayerDetail/SessionPlayerDetail';
+import { LoginPage } from "./pages/loginPage/LoginPage";
+import { RegisterPage } from "./pages/registerPage/RegisterPage";
 
 
 export function App() {
@@ -27,6 +29,8 @@ export function App() {
           <Route path='/player-add' element={<AddPlayerPage />}></Route>
           <Route path='/files/:id' element={<FileDetailPage />}></Route>
           <Route path='/files/:id/:idplayer' element={<SessionPlayerDetail />}></Route>
+          <Route path='/login' element={<LoginPage />}></Route>
+          <Route path='/register' element={<RegisterPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
         </Routes>
         <Toaster></Toaster>
