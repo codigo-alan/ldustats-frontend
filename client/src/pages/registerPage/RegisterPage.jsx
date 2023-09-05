@@ -68,6 +68,12 @@ export function RegisterPage() {
                 </div>
             </form>
 
+            <div className="col-6 m-auto d-flex justify-content-center mt-2">
+                <a className="fw-bold text-decoration-none" href="/login">
+                    ¿Tienes usuario? Inicia sesión
+                </a>
+            </div>
+
         </div>
     );
 }
