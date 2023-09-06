@@ -62,7 +62,7 @@ export function LoginPage() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary" type="submit">Ingresar</button>
+                        <button className="btn btn-primary disabled" type="submit">Ingresar</button>
                     </div>
                 </div>
             </form>

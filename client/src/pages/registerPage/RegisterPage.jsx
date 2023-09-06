@@ -63,10 +63,16 @@ export function RegisterPage() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary" type="submit">Crear</button>
+                        <button className="btn btn-primary disabled" type="submit">Crear</button>
                     </div>
                 </div>
             </form>
+
+            <div className="col-6 m-auto d-flex justify-content-center mt-2">
+                <a className="fw-bold text-decoration-none" href="/login">
+                    ¿Ya tienes usuario? Inicia sesión con tu cuenta
+                </a>
+            </div>
 
         </div>
     );
