@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { addUser, loginUser } from "../../services/users.services";
+import { addUser } from "../../services/users.services";
 
 export function RegisterPage() {
 
