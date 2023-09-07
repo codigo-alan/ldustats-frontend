@@ -12,7 +12,7 @@ export function RegisterPage() {
         try {
             const res = await addUser(data)
             toast.success(`Creado exitosamente\n${res.data.userName}`)
-            //TODO here is neccessary make a LOGIN of the recently added User
+            
             navigate("/players")
         } catch (error) {
             toast.error('No se ha podido registrar el usuario');
