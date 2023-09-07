@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { addUser, loginUser } from "../../services/users.services";
+import { addUser } from "../../services/users.services";
 
 export function RegisterPage() {
 
@@ -12,7 +12,7 @@ export function RegisterPage() {
         try {
             const res = await addUser(data)
             toast.success(`Creado exitosamente\n${res.data.userName}`)
-            //TODO here is neccessary make a LOGIN of the recently added User
+            
             navigate("/players")
         } catch (error) {
             toast.error('No se ha podido registrar el usuario');

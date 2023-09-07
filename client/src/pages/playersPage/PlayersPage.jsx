@@ -14,6 +14,7 @@ import { File } from "../../models/File";
 import { Session } from "../../models/Session";
 import { calculateByTime, convertTimeToMinutes } from "../../utils/CalculateCompleteSession";
 import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
+import { useNavigate } from "react-router-dom";
 
 library.add(faCheck, faCross);
 
@@ -26,6 +27,7 @@ export function PlayersPage() {
   const [createdId, setCreatedId] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
   const [playersFiltered, setPlayersFiltered] = useState([]);
+  const navigate = useNavigate()
   
   const handleSearch = (query) => {
     setPlayersFiltered(players.filter((e) => e.name.toLowerCase().includes(query.toLowerCase())))
@@ -71,9 +73,15 @@ export function PlayersPage() {
   useEffect(() => {
 
     async function getPlayers() {
-      const res = await getAllPlayers();
-      setPlayers(res.data);
-      setPlayersFiltered(res.data);
+      try {
+        const res = await getAllPlayers();
+        setPlayers(res.data);
+        setPlayersFiltered(res.data); 
+      } catch (error) {
+        if(error.response.status == 403) { //if unauthorized or without credentials
+          navigate(`/login/`)
+        }
+      }
     }
 
     getPlayers();
