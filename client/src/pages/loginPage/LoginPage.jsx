@@ -11,6 +11,11 @@ export function LoginPage() {
     const logIn = handleSubmit(async data => {
         try {
             const res = await loginUser(data)
+            console.log(res.data);
+            localStorage.setItem("auth", response.data.token);
+            setTimeout(() => {
+                history.push("/");
+            }, 3000);
             toast.success(`Logueado exitosamente\n${res.data.userName}`)
             navigate("/players")
         } catch (error) {
@@ -62,7 +67,7 @@ export function LoginPage() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary disabled" type="submit">Ingresar</button>
+                        <button className="btn btn-primary " type="submit">Ingresar</button>
                     </div>
                 </div>
             </form>
