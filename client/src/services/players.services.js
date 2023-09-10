@@ -5,8 +5,9 @@ const playersApi = axios.create({
     baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/players/'
 })
 
-export const getAllPlayers = () => {
-    return playersApi.get('/')
+
+export const getAllPlayers = (headers) => {
+    return playersApi.get('/', headers);
 }
 
 export const getPlayerById = (id) => playersApi.get('/' + id)  

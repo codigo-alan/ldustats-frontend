@@ -2,10 +2,19 @@ import { getAllFiles } from "../../services/files.services";
 import { TableComponent } from "../../components/tableComponent/TableComponent";
 import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function FilesPage(){
     const [files, setFiles] = useState([]); //declare files
     const [filesFiltered, setFilesFiltered] = useState([]);
+    const navigate = useNavigate();
+    //header to pass auth bearer to access in protected routes of the backend
+    const headersConfig = {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+            'Content-Type': 'application/json',
+        }
+    };
   
     const handleSearch = (query) => {
         setFilesFiltered(files.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
@@ -16,9 +25,15 @@ export function FilesPage(){
     */
     useEffect( () => {
         async function getFiles() {
-            const res = await getAllFiles();
-            setFiles(res.data);
-            setFilesFiltered(res.data);
+            try {
+                const res = await getAllFiles(headersConfig);
+                setFiles(res.data);
+                setFilesFiltered(res.data);
+            } catch (error) {
+                if(error.response.status == 401 || error.response.status == 403) { //if unauthorized or without credentials
+                    navigate(`/login`)
+                  }
+            }
         }
 
         getFiles();

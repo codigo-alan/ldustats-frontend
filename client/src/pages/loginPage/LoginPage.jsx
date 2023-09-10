@@ -2,21 +2,33 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../services/users.services";
+import { useEffect, useState } from "react";
 
 export function LoginPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm();
     const navigate = useNavigate();
 
+    //at call of login delete local storage to delete token and username
+    useEffect(() => {
+
+        function clearLocalStorage() {
+            localStorage.clear()
+        }
+
+        clearLocalStorage()
+    
+      }, []);
+
     const logIn = handleSubmit(async data => {
         try {
             const res = await loginUser(data)
-            console.log(res.data);
-            localStorage.setItem("auth", response.data.token);
-            setTimeout(() => {
-                history.push("/");
-            }, 3000);
-            toast.success(`Logueado exitosamente\n${res.data.userName}`)
+
+            localStorage.setItem("auth", res.data.access);
+            localStorage.setItem("refreshAuth", res.data.refresh);
+            localStorage.setItem("username", data.userName);
+
+            toast.success(`Logueado exitosamente\n${data.userName}`)
             navigate("/players")
         } catch (error) {
             toast.error('No se ha podido iniciar sesión');

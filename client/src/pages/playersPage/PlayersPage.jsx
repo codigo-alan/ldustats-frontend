@@ -28,6 +28,13 @@ export function PlayersPage() {
   const { register, handleSubmit, formState:{errors} } = useForm()
   const [playersFiltered, setPlayersFiltered] = useState([]);
   const navigate = useNavigate()
+  //header to pass auth bearer to access in protected routes of the backend
+  const headersConfig = {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+      'Content-Type': 'application/json',
+    }
+  };
   
   const handleSearch = (query) => {
     setPlayersFiltered(players.filter((e) => e.name.toLowerCase().includes(query.toLowerCase())))
@@ -74,12 +81,12 @@ export function PlayersPage() {
 
     async function getPlayers() {
       try {
-        const res = await getAllPlayers();
+        const res = await getAllPlayers(headersConfig);
         setPlayers(res.data);
         setPlayersFiltered(res.data); 
       } catch (error) {
-        if(error.response.status == 403) { //if unauthorized or without credentials
-          navigate(`/login/`)
+        if(error.response.status == 401 || error.response.status == 403) { //if unauthorized or without credentials
+          navigate(`/login`)
         }
       }
     }

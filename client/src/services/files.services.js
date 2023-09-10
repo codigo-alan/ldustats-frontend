@@ -11,7 +11,7 @@ const filesFilterApi = axios.create({
 
 export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`);
 
-export const getAllFiles = () => filesApi.get(`/`);
+export const getAllFiles = (header) => filesApi.get(`/`, header);
 
 export const addFile = (file) => filesApi.post('/', file);
 

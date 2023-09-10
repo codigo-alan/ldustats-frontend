@@ -21,7 +21,5 @@ export const deleteUser = (id) => usersApi.delete(`/${id}`);
 
 export const updateUser = (id, user) => usersApi.put(`/${id}/`, player);
 
-//data will be username, email and password
-//export const loginUser = (data) => usersApi.get('/', data); //TODO how log a user?
-export const loginUser = (data) => tokenApi.post('/', 
-    {params: {username: data.userName, password: data.password} });
+export const loginUser = (data) => tokenApi.post('/',
+    {username: data.userName, password: data.password});

@@ -4,11 +4,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useLocation } from 'react-router-dom';
 
 export function NavigationComponent() {
 
+    let userName = localStorage.getItem("username") ?? "Not logged";
+
+    //use to know which is the current location
+    const location = useLocation();
+    console.log(location.pathname);
+
+    //if location is /login not render any, in other way shows the NavBar contain
     return (
-        <Navbar bg="primary" expand="lg">
+
+        <>
+        {(location.pathname != '/login') ? <Navbar bg="primary" expand="lg">
             <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -17,8 +27,8 @@ export function NavigationComponent() {
                         <NavLink className="navLink" to="/files">Ficheros</NavLink>
                         <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
                         <NavLink className="navLink" to="player-add">Agregar jugador</NavLink>
-                        <NavDropdown className="dropdownLink" title="Mi perfil" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">User Name</NavDropdown.Item>
+                        <NavDropdown className="dropdownLink" title={userName} id="basic-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.1">Mi perfil</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="/login">
                                 Cerrar sesión
@@ -27,7 +37,9 @@ export function NavigationComponent() {
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </Navbar> : <></>}
+        </>
+        
     )
 
     
