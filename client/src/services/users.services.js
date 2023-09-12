@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const usersApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/register/' //TODO not implemented yet url in back
+    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/register/' //TODO not works yet url in back
 })
 
 const tokenApi = axios.create({

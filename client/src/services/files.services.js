@@ -11,8 +11,9 @@ const filesFilterApi = axios.create({
 
 export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`);
 
-export const getAllFiles = (header) => filesApi.get(`/`, header);
+export const getAllFiles = (header) => filesApi.get(`/`, {headers: header});
 
 export const addFile = (file) => filesApi.post('/', file);
 
-export const getFilesByIds = (ids) => filesFilterApi.get('/', {params: {ids: ids},});
+export const getFilesByIds = (ids, header) => filesFilterApi.get('/', 
+{params: {ids: ids}, headers: header});

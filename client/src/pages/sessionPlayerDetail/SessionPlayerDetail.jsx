@@ -10,10 +10,17 @@ export function SessionPlayerDetail() {
     const [sessions, setSessions] = useState([]);
     const [sessionsComplete, setSessionsComplete] = useState([]);
 
+    //header to pass auth bearer to access in protected routes of the backend
+    const headersConfig = 
+        {
+            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+            'Content-Type': 'application/json',
+        }
+
     //call when id from params change
     useEffect( () => {
         async function getSessions(idPlayer, idFile) {
-            const res = await getSessionByPlayerAndFile(idPlayer, idFile);
+            const res = await getSessionByPlayerAndFile(idPlayer, idFile, headersConfig);
             setSessions(res.data);
         }
 

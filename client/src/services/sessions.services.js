@@ -6,7 +6,7 @@ const sessionsApi = axios.create({
 
 export const addSession = (session) => sessionsApi.post('/', session)
 
-export const getAllSessions = () => sessionsApi.get('/');
+export const getAllSessions = (header) => sessionsApi.get('/', {headers: header});
 
-export const getSessionByPlayerAndFile = (idPlayer, idFile) => sessionsApi.get('/', 
-    {params: {idfile: idFile, idplayer: idPlayer}});
+export const getSessionByPlayerAndFile = (idPlayer, idFile, header) => sessionsApi.get('/', 
+    {params: {idfile: idFile, idplayer: idPlayer}, headers: header});

@@ -12,6 +12,12 @@ export function FileDetailPage() {
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
     const [eachCompletedList, setEachCompletedList] = useState([]);
+    //header to pass auth bearer to access in protected routes of the backend
+    const headersConfig = 
+        {
+            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+            'Content-Type': 'application/json',
+        }
 
     function obtainPlayersId() {
         let ids = [];
@@ -37,7 +43,7 @@ export function FileDetailPage() {
     //call when id from params change
     useEffect( () => {
         async function getSessions(idPlayer, idFile) {
-            const res = await getSessionByPlayerAndFile(idPlayer, idFile);
+            const res = await getSessionByPlayerAndFile(idPlayer, idFile, headersConfig);
             setSessions(res.data);
         }
 

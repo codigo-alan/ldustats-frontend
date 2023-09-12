@@ -27,6 +27,13 @@ export function PlayerDetailPage() {
     const [filesWithPlayer, setFilesWithPlayer] = useState([]);
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
     const [filesWithPlayerFiltered, setFilesWithPlayerFiltered] = useState([]);
+    //header to pass auth bearer to access in protected routes of the backend
+    const headersConfig = 
+        {
+            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+            'Content-Type': 'application/json',
+        }
+    
   
     const handleSearch = (query) => {
         setFilesWithPlayerFiltered(filesWithPlayer.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
@@ -80,7 +87,7 @@ export function PlayerDetailPage() {
     useEffect( () => {
         async function getPlayer() {
             try {
-                const res = await getPlayerById(id)
+                const res = await getPlayerById(id, headersConfig);
                 setPlayer(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
@@ -91,8 +98,12 @@ export function PlayerDetailPage() {
                 setAge(calculateAge(res.data.birth)  )
                 
             } catch (error) {
-                setError(error.response.status)
-                toast.error('Error al cargar datos del jugador')
+                if (error.response.status == 401 || error.response.status == 403) {
+                    navigate(`/login`)
+                } else {
+                    setError(error.response.status)
+                    toast.error('Error al cargar datos del jugador')
+                }
             }
         }
 
@@ -102,7 +113,7 @@ export function PlayerDetailPage() {
     //Change value of player
     useEffect(() => {
         async function getPlayerSessions(id) {
-            const res = await getSessionsByPlayer(id);
+            const res = await getSessionsByPlayer(id, headersConfig);
             setSessionsByPlayerId(res.data);
         }
 
@@ -127,7 +138,7 @@ export function PlayerDetailPage() {
     useEffect(() => {
         async function getFiles(idList) {
             const idString = Array.from(idList).join(); //set to array, and after to string
-            const res = await getFilesByIds(idString);
+            const res = await getFilesByIds(idString, headersConfig);
             setFilesWithPlayer(res.data);
             setFilesWithPlayerFiltered(res.data);
         }

@@ -29,12 +29,12 @@ export function PlayersPage() {
   const [playersFiltered, setPlayersFiltered] = useState([]);
   const navigate = useNavigate()
   //header to pass auth bearer to access in protected routes of the backend
-  const headersConfig = {
-    headers: {
+  const headersConfig = 
+    {
       'Authorization': `Bearer ${localStorage.getItem("auth")}`,
       'Content-Type': 'application/json',
     }
-  };
+
   
   const handleSearch = (query) => {
     setPlayersFiltered(players.filter((e) => e.name.toLowerCase().includes(query.toLowerCase())))
