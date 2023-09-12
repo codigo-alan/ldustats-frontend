@@ -69,7 +69,7 @@ export function PlayersPage() {
   });
 
   async function addModifiedFile(newFile) {
-    const res = await addFile(newFile);
+    const res = await addFile(newFile, headersConfig);
     setCreatedId(JSON.parse(res.request.response).id);// obtain the created id from the http response
   }
 
@@ -116,7 +116,7 @@ export function PlayersPage() {
           accByMin, decByMin, element['HML Distance'], element['idPlayer'], createdId);
 
         try {
-          await addSession(session); 
+          await addSession(session, headersConfig); 
         } catch (error) {
           toast.error(`Error al cargar la sesión de ${session.name}`);
           errors += 1;

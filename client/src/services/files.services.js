@@ -13,7 +13,7 @@ export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`)
 
 export const getAllFiles = (header) => filesApi.get(`/`, {headers: header});
 
-export const addFile = (file) => filesApi.post('/', file);
+export const addFile = (file, header) => filesApi.post('/', file, {headers: header});
 
 export const getFilesByIds = (ids, header) => filesFilterApi.get('/', 
 {params: {ids: ids}, headers: header});
