@@ -8,10 +8,16 @@ export function AddPlayerPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
     const navigate = useNavigate()
+    //header to pass auth bearer to access in protected routes of the backend
+  const headersConfig = 
+  {
+    'Authorization': `Bearer ${localStorage.getItem("auth")}`,
+    'Content-Type': 'application/json',
+  }
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
     const save = handleSubmit(async data => {
         try {
-            const res = await addPlayer(data)
+            const res = await addPlayer(data, headersConfig);
             toast.success(`Agregado exitosamente\n${res.data.name}`)
             navigate("/players/" + res.data.id)
         } catch (error) {

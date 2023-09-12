@@ -12,7 +12,7 @@ export const getAllPlayers = (headers) => {
 
 export const getPlayerById = (id, headers) => playersApi.get(`/${id}`, {headers: headers});  
 
-export const addPlayer = (player) => playersApi.post('/', player)
+export const addPlayer = (player, header) => playersApi.post('/', player, {headers: header});
 
 export const deletePlayer = (id) => playersApi.delete(`/${id}`)
 
