@@ -42,6 +42,9 @@ export function LoginPage() {
 
             <form className="d-grid gap-2 col-6 m-auto" onSubmit={logIn}>
                 <div className="card gap-2 p-2 ">
+                    {
+                        //user input
+                    }
                     <div className="form-group row">
                         <label className="col-3 col-form-label">Usuario:</label>
                         <div className="col-8">
@@ -54,18 +57,9 @@ export function LoginPage() {
                             {errors.userName && <span className="text-danger">Campo requerido</span>}
                         </div>
                     </div>
-                    <div className="form-group row">
-                        <label className="col-3 col-form-label">Email:</label>
-                        <div className="col-8">
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                className="form-control"
-                                {...register('email', { required: true })}
-                            />
-                            {errors.email && <span className="text-danger">Campo requerido</span>}
-                        </div>
-                    </div>
+                    {
+                        //password input
+                    }
                     <div className="form-group row">
                         <label className="col-3 col-form-label">Contraseña:</label>
                         <div className="col-8">

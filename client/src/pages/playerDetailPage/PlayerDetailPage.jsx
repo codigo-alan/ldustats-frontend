@@ -50,7 +50,7 @@ export function PlayerDetailPage() {
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data) //Not works properly, not update id, it creates a new player with diff id
+            const res = await updatePlayer(id, data, headersConfig) //Not works properly, not update id, it creates a new player with diff id
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -58,11 +58,6 @@ export function PlayerDetailPage() {
         }
         
    })
-
-   const clickedFile = (item) => {
-    console.log('Hiciste clic en el elemento:', item.name, 'desde el lugar B');
-  };
-
 
     function getPositionImage(position) {
 
@@ -80,9 +75,7 @@ export function PlayerDetailPage() {
                 
         }
     }
-    const normalizedName = (name) => name.replace(/\s/g, "").toLowerCase();
     
-
     //Change value of id
     useEffect( () => {
         async function getPlayer() {
@@ -261,7 +254,7 @@ export function PlayerDetailPage() {
                         onClick={ async () => {
                             const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
                             if (accepted) {
-                                await deletePlayer(id)
+                                await deletePlayer(id, headersConfig);
                                 navigate('/players/')
                             }
                         } }>Eliminar jugador
