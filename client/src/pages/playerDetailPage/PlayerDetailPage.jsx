@@ -41,16 +41,16 @@ export function PlayerDetailPage() {
 
     //select options
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
-    const onOptionChangeHandler = (event) => {
+/*     const onOptionChangeHandler = (event) => {
         console.log("User Selected Value - ", event.target.value)
         setPositionImage(getPositionImage(event.target.value))
-    }
+    } */
 
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data, headersConfig) //Not works properly, not update id, it creates a new player with diff id
+            const res = await updatePlayer(id, data, headersConfig)
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -85,6 +85,7 @@ export function PlayerDetailPage() {
                 //TODO if not update after a change in input, its load the value
                 //changed on input
                 setValue('id', res.data.id) 
+                setValue('ref', res.data.ref)
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
@@ -150,16 +151,26 @@ export function PlayerDetailPage() {
                     <form className="d-grid gap-2 col-6" onSubmit={update}>
                         <div className="card gap-2 p-2 bg-light">
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Id:</label>
-                                <div className="col-8">
+                                <label className="col-2 col-form-label">Id:</label>
+                                <div className="col-4">
                                     <input
                                         type="text"
                                         placeholder="Id"
                                         className="form-control"
-                                        readOnly={!isEditing}
-                                        {...register('id', { required: true })}
+                                        readOnly={true}
                                     />
-                                    {errors.id && <span className="text-danger" >Campo requerido</span>}
+                                </div>
+
+                                <label className="col-2 col-form-label">Ref:</label>
+                                <div className="col-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Ref"
+                                        className="form-control"
+                                        readOnly={!isEditing}
+                                        {...register('ref', { required: true })}
+                                    />
+                                    {errors.ref && <span className="text-danger" >Campo requerido</span>}
                                 </div>
 
                             </div>

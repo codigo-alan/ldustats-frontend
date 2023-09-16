@@ -33,13 +33,13 @@ export function AddPlayerPage() {
             <form className="d-grid gap-2 col-6 m-auto" onSubmit={save}>
                 <div className="card gap-2 p-2 bg-light">
                     <div className="form-group row">
-                        <label className="col-3 col-form-label">Id *:</label>
+                        <label className="col-3 col-form-label">Ref *:</label>
                         <div className="col-8">
                             <input
                                 type="text"
-                                placeholder="Id"
+                                placeholder="Referencia"
                                 className="form-control"
-                                {...register('id', { required: true })}
+                                {...register('ref', { required: true })}
                             />
                             {errors.id && <span className="text-danger">Campo requerido</span>}
                         </div>
