@@ -114,7 +114,7 @@ export function PlayerDetailPage() {
         setAge(calculateAge(player.birth));
         setPositionImage(getPositionImage(player.position));
         if (player.name == undefined) return; //to avoid keys and avoid error of undefined name
-        getPlayerSessions(player.id); //execute the async function
+        getPlayerSessions(player.ref); //execute the async function
         
       }, [player]);
       //Change value of sessions of the player
