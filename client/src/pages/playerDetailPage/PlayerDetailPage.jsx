@@ -106,8 +106,8 @@ export function PlayerDetailPage() {
     }, [id] )
     //Change value of player
     useEffect(() => {
-        async function getPlayerSessions(id) {
-            const res = await getSessionsByPlayer(id, headersConfig);
+        async function getPlayerSessions(ref) {
+            const res = await getSessionsByPlayer(ref, headersConfig);
             setSessionsByPlayerId(res.data);
         }
 
@@ -158,6 +158,7 @@ export function PlayerDetailPage() {
                                         placeholder="Id"
                                         className="form-control"
                                         readOnly={true}
+                                        {...register('id')}
                                     />
                                 </div>
 
@@ -278,7 +279,7 @@ export function PlayerDetailPage() {
                 <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
             </div>
             <div >
-                <TableComponent data={filesWithPlayerFiltered} type={'files'} idPlayer={id}></TableComponent>
+                <TableComponent data={filesWithPlayerFiltered} type={'files'} idPlayer={player.ref}></TableComponent>
             </div>
         </div>
     )
