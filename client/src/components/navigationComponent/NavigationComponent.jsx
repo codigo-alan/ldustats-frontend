@@ -25,8 +25,9 @@ export function NavigationComponent() {
                     <Nav className="col-12 d-flex justify-content-between">
                         <NavLink className="navLink" to="/players">Jugadores</NavLink>
                         <NavLink className="navLink" to="/files">Ficheros</NavLink>
-                        <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
                         <NavLink className="navLink" to="player-add">Agregar jugador</NavLink>
+                        <NavLink className="navLink" to="/user-add">Agregar usuario</NavLink>
+                        <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
                         <NavDropdown className="dropdownLink" title={userName} id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Mi perfil</NavDropdown.Item>
                             <NavDropdown.Divider />

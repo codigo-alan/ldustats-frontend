@@ -30,7 +30,7 @@ export function App() {
           <Route path='/files/:id' element={<FileDetailPage />}></Route>
           <Route path='/files/:id/:idplayer' element={<SessionPlayerDetail />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
-          <Route path='/register' element={<RegisterPage />}></Route>
+          <Route path='/user-add' element={<RegisterPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
         </Routes>
         <Toaster></Toaster>

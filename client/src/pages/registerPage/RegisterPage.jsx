@@ -10,6 +10,7 @@ export function RegisterPage() {
 
     const SignUp = handleSubmit(async data => {
         try {
+            console.log(data.userName);
             const res = await addUser(data)
             toast.success(`Creado exitosamente\n${res.data.userName}`)
             
@@ -39,18 +40,6 @@ export function RegisterPage() {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-3 col-form-label">Email:</label>
-                        <div className="col-8">
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                className="form-control"
-                                {...register('email', { required: true })}
-                            />
-                            {errors.email && <span className="text-danger">Campo requerido</span>}
-                        </div>
-                    </div>
-                    <div className="form-group row">
                         <label className="col-3 col-form-label">Contraseña:</label>
                         <div className="col-8">
                             <input
@@ -63,17 +52,10 @@ export function RegisterPage() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary disabled" type="submit">Crear</button>
+                        <button className="btn btn-primary " type="submit">Crear</button>
                     </div>
                 </div>
             </form>
-
-            <div className="col-6 m-auto d-flex justify-content-center mt-2">
-                <a className="fw-bold text-decoration-none" href="/login">
-                    ¿Tienes usuario? Inicia sesión
-                </a>
-            </div>
-
         </div>
     );
 }

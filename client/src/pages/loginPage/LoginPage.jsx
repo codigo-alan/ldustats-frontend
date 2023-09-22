@@ -78,12 +78,6 @@ export function LoginPage() {
                 </div>
             </form>
 
-            <div className="col-6 m-auto d-flex justify-content-center mt-2">
-                <a className="fw-bold text-decoration-none" href="/register">
-                    ¿No tienes usuario? Crea uno
-                </a>
-            </div>
-
         </div>
     );
 }
