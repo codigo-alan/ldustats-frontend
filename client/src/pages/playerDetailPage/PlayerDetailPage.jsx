@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../../services/players.services";
 import { getFilesByIds } from "../../services/files.services";
+import { verifyTokenExp } from "../../utils/AuthHeaders";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -27,30 +28,19 @@ export function PlayerDetailPage() {
     const [filesWithPlayer, setFilesWithPlayer] = useState([]);
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
     const [filesWithPlayerFiltered, setFilesWithPlayerFiltered] = useState([]);
-    //header to pass auth bearer to access in protected routes of the backend
-    const headersConfig = 
-        {
-            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
-            'Content-Type': 'application/json',
-        }
     
-  
     const handleSearch = (query) => {
         setFilesWithPlayerFiltered(filesWithPlayer.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
     };
 
     //select options
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
-/*     const onOptionChangeHandler = (event) => {
-        console.log("User Selected Value - ", event.target.value)
-        setPositionImage(getPositionImage(event.target.value))
-    } */
 
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data, headersConfig)
+            const res = await updatePlayer(id, data, verifyTokenExp())
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -78,9 +68,10 @@ export function PlayerDetailPage() {
     
     //Change value of id
     useEffect( () => {
-        async function getPlayer() {
+        async function getPlayer(headers) {
             try {
-                const res = await getPlayerById(id, headersConfig);
+                console.log(headers);
+                const res = await getPlayerById(id, headers);
                 setPlayer(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
@@ -101,13 +92,14 @@ export function PlayerDetailPage() {
             }
         }
 
-        getPlayer(); //call above declared function to get player when id(obtained from params) changes
+        const headers =  verifyTokenExp(); //TODO fix request with async await
+        getPlayer(headers); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
     //Change value of player
     useEffect(() => {
         async function getPlayerSessions(ref) {
-            const res = await getSessionsByPlayer(ref, headersConfig);
+            const res = await getSessionsByPlayer(ref, verifyTokenExp());
             setSessionsByPlayerId(res.data);
         }
 
@@ -132,7 +124,7 @@ export function PlayerDetailPage() {
     useEffect(() => {
         async function getFiles(idList) {
             const idString = Array.from(idList).join(); //set to array, and after to string
-            const res = await getFilesByIds(idString, headersConfig);
+            const res = await getFilesByIds(idString, verifyTokenExp());
             setFilesWithPlayer(res.data);
             setFilesWithPlayerFiltered(res.data);
         }
@@ -266,7 +258,7 @@ export function PlayerDetailPage() {
                         onClick={ async () => {
                             const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
                             if (accepted) {
-                                await deletePlayer(id, headersConfig);
+                                await deletePlayer(id, verifyTokenExp());
                                 navigate('/players/')
                             }
                         } }>Eliminar jugador

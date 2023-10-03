@@ -16,7 +16,7 @@ export const addPlayer = (player, header) => playersApi.post('/', player, {heade
 
 export const deletePlayer = (id, header) => playersApi.delete(`/${id}`, {headers: header})
 
-export const updatePlayer = (id, player, header) => playersApi.put(`/${id}/`, player, {headers: header}) //BUG -> Not update the id
+export const updatePlayer = (id, player, header) => playersApi.put(`/${id}/`, player, {headers: header})
 
 export const getSessionsByPlayer = (playerId, header) => playersApi.get(`/${playerId}/sessions`, 
 {headers: header}); 
