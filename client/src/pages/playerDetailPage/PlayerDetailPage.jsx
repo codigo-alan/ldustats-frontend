@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../../services/players.services";
 import { getFilesByIds } from "../../services/files.services";
-import { verifyTokenExp } from "../../utils/AuthHeaders";
+//import { verifyTokenExp } from "../../utils/AuthHeaders";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
