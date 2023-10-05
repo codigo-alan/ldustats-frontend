@@ -28,12 +28,6 @@ export function PlayersPage() {
   const { register, handleSubmit, formState:{errors} } = useForm()
   const [playersFiltered, setPlayersFiltered] = useState([]);
   const navigate = useNavigate()
-  //header to pass auth bearer to access in protected routes of the backend
-  const headersConfig = 
-    {
-      'Authorization': `Bearer ${localStorage.getItem("auth")}`,
-      'Content-Type': 'application/json',
-    }
 
   
   const handleSearch = (query) => {
@@ -69,7 +63,7 @@ export function PlayersPage() {
   });
 
   async function addModifiedFile(newFile) {
-    const res = await addFile(newFile, headersConfig);
+    const res = await addFile(newFile);
     setCreatedId(JSON.parse(res.request.response).id);// obtain the created id from the http response
   }
 
@@ -81,7 +75,7 @@ export function PlayersPage() {
 
     async function getPlayers() {
       try {
-        const res = await getAllPlayers(headersConfig);
+        const res = await getAllPlayers();
         setPlayers(res.data);
         setPlayersFiltered(res.data); 
       } catch (error) {
@@ -116,7 +110,7 @@ export function PlayersPage() {
           accByMin, decByMin, element['HML Distance'], element['idPlayer'], createdId);
 
         try {
-          await addSession(session, headersConfig); 
+          await addSession(session); 
         } catch (error) {
           toast.error(`Error al cargar la sesión de ${session.name}`);
           errors += 1;

@@ -15,9 +15,9 @@ addInterceptors(filesFilterApi);
 
 export const getSessionsByFile = (fileId) => filesApi.get(`/${fileId}/sessions`);
 
-export const getAllFiles = (header) => filesApi.get(`/`);
+export const getAllFiles = () => filesApi.get(`/`);
 
-export const addFile = (file, header) => filesApi.post('/', file);
+export const addFile = (file) => filesApi.post('/', file);
 
-export const getFilesByIds = (ids, header) => filesFilterApi.get('/', 
+export const getFilesByIds = (ids) => filesFilterApi.get('/', 
 {params: {ids: ids}});

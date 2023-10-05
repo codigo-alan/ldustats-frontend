@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../../services/players.services";
 import { getFilesByIds } from "../../services/files.services";
-//import { verifyTokenExp } from "../../utils/AuthHeaders";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -40,7 +39,7 @@ export function PlayerDetailPage() {
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            const res = await updatePlayer(id, data, verifyTokenExp())
+            const res = await updatePlayer(id, data)
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
@@ -68,10 +67,9 @@ export function PlayerDetailPage() {
     
     //Change value of id
     useEffect( () => {
-        async function getPlayer(headers) {
+        async function getPlayer() {
             try {
-                console.log(headers);
-                const res = await getPlayerById(id, headers);
+                const res = await getPlayerById(id);
                 setPlayer(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
@@ -92,14 +90,13 @@ export function PlayerDetailPage() {
             }
         }
 
-        const headers =  verifyTokenExp(); //TODO fix request with async await
-        getPlayer(headers); //call above declared function to get player when id(obtained from params) changes
+        getPlayer(); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
     //Change value of player
     useEffect(() => {
         async function getPlayerSessions(ref) {
-            const res = await getSessionsByPlayer(ref, verifyTokenExp());
+            const res = await getSessionsByPlayer(ref);
             setSessionsByPlayerId(res.data);
         }
 
@@ -124,7 +121,7 @@ export function PlayerDetailPage() {
     useEffect(() => {
         async function getFiles(idList) {
             const idString = Array.from(idList).join(); //set to array, and after to string
-            const res = await getFilesByIds(idString, verifyTokenExp());
+            const res = await getFilesByIds(idString);
             setFilesWithPlayer(res.data);
             setFilesWithPlayerFiltered(res.data);
         }
@@ -258,7 +255,7 @@ export function PlayerDetailPage() {
                         onClick={ async () => {
                             const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
                             if (accepted) {
-                                await deletePlayer(id, verifyTokenExp());
+                                await deletePlayer(id);
                                 navigate('/players/')
                             }
                         } }>Eliminar jugador
