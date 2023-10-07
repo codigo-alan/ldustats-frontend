@@ -7,19 +7,14 @@ export function SessionsPage() {
 
     const [sessions, setSessions] = useState([]); //declare sessions
     const navigate = useNavigate();
-    //header to pass auth bearer to access in protected routes of the backend
-    const headersConfig = 
-        {
-            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
-            'Content-Type': 'application/json',
-        }
+
     /*
         get Sessions and set the value
     */
     useEffect( () => {
         async function getSessions() {
             try {
-                const res = await getAllSessions(headersConfig);
+                const res = await getAllSessions();
                 setSessions(res.data);
             } catch (error) {
                 if(error.response.status == 401 || error.response.status == 403) { //if unauthorized or without credentials

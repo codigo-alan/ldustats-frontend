@@ -8,12 +8,6 @@ export function FilesPage(){
     const [files, setFiles] = useState([]); //declare files
     const [filesFiltered, setFilesFiltered] = useState([]);
     const navigate = useNavigate();
-    //header to pass auth bearer to access in protected routes of the backend
-    const headersConfig = 
-        {
-            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
-            'Content-Type': 'application/json',
-        }
   
     const handleSearch = (query) => {
         setFilesFiltered(files.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
@@ -25,7 +19,7 @@ export function FilesPage(){
     useEffect( () => {
         async function getFiles() {
             try {
-                const res = await getAllFiles(headersConfig);
+                const res = await getAllFiles();
                 setFiles(res.data);
                 setFilesFiltered(res.data);
             } catch (error) {

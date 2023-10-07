@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { loginUser } from "../../services/users.services";
+import { loginUser } from "../../services/auth.services";
 import { useEffect, useState } from "react";
 
 export function LoginPage() {
@@ -24,6 +24,9 @@ export function LoginPage() {
         try {
             const res = await loginUser(data)
 
+            console.log(res);
+
+            //save in local storage the output from loginuser
             localStorage.setItem("auth", res.data.access);
             localStorage.setItem("refreshAuth", res.data.refresh);
             localStorage.setItem("username", data.userName);

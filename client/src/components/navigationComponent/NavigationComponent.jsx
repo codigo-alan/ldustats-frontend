@@ -12,7 +12,6 @@ export function NavigationComponent() {
 
     //use to know which is the current location
     const location = useLocation();
-    console.log(location.pathname);
 
     //if location is /login not render any, in other way shows the NavBar contain
     return (
