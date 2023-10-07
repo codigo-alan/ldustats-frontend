@@ -21,7 +21,7 @@ export function App() {
       <BrowserRouter>
         <NavigationComponent />
         <Routes>
-          <Route path='/' element={<Navigate to='/players' />}></Route>
+          <Route path='/' element={<Navigate to='/login' />}></Route>
           <Route path='/players' element={<PlayersPage />}></Route>
           <Route path='/sessions' element={<SessionsPage/>}></Route>
           <Route path='/files' element={<FilesPage/>}></Route>
