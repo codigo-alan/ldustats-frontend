@@ -2,7 +2,7 @@ import axios from "axios";
 import { addInterceptors } from "../utils/Interceptors";
 
 const usersApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/register/' //TODO not works yet url in back
+    baseURL: 'https://ldustats-backend-production.up.railway.app/ldustats/api/v1/register/' //TODO not works yet url in back
 })
 
 addInterceptors(usersApi);

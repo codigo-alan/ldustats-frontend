@@ -2,11 +2,11 @@ import axios from "axios";
 import { addInterceptors } from "../utils/Interceptors";
 
 const filesApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/files/'
+    baseURL: 'https://ldustats-backend-production.up.railway.app/ldustats/api/v1/files/'
 })
 
 const filesFilterApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/files-filters/'
+    baseURL: 'https://ldustats-backend-production.up.railway.app/ldustats/api/v1/files-filters/'
 })
 
 addInterceptors(filesApi);

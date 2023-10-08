@@ -2,7 +2,7 @@ import axios from "axios";
 import { addInterceptors } from "../utils/Interceptors";
 
 const sessionsApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/sessions/'
+    baseURL: 'https://ldustats-backend-production.up.railway.app/ldustats/api/v1/sessions/'
 })
 
 addInterceptors(sessionsApi);
