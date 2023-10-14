@@ -1,0 +1,5 @@
+// Override default variables before the import
+$primary: #252850;
+
+// Import Bootstrap and its default variables
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
