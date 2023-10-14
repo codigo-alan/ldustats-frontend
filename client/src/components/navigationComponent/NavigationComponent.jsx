@@ -17,7 +17,7 @@ export function NavigationComponent() {
     return (
 
         <>
-        {(location.pathname != '/login') ? <Navbar bg="primary" expand="lg">
+        {(location.pathname != '/login') ? <Navbar bg="primary bg-gradient" expand="lg">
             <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

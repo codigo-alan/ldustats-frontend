@@ -1,23 +1,28 @@
 .navLink {
-    color: #EEF0F3 ;
+    color: #FFFFFF ;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: normal;
     padding: .5rem;
+    font-size: normal;
+    width: 200px;
+    text-align: center;
 }
 .navLink:hover{
-    color: #133776;
-    border: 1px solid lightgrey;
-    border-radius: 5%;
-    background: #EEF0F3;
+    font-weight: bold;
 }
-.dropdownLink{
-    color: #EEF0F3 ;
+.dropdownLink .nav-link{
+    color: #FFFFFF ;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: normal;
+    font-size: normal;
+    width: 200px;
+    text-align: center;
 }
-.dropdownLink:hover{
-    color: #133776;
-    border: 1px solid lightgrey;
-    border-radius: 5%;
-    background: #EEF0F3;
+.dropdownLink .nav-link:hover{
+    color: #FFFFFF ;
+    font-weight: bold;
+}
+
+.dropdownLink .nav-link:focus{
+    color: #FFFFFF ;
 }
