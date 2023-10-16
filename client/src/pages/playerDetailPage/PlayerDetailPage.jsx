@@ -134,9 +134,32 @@ export function PlayerDetailPage() {
 
     return(
         <div className="container p-3">
-            <h2>{player.name}</h2>
+            <div className="row col-6">
+                <h2 className="col-8">{player.name}</h2>
+                {/* Edit and Delete buttons */}
+                <div className="d-flex justify-content-end gap-2 col-4">
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                            setIsEditing(!isEditing)
+                        }}>
+                        <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={async () => {
+                            const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
+                            if (accepted) {
+                                await deletePlayer(id);
+                                navigate('/players/')
+                            }
+                        }}>
+                        <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                    </button>
+                </div>
+            </div>
             
-            <div className="d-flex gap-3 flex-row">
+            <div className="d-flex gap-3 flex-row mt-2">
                 
                 <form className="d-grid gap-2" onSubmit={update}>
                     <div className="row ps-2">
@@ -235,31 +258,11 @@ export function PlayerDetailPage() {
                 </form>
                 
                 <div className="col-3">
+                    
                     <div className="d-flex justify-content-end">
                         <div className="card col-6 h-50">
                             <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
                         </div>
-                    </div>
-                    {/* Edit and Delete buttons */}
-                    <div className="d-flex justify-content-end gap-2 mt-2">
-                        <button
-                            className="btn btn-secondary"
-                            onClick={ () => {
-                                setIsEditing(!isEditing)
-                            } }>
-                                <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
-                        </button>
-                        <button
-                            className="btn btn-danger"
-                            onClick={ async () => {
-                                const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
-                                if (accepted) {
-                                    await deletePlayer(id);
-                                    navigate('/players/')
-                                }
-                            } }>
-                                <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                        </button>
                     </div>
                 </div>
 
