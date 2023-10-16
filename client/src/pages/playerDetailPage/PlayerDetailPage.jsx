@@ -13,6 +13,7 @@ import { SearchBarComponent } from "../../components/searchBarComponent/SearchBa
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'react-tooltip';
 
 
 export function PlayerDetailPage() {
@@ -139,6 +140,9 @@ export function PlayerDetailPage() {
                 {/* Edit and Delete buttons */}
                 <div className="d-flex justify-content-end gap-2 col-4">
                     <button
+                        data-tooltip-id="button-tooltip"
+                        data-tooltip-content="Editar jugador"
+                        data-tooltip-place="left"
                         className="btn btn-secondary"
                         onClick={() => {
                             setIsEditing(!isEditing)
@@ -146,6 +150,9 @@ export function PlayerDetailPage() {
                         <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
                     </button>
                     <button
+                        data-tooltip-id="button-tooltip"
+                        data-tooltip-content="Borrar jugador"
+                        data-tooltip-place="right"
                         className="btn btn-danger"
                         onClick={async () => {
                             const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
@@ -156,6 +163,7 @@ export function PlayerDetailPage() {
                         }}>
                         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                     </button>
+                    <Tooltip id="button-tooltip" />
                 </div>
             </div>
             
