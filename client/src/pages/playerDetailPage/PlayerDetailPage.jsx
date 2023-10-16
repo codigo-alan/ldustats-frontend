@@ -10,7 +10,9 @@ import images from "../../assets/images";
 import { calculateAge } from "../../utils/CalculateAge";
 import { TableComponent } from "../../components/tableComponent/TableComponent";
 import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
-
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export function PlayerDetailPage() {
@@ -134,11 +136,11 @@ export function PlayerDetailPage() {
         <div className="container p-3">
             <h2>{player.name}</h2>
             
-            <div className="d-flex gap-3 flex-column">
-
-                <div className="row">
-                    <form className="d-grid gap-2 col-6" onSubmit={update}>
-                        <div className="card gap-2 p-2 bg-light">
+            <div className="d-flex gap-3 flex-row">
+                
+                <form className="d-grid gap-2" onSubmit={update}>
+                    <div className="row ps-2">
+                        <div className="card gap-2 p-2 bg-light col-8">
                             <div className="form-group row">
                                 <label className="col-2 col-form-label">Id:</label>
                                 <div className="col-4">
@@ -150,7 +152,6 @@ export function PlayerDetailPage() {
                                         {...register('id')}
                                     />
                                 </div>
-
                                 <label className="col-2 col-form-label">Ref:</label>
                                 <div className="col-4">
                                     <input
@@ -162,9 +163,7 @@ export function PlayerDetailPage() {
                                     />
                                     {errors.ref && <span className="text-danger" >Campo requerido</span>}
                                 </div>
-
                             </div>
-
                             <div className="form-group row">
                                 <label className="col-3 col-form-label">Nombre:</label>
                                 <div className="col-8">
@@ -177,18 +176,16 @@ export function PlayerDetailPage() {
                                     />
                                     {errors.name && <span className="text-danger" >Campo requerido</span>}
                                 </div>
-                    
                             </div>
-                    
                             <div className="form-group row">
                                 <label className="col-3 col-form-label">Posición:</label>
                                 <div className="col-8">
-                                    <select 
-                                        className="form-select" 
+                                    <select
+                                        className="form-select"
                                         /* onChange={onOptionChangeHandler} */
                                         disabled={!isEditing}
                                         {...register('position', { required: true })}
-                                        >
+                                    >
                                         {options.map((option, index) => {
                                             return <option key={index} >
                                                 {option}
@@ -196,7 +193,6 @@ export function PlayerDetailPage() {
                                         })}
                                     </select>
                                     {errors.position && <span className="text-danger" >Campo requerido</span>}
-
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -225,41 +221,46 @@ export function PlayerDetailPage() {
                                 </div>
                             </div>
                         </div>
-                        {isEditing && (
-                        <div className="d-flex justify-content-end">
+                        <div className="col-4 d-flex justify-content-center">
+                            <img className="w-50" src={positionImage} alt="positionImage" />
+                        </div>
+                        
+                    </div>
+                    {isEditing && (
+                        <div className="d-flex justify-content-start">
                             <button className="btn btn-primary" type="submit">Guardar cambios</button>
                         </div>
-                        )}
-                    
-                    </form>
-                    <div className="col-3 d-flex justify-content-center">
-                        <img className="w-50" src={positionImage} alt="positionImage" />
-                    </div>
-                    <div className="col-3 d-flex justify-content-center">
+                    )}
+
+                </form>
+                
+                <div className="col-3">
+                    <div className="d-flex justify-content-end">
                         <div className="card col-6 h-50">
                             <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
                         </div>
                     </div>
-                </div>
-
-                {/* Edit and Delete buttons */}            
-                <div className="d-flex justify-content-start gap-2 col-6">
-                    <button
-                        className="btn btn-secondary"
-                        onClick={ () => {
-                            setIsEditing(!isEditing)
-                        } }>Editar
-                    </button>
-                    <button
-                        className="btn btn-danger"
-                        onClick={ async () => {
-                            const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
-                            if (accepted) {
-                                await deletePlayer(id);
-                                navigate('/players/')
-                            }
-                        } }>Eliminar jugador
-                    </button>
+                    {/* Edit and Delete buttons */}
+                    <div className="d-flex justify-content-end gap-2 mt-2">
+                        <button
+                            className="btn btn-secondary"
+                            onClick={ () => {
+                                setIsEditing(!isEditing)
+                            } }>
+                                <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                        </button>
+                        <button
+                            className="btn btn-danger"
+                            onClick={ async () => {
+                                const accepted = window.confirm('Se eliminarán todos los registros del jugador.\nEstá seguro?')
+                                if (accepted) {
+                                    await deletePlayer(id);
+                                    navigate('/players/')
+                                }
+                            } }>
+                                <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                        </button>
+                    </div>
                 </div>
 
             </div>
