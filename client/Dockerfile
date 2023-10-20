@@ -15,7 +15,7 @@ COPY . .
 
 # Compile React application
 # Not possibe to execute this line in the build of docker image
-RUN npm run build 
+#RUN npm run build 
 
 # Expose a port in the Docker (the port where works the react app)
 EXPOSE 3000
