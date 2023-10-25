@@ -7,9 +7,10 @@ import { obtainDrillTitleCount } from "../../utils/ObtainDistinctDrillTitle";
 import { createWB, createWS, createWBout, s2ab } from "../../utils/ExportToExcel";
 import { saveAs } from 'file-saver';
 import toast from "react-hot-toast";
-import { faDownload, faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'react-tooltip';
+import { transformToTextDate } from "../../utils/DateFormat";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -18,6 +19,7 @@ export function FileDetailPage() {
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
     const [eachCompletedList, setEachCompletedList] = useState([]);
+    const [textDate, setTextDate] = useState('');
 
     function obtainPlayersId() {
         let ids = [];
@@ -66,7 +68,10 @@ export function FileDetailPage() {
     }, [id]);
 
     useEffect( () => {
-        if (sessions.length > 0) setDrillTitlesSet(obtainDrillTitleCount(sessions));
+        if (sessions.length > 0) {
+            setDrillTitlesSet(obtainDrillTitleCount(sessions));
+            setTextDate(transformToTextDate(sessions[0]?.date));
+        }
     }, [sessions]);
 
     useEffect( () => {
@@ -90,14 +95,19 @@ export function FileDetailPage() {
 
     return (
         <div className="container p-3">
-            <div className="row">
+            <div className="col mb-3">
                 <h4 className="col-4">Sesiones del fichero nº{id}</h4>
-                <h4 className="col-4">Fecha: {sessions[0]?.date}</h4>
-                <div className="col-4 d-flex justify-content-end">
+                <h5 className="col-4"
+                    data-tooltip-id="excel-tooltip"
+                    data-tooltip-content="Fecha de entrenamiento"
+                    data-tooltip-place="right">
+                    Fecha: {textDate}
+                </h5>
+                <div className="col-4 d-flex justify-content-start">
                     <button
                         data-tooltip-id="excel-tooltip"
                         data-tooltip-content="Exportar tablas a excel"
-                        data-tooltip-place="left"
+                        data-tooltip-place="right"
                         onClick={ downloadFile }
                         className="col-auto btn btn-success">
                             <FontAwesomeIcon className="pe-2" icon={faFileExcel}/>
@@ -106,7 +116,6 @@ export function FileDetailPage() {
                 </div>
                 <Tooltip id="excel-tooltip" />
             </div>
-
 
             {drillTitlesSet.map((e, i) => {
                 return(
