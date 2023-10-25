@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
 import { obtainDrillTitleCount } from "../../utils/ObtainDistinctDrillTitle";
+import { createWB, createWS, createWBout, s2ab } from "../../utils/ExportToExcel";
+import { saveAs } from 'file-saver';
+import toast from "react-hot-toast";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -12,12 +15,6 @@ export function FileDetailPage() {
     const [sessionsCompleteAvg, setSessionsCompleteAvg] = useState([]);
     const [drillTitlesSet, setDrillTitlesSet] = useState([]);
     const [eachCompletedList, setEachCompletedList] = useState([]);
-    //header to pass auth bearer to access in protected routes of the backend
-    const headersConfig = 
-        {
-            'Authorization': `Bearer ${localStorage.getItem("auth")}`,
-            'Content-Type': 'application/json',
-        }
 
     function obtainPlayersId() {
         let ids = [];
@@ -40,10 +37,24 @@ export function FileDetailPage() {
         return completeSessions; //return a list of complete session
     }
 
+    const downloadFile = () => {
+        try {
+            const wb = createWB(sessions[0]?.date); //create workbook
+            drillTitlesSet.forEach( drill => {
+                createWS(wb, document.getElementById(drill), drill);
+            }); //for each drill create a worksheet
+            createWS(wb, document.getElementById('complete'), 'complete');
+            const wbout = createWBout(wb); //write a wb with all the ws inside
+            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `LDU-U19_${sessions[0]?.date}.xlsx`); //download the file
+        } catch (error) {
+            toast.error(`Error al descargar el fichero.\n ${error}`)
+        }
+    }
+
     //call when id from params change
     useEffect( () => {
         async function getSessions(idPlayer, idFile) {
-            const res = await getSessionByPlayerAndFile(idPlayer, idFile, headersConfig);
+            const res = await getSessionByPlayerAndFile(idPlayer, idFile);
             setSessions(res.data);
         }
 
@@ -77,8 +88,15 @@ export function FileDetailPage() {
     return (
         <div className="container p-3">
             <div className="row">
-                <h4 className="col-6">Sessiones del fichero {id}</h4>
-                <h4 className="col-6">Fecha: {sessions[0]?.date}</h4>
+                <h4 className="col-4">Sesiones del fichero nº{id}</h4>
+                <h4 className="col-4">Fecha: {sessions[0]?.date}</h4>
+                <div className="col-4 d-flex justify-content-end">
+                    <button
+                        onClick={ downloadFile }
+                        className="col-auto btn btn-success">
+                        Exportar a excel
+                    </button>
+                </div>
             </div>
 
 
@@ -86,6 +104,7 @@ export function FileDetailPage() {
                 return(
                     <div key={i} className="row">
                         <TableSessionComponent 
+                            idTable={e}
                             data={sessions?.filter(session => session.drillTitle == e)
                                 .concat(eachCompletedList?.filter(session => e == session.drillTitle))} 
                             personalizedCaption={e}>
@@ -95,7 +114,7 @@ export function FileDetailPage() {
             })}
             {(sessions?.length > 1) &&
                 <div className="row">
-                    <TableSessionComponent data={sessionsComplete?.concat(sessionsCompleteAvg)} type={'complete'}></TableSessionComponent>
+                    <TableSessionComponent idTable={'complete'} data={sessionsComplete?.concat(sessionsCompleteAvg)} type={'complete'}></TableSessionComponent>
                 </div>
             }
 
