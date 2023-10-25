@@ -4,7 +4,7 @@ import './tableSessionComponent.css'
 import Tooltip from '@mui/material/Tooltip';
 import { reduceLength } from "../../utils/LimitLengthText";
 
-export function TableSessionComponent({data, type='other', personalizedCaption=''}) {
+export function TableSessionComponent({idTable='', data, type='other', personalizedCaption=''}) {
 
     const [caption,setCaption] = useState('');
 
@@ -22,7 +22,7 @@ export function TableSessionComponent({data, type='other', personalizedCaption='
 
     return (
         <div className='overflow-scroll card bg-light my-2 myDiv'>
-            <table className="table table-hover border caption-top table-sm table-bordered table-striped">
+            <table id={idTable} className="table table-hover border caption-top table-sm table-bordered table-striped">
                 <caption>{caption}</caption>
                 <thead className="bg-light">
 

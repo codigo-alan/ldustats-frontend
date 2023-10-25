@@ -1,3 +1,51 @@
 export function format(date) {
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }
+
+export function transformToTextDate(date) {
+    if (date == undefined) return '';
+    const dateSplited = date.split('-');
+    let month = '';
+    switch (dateSplited[2]) {
+        case '01':
+            month = 'enero';
+            break;
+        case '02':
+            month = 'febrero';
+            break;
+        case '03':
+            month = 'marzo';
+            break;
+        case '04':
+            month = 'abril';
+            break;
+        case '05':
+            month = 'mayo';
+            break;
+        case '06':
+            month = 'junio';
+            break;
+        case '07':
+            month = 'julio';
+            break;
+        case '08':
+            month = 'agosto';
+            break;
+        case '09':
+            month = 'septiembre';
+            break;
+        case '10':
+            month = 'octubre';
+            break;
+        case '11':
+            month = 'noviembre';
+            break;
+        case '12':
+            month = 'diciembre';
+            break;
+
+        default:
+            break;
+    }
+    return `${dateSplited[1]} de ${month} de ${dateSplited[0]}`;
+}
