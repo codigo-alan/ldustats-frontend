@@ -7,6 +7,9 @@ import { obtainDrillTitleCount } from "../../utils/ObtainDistinctDrillTitle";
 import { createWB, createWS, createWBout, s2ab } from "../../utils/ExportToExcel";
 import { saveAs } from 'file-saver';
 import toast from "react-hot-toast";
+import { faDownload, faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'react-tooltip';
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -43,7 +46,7 @@ export function FileDetailPage() {
             drillTitlesSet.forEach( drill => {
                 createWS(wb, document.getElementById(drill), drill);
             }); //for each drill create a worksheet
-            createWS(wb, document.getElementById('complete'), 'complete');
+            createWS(wb, document.getElementById('complete'), 'complete'); //ws for complete table
             const wbout = createWBout(wb); //write a wb with all the ws inside
             saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `LDU-U19_${sessions[0]?.date}.xlsx`); //download the file
         } catch (error) {
@@ -92,11 +95,16 @@ export function FileDetailPage() {
                 <h4 className="col-4">Fecha: {sessions[0]?.date}</h4>
                 <div className="col-4 d-flex justify-content-end">
                     <button
+                        data-tooltip-id="excel-tooltip"
+                        data-tooltip-content="Exportar tablas a excel"
+                        data-tooltip-place="left"
                         onClick={ downloadFile }
                         className="col-auto btn btn-success">
-                        Exportar a excel
+                            <FontAwesomeIcon className="pe-2" icon={faFileExcel}/>
+                        Exportar
                     </button>
                 </div>
+                <Tooltip id="excel-tooltip" />
             </div>
 
 
