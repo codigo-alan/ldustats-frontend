@@ -5,13 +5,26 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
 
 export function NavigationComponent() {
 
-    let userName = localStorage.getItem("username") ?? "Not logged";
+    //let userName = localStorage.getItem("activeUser") ?? "Not logged";
+    const [user, setUser] = useState(null);
 
     //use to know which is the current location
     const location = useLocation();
+
+    useEffect(() => {
+
+        function getUserName() {
+            const activeUser = JSON.parse(localStorage.getItem('activeUser'));
+            setUser(activeUser);
+        }
+
+        getUserName()
+    
+      }, [localStorage.getItem('activeUser')]);
 
     //if location is /login not render any, in other way shows the NavBar contain
     return (
@@ -25,9 +38,11 @@ export function NavigationComponent() {
                         <NavLink className="navLink" to="/players">Jugadores</NavLink>
                         <NavLink className="navLink" to="/files">Ficheros</NavLink>
                         <NavLink className="navLink" to="player-add">Agregar jugador</NavLink>
-                        <NavLink className="navLink" to="/user-add">Agregar usuario</NavLink>
+                        {user?.staff 
+                            ? <NavLink className="navLink" to="/user-add">Agregar usuario</NavLink>
+                            : <></>}
                         <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
-                        <NavDropdown className="dropdownLink" title={userName} id="basic-nav-dropdown">
+                        <NavDropdown className="dropdownLink" title={user?.name} id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Mi perfil</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="/login">

@@ -3,36 +3,47 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../services/auth.services";
 import { useEffect, useState } from "react";
+import { User } from "../../models/User";
 
 export function LoginPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm();
     const navigate = useNavigate();
+    const [activeUser, setActiveUser] = useState(null);
 
-    //at call of login delete local storage to delete token and username
+    //at call of login delete local storage to delete token and user
     useEffect(() => {
 
         function clearLocalStorage() {
-            localStorage.clear()
+            localStorage.clear();
         }
 
-        clearLocalStorage()
+        clearLocalStorage();
+        setActiveUser(null);
     
       }, []);
+
+    useEffect(() => {
+
+        if (activeUser) {
+            localStorage.setItem("activeUser", JSON.stringify(activeUser));
+            toast.success(`Logueado exitosamente\n${activeUser.name}`)
+            navigate("/players")
+        }
+
+    }, [activeUser]);
 
     const logIn = handleSubmit(async data => {
         try {
             const res = await loginUser(data)
 
-            console.log(res);
-
             //save in local storage the output from loginuser
             localStorage.setItem("auth", res.data.access);
             localStorage.setItem("refreshAuth", res.data.refresh);
-            localStorage.setItem("username", data.userName);
 
-            toast.success(`Logueado exitosamente\n${data.userName}`)
-            navigate("/players")
+            //create user
+            setActiveUser(new User(res.data.username, res.data.isStaff, res.data.isSuperuser));
+            
         } catch (error) {
             toast.error('No se ha podido iniciar sesión');
         }
