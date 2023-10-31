@@ -4,6 +4,7 @@ import { Container} from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';
 import { getIntervalSession } from "../../services/sessions.services";
 import { toast } from "react-hot-toast";
+import { verifyDates } from "../../utils/DateFormat";
 
 export function SearchReportComponent({onSearch}) {
     const [query, setQuery] = useState('');
@@ -15,12 +16,17 @@ export function SearchReportComponent({onSearch}) {
     };
 
     const search = handleSubmit(async data => {
-        try {
-            const res = await getIntervalSession(data);
-            console.log(res.data);
-            //console.log(data.name);
-        } catch (error) {
-            toast.error('Error al buscar reporte');
+        //console.log(verifyDates(new Date(data.startDate), new Date(data.endDate)));
+        if (new Date(data.startDate) < new Date(data.endDate)) {
+            try {
+                const res = await getIntervalSession(data);
+                console.log(res.data);
+                //console.log(data.name);
+            } catch (error) {
+                toast.error('Error al buscar reporte');
+            }
+        } else {
+            toast.error('La fecha de inicio debe ser menor a la fecha de fin');
         }
          
     })

@@ -49,3 +49,7 @@ export function transformToTextDate(date) {
     }
     return `${dateSplited[1]} de ${month} de ${dateSplited[0]}`;
 }
+
+export function verifyDates(initDate, endDate) {
+    return initDate < endDate
+}
