@@ -1,18 +1,29 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Container} from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';
+import { getIntervalSession } from "../../services/sessions.services";
+import { toast } from "react-hot-toast";
 
 export function SearchReportComponent({onSearch}) {
     const [query, setQuery] = useState('');
+    const { register, handleSubmit, formState:{errors} } = useForm();
 
     const handleInputChange = (event) => {
         setQuery(event.target.value);
         onSearch(event.target.value);
     };
 
-    const search = () => {
-        console.log("Searching");
-    }
+    const search = handleSubmit(async data => {
+        try {
+            const res = await getIntervalSession(data);
+            console.log(res.data);
+            //console.log(data.name);
+        } catch (error) {
+            toast.error('Error al buscar reporte');
+        }
+         
+    })
     
     return(
         <Container className="ps-0">
@@ -25,7 +36,9 @@ export function SearchReportComponent({onSearch}) {
                         data-tooltip-place="top"
                         type="text" 
                         placeholder="Nombre de jugador"
-                        className="form-control"/>
+                        className="form-control"
+                        {...register('name', { required: true })}/>
+                        {errors.id && <span className="text-danger">Campo requerido</span>}
                 </div>
                 <div className="col-3">
                     <input 
@@ -34,7 +47,9 @@ export function SearchReportComponent({onSearch}) {
                         data-tooltip-place="top"
                         type="date" 
                         placeholder="Fecha inicial"
-                        className="form-control"/>
+                        className="form-control"
+                        {...register('startDate', { required: true })}/>
+                        {errors.id && <span className="text-danger">Campo requerido</span>}
                 </div>
                 <div className="col-3">
                     <input 
@@ -43,7 +58,9 @@ export function SearchReportComponent({onSearch}) {
                         data-tooltip-place="top"
                         type="date" 
                         placeholder="Fecha final"
-                        className="form-control"/>
+                        className="form-control"
+                        {...register('endDate', { required: true })}/>
+                        {errors.id && <span className="text-danger">Campo requerido</span>}
                 </div>
                 <div className="col-3 d-flex justify-content-end">
                     <button
