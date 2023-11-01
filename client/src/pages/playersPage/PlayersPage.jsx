@@ -35,10 +35,8 @@ export function PlayersPage() {
   };
 
   function obtainOneDate(result) {
-    if (result != undefined && result.length != 0) {
-      return format(new Date(result[0]['Session Date']));
-    }
-    else return null;
+    return (result != undefined && result.length != 0) ? 
+        format(result[0]['Session Date']) : null;
   }
 
   const handleFileChange = (event) => {
@@ -96,7 +94,7 @@ export function PlayersPage() {
       const sessions = JSON.parse(jsonData);
       var errors = 0;
       sessions.forEach(async element => {
-        element['Session Date'] = format(new Date(element['Session Date']));
+        element['Session Date'] = format(element['Session Date']);
         const timeMinutes = convertTimeToMinutes( element['Total Time']);
         const accByMin = calculateByTime(element['Accelerations'], timeMinutes);
         const decByMin = calculateByTime(element['Decelerations'], timeMinutes);

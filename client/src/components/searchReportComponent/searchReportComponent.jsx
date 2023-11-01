@@ -22,6 +22,8 @@ export function SearchReportComponent({onSearch}) {
                 const res = await getIntervalSession(data);
                 console.log(res.data);
                 //console.log(data.name);
+                console.log(data.startDate);
+                //console.log((new Date(data.startDate).toLocaleDateString()));
             } catch (error) {
                 toast.error('Error al buscar reporte');
             }

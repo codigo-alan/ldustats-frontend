@@ -1,12 +1,13 @@
-export function format(date) {
-    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+export function format(strDate) {
+    const dateSplited = strDate.split('/').reverse();
+    return `${dateSplited.join('-')}`;
 }
 
 export function transformToTextDate(date) {
     if (date == undefined) return '';
     const dateSplited = date.split('-');
     let month = '';
-    switch (dateSplited[2]) {
+    switch (dateSplited[1]) {
         case '01':
             month = 'enero';
             break;
@@ -47,7 +48,7 @@ export function transformToTextDate(date) {
         default:
             break;
     }
-    return `${dateSplited[1]} de ${month} de ${dateSplited[0]}`;
+    return `${dateSplited[2]} de ${month} de ${dateSplited[0]}`;
 }
 
 export function verifyDates(initDate, endDate) {
