@@ -29,6 +29,10 @@ export function SessionsPage() {
 
     }, []);
 
+    const searchedData = (childData) => {
+        setSessions(childData);
+    }
+
     /* useEffect( () => {
         if (sessions) {
             console.log(sessions[0]['date']);
@@ -42,7 +46,7 @@ export function SessionsPage() {
                 <h2 className="mb-3">Reportes de intervalos</h2>
             </div>
             
-            <SearchReportComponent></SearchReportComponent>
+            <SearchReportComponent onSearched={searchedData} ></SearchReportComponent>
 
             <div className="row">
                 <TableSessionComponent data={sessions} type='allSessions'></TableSessionComponent>

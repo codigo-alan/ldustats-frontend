@@ -4,27 +4,26 @@ import { Container} from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';
 import { getIntervalSession } from "../../services/sessions.services";
 import { toast } from "react-hot-toast";
-import { verifyDates } from "../../utils/DateFormat";
 
-export function SearchReportComponent({onSearch}) {
+export function SearchReportComponent({onSearched}) {
     const [query, setQuery] = useState('');
+    const [data, setData] = useState([]);
     const { register, handleSubmit, formState:{errors} } = useForm();
 
-    const handleInputChange = (event) => {
+    /* const handleInputChange = (event) => {
         setQuery(event.target.value);
         onSearch(event.target.value);
-    };
+    }; */
 
     const search = handleSubmit(async data => {
-        //console.log(verifyDates(new Date(data.startDate), new Date(data.endDate)));
+
         if (new Date(data.startDate) < new Date(data.endDate)) {
             try {
                 const res = await getIntervalSession(data);
                 console.log(res.data);
-                //console.log(data.name);
-                console.log(data.startDate);
-                //console.log((new Date(data.startDate).toLocaleDateString()));
+                onSearched(res.data);
             } catch (error) {
+                onSearched([]);
                 toast.error('Error al buscar reporte');
             }
         } else {
