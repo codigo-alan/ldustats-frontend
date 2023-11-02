@@ -41,7 +41,7 @@ export function NavigationComponent() {
                         {user?.staff 
                             ? <NavLink className="navLink" to="/user-add">Agregar usuario</NavLink>
                             : <></>}
-                        <NavLink className="navLink" to="/sessions">Sesiones</NavLink>
+                        <NavLink className="navLink" to="/sessions">Intervalos</NavLink>
                         <NavDropdown className="dropdownLink" title={user?.name} id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Mi perfil</NavDropdown.Item>
                             <NavDropdown.Divider />

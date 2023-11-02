@@ -8,11 +8,6 @@ const playersApi = axios.create({
 
 addInterceptors(playersApi);
 
-
-/* export const getAllPlayers = (headers) => {
-    return playersApi.get('/', {headers: headers});
-} */
-
 export const getAllPlayers = () => {
     return playersApi.get('/');
 }
