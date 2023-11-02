@@ -4,27 +4,27 @@ import { Container} from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';
 import { getIntervalSession } from "../../services/sessions.services";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-export function SearchReportComponent({onSearched}) {
-    const [query, setQuery] = useState('');
-    const [data, setData] = useState([]);
+export function SearchReportComponent({onSearched, wasSearched=false}) {
+
     const { register, handleSubmit, formState:{errors} } = useForm();
+    const navigate = useNavigate();
 
-    /* const handleInputChange = (event) => {
-        setQuery(event.target.value);
-        onSearch(event.target.value);
-    }; */
 
     const search = handleSubmit(async data => {
 
         if (new Date(data.startDate) < new Date(data.endDate)) {
             try {
                 const res = await getIntervalSession(data);
-                console.log(res.data);
-                onSearched(res.data);
+                onSearched(res.data); //output to the parent
+                wasSearched(true); //indicates that was a search
             } catch (error) {
                 onSearched([]);
-                toast.error('Error al buscar reporte');
+                (error.response.status == 401 
+                    || error.response.status == 403) 
+                    ? navigate(`/login`) 
+                        : toast.error('Error al buscar reporte');//if unauthorized or without credentials 
             }
         } else {
             toast.error('La fecha de inicio debe ser menor a la fecha de fin');
