@@ -41,7 +41,7 @@ export function SessionsPage() {
                         <TableSessionComponent 
                             data={sessions} 
                             type='allSessions'>
-                        </TableSessionComponent> : <p>Al realizar una búsqueda visualizará aquí los datos</p>}
+                        </TableSessionComponent> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>}
             </div>
         </div>
     );

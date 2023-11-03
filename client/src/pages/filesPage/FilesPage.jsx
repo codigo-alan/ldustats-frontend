@@ -3,6 +3,8 @@ import { TableComponent } from "../../components/tableComponent/TableComponent";
 import { SearchBarComponent } from "../../components/searchBarComponent/SearchBarComponent";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FileSelectorComponent } from "../../components/fileSelectorComponent/FileSelectorComponent";
+
 
 export function FilesPage(){
     const [files, setFiles] = useState([]); //declare files
@@ -33,14 +35,26 @@ export function FilesPage(){
 
     }, []);
 
+    const addFileToList = (newFile) => {
+        console.log(files);
+        setFilesFiltered([...filesFiltered, newFile]);
+        console.log(newFile.id);
+    }
+
     return (
         <div className="container p-3">
             <div>
                 <h2>Ficheros subidos</h2>
             </div>
-            <div className="my-2">
-                <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
+            <div className="my-2 row">
+                <div className="col-6">
+                    <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
+                </div>
+                <div className="d-flex col-6 align-items-center justify-content-end">
+                    <FileSelectorComponent addedFile={addFileToList}></FileSelectorComponent>
+                </div>
             </div>
+            
             <div className="row">
                 <TableComponent data={filesFiltered} type={'files'}></TableComponent>
             </div>

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Container} from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Form, Col } from "react-bootstrap";
 
-export function SearchBarComponent({onSearch, type='players'}) {
+export function SearchBarComponent({onSearch, type='players', width=4}) {
     const [placeholder, setPlaceHolder] = useState([]);
     const [query, setQuery] = useState('');
 
@@ -23,7 +23,7 @@ export function SearchBarComponent({onSearch, type='players'}) {
 
     return (
         <Container className="ps-0">
-            <Col sm={4}>
+            <Col sm={width}>
                 <Form>
                     <Form.Control
                         type="search"
