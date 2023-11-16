@@ -47,10 +47,10 @@ export function TableComponent({data, type, idPlayer}) {
     }
     
     return (
-        <div>
+        <div className="parentTableDiv">
             <table className="table table-hover border table-borderless">
                 <caption>{caption}</caption>
-                <thead className="bg-light ">
+                <thead className="bg-light position-sticky top-0">
                     {(type == 'players') && 
                         <tr>
                             <th>Nombre</th>
