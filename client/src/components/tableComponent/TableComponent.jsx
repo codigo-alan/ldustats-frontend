@@ -2,6 +2,11 @@ import { useNavigate } from "react-router-dom";
 import './tableComponent.css'
 import { useEffect, useState } from "react";
 import { calculateAge } from "../../utils/CalculateAge";
+import toast from "react-hot-toast";
+import { Tooltip } from 'react-tooltip';
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { deleteFile } from "../../services/files.services";
 
 export function TableComponent({data, type, idPlayer}) {
 
@@ -39,6 +44,19 @@ export function TableComponent({data, type, idPlayer}) {
         }else {
             navigate(`/files/${id}/${idPlayer}`)
         } 
+        
+    };
+    const windowRemoveFile = async (id) => {
+        const accepted = window.confirm(`Desea eliminar el archivo ${id} y todas sus sesiones?`);
+        if (accepted) {
+            try {
+                await deleteFile(id);
+                toast.success(`Eliminado el archivo ${id}`);
+            } catch (error) {
+                toast.error("Hubo un error al eliminar el archivo");
+            }
+            
+        }
         
     };
 
@@ -90,9 +108,22 @@ export function TableComponent({data, type, idPlayer}) {
                     })}
                     {(type == 'files') && data.map((element) => {
                         return (
-                            <tr className="tableRow" onClick={ () => fileClicked(element.id) } key={element.id} >
-                                <td>{element.id}</td>
-                                <td>{element.date}</td>
+                            <tr className="" key={element.id} >
+                                <td>
+                                    <a className="clickableId text-decoration-none" onClick={ () => fileClicked(element.id) } >{element.id}</a>
+                                </td>
+                                <td  >{element.date}</td>
+                                <td className="d-flex justify-content-end">
+                                    <button
+                                        className="btn btn-danger"
+                                        data-tooltip-id="info-tooltip"
+                                        data-tooltip-content="Eliminar archivo"
+                                        data-tooltip-place="left"
+                                        onClick={ () => windowRemoveFile(element.id)}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </td>
+                                <Tooltip id="info-tooltip" />
                             </tr>
                         )
                     })}
