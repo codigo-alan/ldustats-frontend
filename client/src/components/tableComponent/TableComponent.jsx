@@ -113,16 +113,18 @@ export function TableComponent({data, type, idPlayer}) {
                                     <a className="clickableId text-decoration-none" onClick={ () => fileClicked(element.id) } >{element.id}</a>
                                 </td>
                                 <td  >{element.date}</td>
-                                <td className="d-flex justify-content-end">
-                                    <button
-                                        className="btn btn-danger"
-                                        data-tooltip-id="info-tooltip"
-                                        data-tooltip-content="Eliminar archivo"
-                                        data-tooltip-place="left"
-                                        onClick={ () => windowRemoveFile(element.id)}>
+                                {(idPlayer == undefined) ?
+                                    (<td className="d-flex justify-content-end">
+                                        <button
+                                            className="btn btn-danger"
+                                            data-tooltip-id="info-tooltip"
+                                            data-tooltip-content="Eliminar archivo"
+                                            data-tooltip-place="left"
+                                            onClick={() => windowRemoveFile(element.id)}>
                                             <FontAwesomeIcon icon={faTrash} />
-                                    </button>
-                                </td>
+                                        </button>
+                                    </td>) : (<></>)}
+                                
                                 <Tooltip id="info-tooltip" />
                             </tr>
                         )
