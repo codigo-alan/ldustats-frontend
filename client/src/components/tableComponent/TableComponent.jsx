@@ -2,13 +2,11 @@ import { useNavigate } from "react-router-dom";
 import './tableComponent.css'
 import { useEffect, useState } from "react";
 import { calculateAge } from "../../utils/CalculateAge";
-import toast from "react-hot-toast";
 import { Tooltip } from 'react-tooltip';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { deleteFile } from "../../services/files.services";
 
-export function TableComponent({data, type, idPlayer}) {
+export function TableComponent({data, type, idPlayer, fileIdToRemove}) {
 
     const [caption, setCaption] = useState('');
 
@@ -46,18 +44,8 @@ export function TableComponent({data, type, idPlayer}) {
         } 
         
     };
-    const windowRemoveFile = async (id) => {
-        const accepted = window.confirm(`Desea eliminar el archivo ${id} y todas sus sesiones?`);
-        if (accepted) {
-            try {
-                await deleteFile(id);
-                toast.success(`Eliminado el archivo ${id}`);
-            } catch (error) {
-                toast.error("Hubo un error al eliminar el archivo");
-            }
-            
-        }
-        
+    const windowRemoveFile = (id) => {
+        fileIdToRemove(id);  
     };
 
     const getAge = (birth) => {
