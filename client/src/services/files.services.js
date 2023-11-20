@@ -19,5 +19,7 @@ export const getAllFiles = () => filesApi.get(`/`);
 
 export const addFile = (file) => filesApi.post('/', file);
 
+export const deleteFile = (id) => filesApi.delete(`/${id}`);
+
 export const getFilesByIds = (ids) => filesFilterApi.get('/', 
 {params: {ids: ids}});

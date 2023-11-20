@@ -24,7 +24,7 @@ export function TableSessionComponent({idTable='', data, type='other', personali
         <div className='overflow-scroll card bg-light my-2 myDiv'>
             <table id={idTable} className="table table-hover border caption-top table-sm table-bordered table-striped">
                 <caption>{caption}</caption>
-                <thead className="bg-light">
+                <thead className="bg-light position-sticky top-0 ">
 
                         <tr className='text-center'>
                             <th>Nombre</th>
