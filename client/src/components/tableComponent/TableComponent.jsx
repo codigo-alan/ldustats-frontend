@@ -2,8 +2,11 @@ import { useNavigate } from "react-router-dom";
 import './tableComponent.css'
 import { useEffect, useState } from "react";
 import { calculateAge } from "../../utils/CalculateAge";
+import { Tooltip } from 'react-tooltip';
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function TableComponent({data, type, idPlayer}) {
+export function TableComponent({data, type, idPlayer, fileIdToRemove}) {
 
     const [caption, setCaption] = useState('');
 
@@ -40,6 +43,9 @@ export function TableComponent({data, type, idPlayer}) {
             navigate(`/files/${id}/${idPlayer}`)
         } 
         
+    };
+    const windowRemoveFile = (id) => {
+        fileIdToRemove(id);  
     };
 
     const getAge = (birth) => {
@@ -90,9 +96,24 @@ export function TableComponent({data, type, idPlayer}) {
                     })}
                     {(type == 'files') && data.map((element) => {
                         return (
-                            <tr className="tableRow" onClick={ () => fileClicked(element.id) } key={element.id} >
-                                <td>{element.id}</td>
-                                <td>{element.date}</td>
+                            <tr className="" key={element.id} >
+                                <td>
+                                    <a className="clickableId text-decoration-none" onClick={ () => fileClicked(element.id) } >{element.id}</a>
+                                </td>
+                                <td  >{element.date}</td>
+                                {(idPlayer == undefined) ?
+                                    (<td className="d-flex justify-content-end">
+                                        <button
+                                            className="btn btn-danger"
+                                            data-tooltip-id="info-tooltip"
+                                            data-tooltip-content="Eliminar archivo"
+                                            data-tooltip-place="left"
+                                            onClick={() => windowRemoveFile(element.id)}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </td>) : (<></>)}
+                                
+                                <Tooltip id="info-tooltip" />
                             </tr>
                         )
                     })}

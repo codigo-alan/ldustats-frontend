@@ -10,3 +10,8 @@
 
 
 
+.clickableId:hover{
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+}

@@ -4,6 +4,8 @@ import { SearchBarComponent } from "../../components/searchBarComponent/SearchBa
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FileSelectorComponent } from "../../components/fileSelectorComponent/FileSelectorComponent";
+import toast from "react-hot-toast";
+import { deleteFile } from "../../services/files.services";
 
 
 export function FilesPage(){
@@ -41,6 +43,21 @@ export function FilesPage(){
         console.log(newFile.id);
     }
 
+    const removeFile = async (removedFileId) => {
+        const accepted = window.confirm(`Desea eliminar el archivo ${removedFileId} y todas sus sesiones?`);
+        if (accepted) {
+            try {
+                await deleteFile(removedFileId);
+                const newFilesList = filesFiltered.filter(element => element.id !== removedFileId);
+                setFilesFiltered(newFilesList);
+                toast.success(`Eliminado el archivo ${removedFileId}`);
+            } catch (error) {
+                toast.error("Hubo un error al eliminar el archivo");
+            }
+        }
+        
+    }
+
     return (
         <div className="container p-3">
             <div>
@@ -56,7 +73,7 @@ export function FilesPage(){
             </div>
             
             <div className="row">
-                <TableComponent data={filesFiltered} type={'files'}></TableComponent>
+                <TableComponent data={filesFiltered} type={'files'} fileIdToRemove={removeFile} ></TableComponent>
             </div>
         </div>
     );
