@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { TableSessionComponent } from "../../components/tableSessionComponent/TableSessionComponent";
 import { useNavigate } from "react-router-dom";
 import { SearchReportComponent } from "../../components/searchReportComponent/searchReportComponent";
+import { ExcelReportComponent } from "../../components/excelReportComponent/ExcelReportComponent";
 
 export function SessionsPage() {
 
@@ -38,10 +39,14 @@ export function SessionsPage() {
 
             <div className="row">
                 {searched ? 
-                        <TableSessionComponent 
-                            data={sessions} 
+                    <div>
+                        <ExcelReportComponent sessions={sessions}></ExcelReportComponent>
+                        <TableSessionComponent
+                            idTable="all"
+                            data={sessions}
                             type='allSessions'>
-                        </TableSessionComponent> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>}
+                        </TableSessionComponent>
+                    </div> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>}
             </div>
         </div>
     );
