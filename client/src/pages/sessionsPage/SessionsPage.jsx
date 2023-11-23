@@ -56,7 +56,7 @@ export function SessionsPage() {
                         {insertTables(dateSet, sessions)}
                     </div> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>
                 }
-                {(sessions.length == 0) && <p>No hay datos</p>}
+                {(sessions.length == 0) && searched && <p className="w-auto m-auto">No hay datos coincidentes con la búsqueda establecida</p>}
 
             </div>
         </div>
