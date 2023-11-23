@@ -7,3 +7,11 @@ export function obtainDrillTitleCount(sessions) {
     });
     return drillTitlesList;
 }
+
+export function obtainDateSet(sessions) {
+    let datesList = [];
+    sessions.forEach(s => {
+        if (!datesList.includes(s.date)) datesList.push(s.date);
+    });
+    return datesList;
+}

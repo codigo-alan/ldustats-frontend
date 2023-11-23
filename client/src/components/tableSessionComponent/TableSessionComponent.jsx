@@ -12,7 +12,7 @@ export function TableSessionComponent({idTable='', data, type='other', personali
 
         function setCaptionValue() {
             if (type == 'complete') setCaption('RESUMEN COMPLETO');
-            if (type == 'allSessions') setCaption('TODAS LAS SESIONES');
+            if (type == 'allSessions') setCaption(personalizedCaption.toUpperCase());
             if (type == 'other') setCaption(personalizedCaption.toUpperCase());
         }
 
