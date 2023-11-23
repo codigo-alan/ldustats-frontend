@@ -3,13 +3,15 @@ import { TableSessionComponent } from "../../components/tableSessionComponent/Ta
 import { useNavigate } from "react-router-dom";
 import { SearchReportComponent } from "../../components/searchReportComponent/searchReportComponent";
 import { ExcelReportComponent } from "../../components/excelReportComponent/ExcelReportComponent";
+import { obtainDateSet } from "../../utils/ObtainDistinct";
 
 export function SessionsPage() {
 
     const [sessions, setSessions] = useState([]); //declare sessions
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [searched, setSearched] = useState(false); //declare sessions
+    const [searched, setSearched] = useState(false);
+    const [dateSet, setDateSet] = useState([]);
 
     useEffect( () => {
 
@@ -21,6 +23,16 @@ export function SessionsPage() {
         localStorage.getItem('activeUser') ? getUserName() : navigate(`/login`);
 
     }, [] );
+
+    //called when sessions change
+    useEffect( () => {
+
+        if (sessions.length != 0) {
+            setDateSet(obtainDateSet(sessions));
+        }else setDateSet([]);
+        console.log(sessions);
+
+    }, [sessions] );
 
     const searchedData = (childData) => {
         setSessions(childData);
@@ -40,15 +52,29 @@ export function SessionsPage() {
             <div className="row">
                 {searched ? 
                     <div>
-                        <ExcelReportComponent sessions={sessions}></ExcelReportComponent>
-                        <TableSessionComponent
-                            idTable="all"
-                            data={sessions}
-                            type='allSessions'>
-                        </TableSessionComponent>
-                    </div> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>}
+                        <ExcelReportComponent sessions={sessions} isInterval={true} dateSet={dateSet} player={sessions[0]?.name} ></ExcelReportComponent>
+                        {insertTables(dateSet, sessions)}
+                    </div> : <p>Al realizar una búsqueda se mostrarán aquí los datos</p>
+                }
+                {(sessions.length == 0) && <p>No hay datos</p>}
+
             </div>
         </div>
     );
     
 };
+
+function insertTables(dateSet, sessions) {
+    return dateSet.map((e, i) => {
+        return(
+            <div key={i} className="row">
+                <TableSessionComponent 
+                    idTable={e}
+                    type="allSessions"
+                    data={sessions?.filter(session => session.date == e)} 
+                    personalizedCaption={e}>
+                </TableSessionComponent>
+            </div>
+        );
+    })
+}

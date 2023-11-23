@@ -3,14 +3,10 @@ import { TableSessionComponent } from "../../components/tableSessionComponent/Ta
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
-import { obtainDrillTitleCount } from "../../utils/ObtainDistinctDrillTitle";
-import { createWB, createWS, createWBout, s2ab } from "../../utils/ExportToExcel";
-import { saveAs } from 'file-saver';
-import toast from "react-hot-toast";
-import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { obtainDrillTitleCount } from "../../utils/ObtainDistinct";
 import { Tooltip } from 'react-tooltip';
 import { transformToTextDate } from "../../utils/DateFormat";
+import { ExcelReportComponent } from "../../components/excelReportComponent/ExcelReportComponent";
 
 export function FileDetailPage() {
     const { id, idplayer } = useParams();
@@ -40,20 +36,6 @@ export function FileDetailPage() {
             completeSessions.push(calculateCompleteSession(playerSessions));
         });
         return completeSessions; //return a list of complete session
-    }
-
-    const downloadFile = () => {
-        try {
-            const wb = createWB(sessions[0]?.date); //create workbook
-            drillTitlesSet.forEach( drill => {
-                createWS(wb, document.getElementById(drill), drill);
-            }); //for each drill create a worksheet
-            createWS(wb, document.getElementById('complete'), 'complete'); //ws for complete table
-            const wbout = createWBout(wb); //write a wb with all the ws inside
-            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `LDU-U19_${sessions[0]?.date}.xlsx`); //download the file
-        } catch (error) {
-            toast.error(`Error al descargar el fichero.\n ${error}`)
-        }
     }
 
     //call when id from params change
@@ -104,15 +86,7 @@ export function FileDetailPage() {
                     Fecha: {textDate}
                 </h5>
                 <div className="col-4 d-flex justify-content-start">
-                    <button
-                        data-tooltip-id="excel-tooltip"
-                        data-tooltip-content="Exportar tablas a excel"
-                        data-tooltip-place="right"
-                        onClick={ downloadFile }
-                        className="col-auto btn btn-success">
-                            <FontAwesomeIcon className="pe-2" icon={faFileExcel}/>
-                        Exportar
-                    </button>
+                    <ExcelReportComponent sessions={sessions} isInterval={false} drillTitlesSet={drillTitlesSet}></ExcelReportComponent>
                 </div>
                 <Tooltip id="excel-tooltip" />
             </div>
