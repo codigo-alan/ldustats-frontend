@@ -10,7 +10,7 @@ export function ExcelReportComponent({
     isInterval = false, 
     drillTitlesSet = [], 
     dateSet = [], 
-    player = 'Interval'}) {
+    player = ''}) {
 
     const downloadFile = () => {
         try {
@@ -28,7 +28,7 @@ export function ExcelReportComponent({
                 }); //for each drill create a worksheet
                 createWS(wb, document.getElementById('complete'), 'complete'); //ws for complete table
                 const wbout = createWBout(wb); //write a wb with all the ws inside
-                saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), `LDU-U19_${sessions[0]?.date}.xlsx`); //download the file
+                saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), `LDU-U19_${player}_${sessions[0]?.date}.xlsx`); //download the file
             }
             
         } catch (error) {
