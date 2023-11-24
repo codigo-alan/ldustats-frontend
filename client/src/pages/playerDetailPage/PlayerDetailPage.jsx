@@ -14,6 +14,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'react-tooltip';
+import { HistoricalInfoPlayerComponent } from "../../components/historicalInfoPlayerComponent/HistoricalInfoPlayerComponent";
 
 
 export function PlayerDetailPage() {
@@ -267,10 +268,11 @@ export function PlayerDetailPage() {
                 
                 <div className="col-3">
                     
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex gap-2 flex-column justify-content-end">
                         <div className="card col-6 h-50">
-                            <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
+                            <img className="w-50 h-50" src={images.PROFILE} alt="profile" />
                         </div>
+                        <HistoricalInfoPlayerComponent playerId={id}></HistoricalInfoPlayerComponent>
                     </div>
                 </div>
 
