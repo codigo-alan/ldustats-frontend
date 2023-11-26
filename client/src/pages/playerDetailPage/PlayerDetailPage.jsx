@@ -24,6 +24,7 @@ export function PlayerDetailPage() {
     const [error, setError] = useState("") //not in use
 
     const [player, setPlayer] = useState([])
+    const [playerRef, setPlayerRef] = useState('');
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
     const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
@@ -82,7 +83,8 @@ export function PlayerDetailPage() {
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
-                setAge(calculateAge(res.data.birth)  )
+                setAge(calculateAge(res.data.birth))
+                setPlayerRef(res.data.ref);
                 
             } catch (error) {
                 if (error.response.status == 401 || error.response.status == 403) {
@@ -272,7 +274,7 @@ export function PlayerDetailPage() {
                         <div className="card col-6 h-50">
                             <img className="w-50 h-50" src={images.PROFILE} alt="profile" />
                         </div>
-                        <HistoricalInfoPlayerComponent playerId={id}></HistoricalInfoPlayerComponent>
+                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
                     </div>
                 </div>
 

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { getHistoricalInfoById } from "../../services/players.services";
 
-export function HistoricalInfoPlayerComponent({playerId}) {
+export function HistoricalInfoPlayerComponent({playerRef}) {
     
     const {register, setValue} = useForm();
 
@@ -11,19 +11,20 @@ export function HistoricalInfoPlayerComponent({playerId}) {
     useEffect( () => {
         async function getPlayerHistorical() {
             try {
-                const res = await getHistoricalInfoById(playerId);
+                const res = await getHistoricalInfoById(playerRef);
+                console.log(res);
                 setValue('velMax', res.data.velMax) 
             } catch (error) {
                 toast.error(error);
             }
         }
 
-        if (playerId != undefined) {
-            //getPlayerHistorical();
-            console.log(playerId);
+        if (playerRef != undefined) {
+            //getPlayerHistorical(); //TODO error, 404 on endpoint
+            console.log(playerRef);
         } 
 
-    }, [playerId] )
+    }, [playerRef] )
 
 
     return (
