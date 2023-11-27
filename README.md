@@ -26,9 +26,9 @@ The project is structured as follows:
 &nbsp;&nbsp;&nbsp;&nbsp;📁 assets -> Audiovisual elements  
 &nbsp;&nbsp;&nbsp;&nbsp;📁 components -> Created components to re-use in the app  
 &nbsp;&nbsp;&nbsp;&nbsp;📁 models -> Contains use cases  
-&nbsp;&nbsp;&nbsp;&nbsp;📁 pages -> Contains the views where the user can interact 
-&nbsp;&nbsp;&nbsp;&nbsp;📁 services -> Queries schema with the endpoints to the API REST
-&nbsp;&nbsp;&nbsp;&nbsp;📁 utils -> Utilities and funcionalities to use accross the app  
+&nbsp;&nbsp;&nbsp;&nbsp;📁 pages -> Contains the views where the user can interact   
+&nbsp;&nbsp;&nbsp;&nbsp;📁 services -> Queries schema with the endpoints to the API REST  
+&nbsp;&nbsp;&nbsp;&nbsp;📁 utils -> Utilities and funcionalities to use accross the app    
 
 ### Technologies
 
