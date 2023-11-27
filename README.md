@@ -1,4 +1,4 @@
-# ⌨ LDU STATS - FRONTEND ⌨
+# LDU STATS - FRONTEND ⌨ 🌐
 
 Collect biometric and performance data from players' vests during football practice to improve athletic performance, customization of training programs, player health monitoring, etc.
 
