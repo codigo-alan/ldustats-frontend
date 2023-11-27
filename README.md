@@ -33,6 +33,6 @@ The project is structured as follows:
 ## Technologies
 
 * Vite with React JavaScript for the client side 🌐
-* Django and Django Rest Framework for the server side 👉👉 [ldustats-backend](https://github.com/codigo-alan/ldustats-backend). codigo-alan/ldustats-backend ⚙️
+* Django and Django Rest Framework for the server side 👉👉 [ldustats-backend](https://github.com/codigo-alan/ldustats-backend) ⚙️
 * PostgreSQL 🗄️
 
