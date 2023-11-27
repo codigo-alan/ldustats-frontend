@@ -16,7 +16,7 @@ The project aims to improve decision-making in sports training through detailed 
 * 📚 React - To build interactive UI and components
 * 📚 Axios - For networking and API communication
 * 📚 Bootstrap - For styles
-* 📚 react-jwt - For implement the authentication with Jason Web Token
+* 📚 react-jwt - For implement the authentication with Json Web Token
 
 ## Folder Structure 📁
 The project is structured as follows:
@@ -29,4 +29,10 @@ The project is structured as follows:
 &nbsp;&nbsp;&nbsp;&nbsp;📁 pages -> Contains the views where the user can interact   
 &nbsp;&nbsp;&nbsp;&nbsp;📁 services -> Queries schema with the endpoints to the API REST  
 &nbsp;&nbsp;&nbsp;&nbsp;📁 utils -> Utilities and funcionalities to use accross the app    
+
+## Technologies
+
+* Vite with React JavaScript for the client side 🌐
+* Django and Django Rest Framework for the server side 👉👉 codigo-alan/ldustats-backend ⚙️
+* PostgreSQL 🗄️
 
