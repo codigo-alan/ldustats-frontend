@@ -8,7 +8,7 @@ Allow coaching staff members generation of detailed reports on player performanc
 
 Enhanced understanding of players' physical performance and the ability to adjust training strategies more effectively.
 
-The project aims to improve decision-making in sports training through detailed analysis of data from players' vests.
+The project aims to improve decision-making in sports training through detailed analysis of data from players' vests 📈
 
 
 ## Libraries 📚
