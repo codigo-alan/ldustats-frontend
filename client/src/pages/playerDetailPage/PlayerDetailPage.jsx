@@ -139,7 +139,7 @@ export function PlayerDetailPage() {
     return(
         <div className="container p-3">
             <div className="row col-6">
-                <h2 className="col-8">{player.name}</h2>
+                <h2 className="col-7">{player.name}</h2>
                 {/* Edit and Delete buttons */}
                 <div className="d-flex justify-content-end gap-2 col-4">
                     <button
@@ -174,7 +174,7 @@ export function PlayerDetailPage() {
                 
                 <form className="d-grid gap-2" onSubmit={update}>
                     <div className="row ps-2">
-                        <div className="card gap-2 p-2 bg-light col-8">
+                        <div className="card gap-2 p-2 bg-light col-7">
                             <div className="form-group row">
                                 <label className="col-2 col-form-label">Id:</label>
                                 <div className="col-4">
@@ -267,17 +267,20 @@ export function PlayerDetailPage() {
                     )}
 
                 </form>
-                
+
                 <div className="col-3">
                     
-                    <div className="d-flex gap-2 flex-column justify-content-end">
-                        <div className="card col-6 h-50">
-                            <img className="w-50 h-50" src={images.PROFILE} alt="profile" />
+                    <div className="d-flex justify-content-center">
+                        <div className="col-9">
+                            <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
                         </div>
-                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
+
+                        <div className="card col-3 h-50 ms-4">
+                            <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
+                        </div>
                     </div>
                 </div>
-
+                
             </div>
             <h2 className="mt-4">Ficheros del jugador</h2>
             <div className="my-2">
