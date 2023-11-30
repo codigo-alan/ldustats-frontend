@@ -22,7 +22,4 @@ export const updatePlayer = (id, player, ) => playersApi.put(`/${id}/`, player)
 
 export const getSessionsByPlayer = (playerId, ) => playersApi.get(`/${playerId}/sessions`); 
 
-export const getHistoricalInfoById = (id) => playersApi.get(`/historical-info`,
-    {params: {idParam: id}}); //obtains the historical info of determinated player TODO add in backend this endpoint and view
-
 
