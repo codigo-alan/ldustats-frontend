@@ -20,7 +20,7 @@ export function HistoricalInfoPlayerComponent({playerRef}) {
         }
 
         if (playerRef != undefined && playerRef != '') {
-            getPlayerHistorical(); //TODO error, 404 on endpoint
+            getPlayerHistorical();
         } 
 
     }, [playerRef] )
