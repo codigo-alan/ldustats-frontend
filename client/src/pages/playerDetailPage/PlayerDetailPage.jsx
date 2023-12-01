@@ -170,11 +170,11 @@ export function PlayerDetailPage() {
                 </div>
             </div>
             
-            <div className="d-flex gap-3 flex-row mt-2">
+            <div className="d-flex justify-content-between flex-row mt-2">
                 
-                <form className="d-grid gap-2" onSubmit={update}>
-                    <div className="row ps-2">
-                        <div className="card gap-2 p-2 bg-light col-7">
+                <div className="col-6">
+                    <form className="d-grid gap-2" onSubmit={update}>
+                        <div className="card gap-2 p-2 bg-light col-12">
                             <div className="form-group row">
                                 <label className="col-2 col-form-label">Id:</label>
                                 <div className="col-4">
@@ -255,33 +255,35 @@ export function PlayerDetailPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-4 d-flex justify-content-center">
-                            <img className="w-50" src={positionImage} alt="positionImage" />
-                        </div>
-                        
+                        {isEditing && (
+                            <div className="d-flex justify-content-start">
+                                <button className="btn btn-primary" type="submit">Guardar cambios</button>
+                            </div>
+                        )}
+                    </form>
+                </div>
+
+
+
+                <div className="col-6 d-flex justify-content-center">
+                    <div className="col-6">
+                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
                     </div>
-                    {isEditing && (
-                        <div className="d-flex justify-content-start">
-                            <button className="btn btn-primary" type="submit">Guardar cambios</button>
-                        </div>
-                    )}
 
-                </form>
-
-                <div className="col-3">
-                    
-                    <div className="d-flex justify-content-center">
-                        <div className="col-9">
-                            <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
-                        </div>
-
-                        <div className="card col-3 h-50 ms-4">
+                    <div className="col-6 d-flex justify-content-center flex-column ">
+                        <div className="card w-50 h-50 m-auto mb-1">
                             <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            <img className="w-50" src={positionImage} alt="positionImage" />
                         </div>
                     </div>
                 </div>
+              
                 
             </div>
+
+
             <h2 className="mt-4">Ficheros del jugador</h2>
             <div className="my-2">
                 <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
