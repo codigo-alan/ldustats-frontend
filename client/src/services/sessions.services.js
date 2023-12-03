@@ -10,7 +10,7 @@ const sessionsIntervalsApi = axios.create({
 })
 
 const sessionsHistoricalApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/ldustats/api/v1/historical-info'
+    baseURL: 'https://ldustats-backend-production.up.railway.app/ldustats/api/v1/historical-info'
 })
 
 addInterceptors(sessionsApi);
