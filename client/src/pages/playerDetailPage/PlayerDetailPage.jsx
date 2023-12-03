@@ -266,7 +266,7 @@ export function PlayerDetailPage() {
 
 
                 <div className="col-6 d-flex justify-content-center">
-                    <div className="col-6">
+                    <div className="col-6 d-flex justify-content-end">
                         <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
                     </div>
 
