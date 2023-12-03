@@ -139,9 +139,9 @@ export function PlayerDetailPage() {
     return(
         <div className="container p-3">
             <div className="row col-6">
-                <h2 className="col-7">{player.name}</h2>
+                <h2 className="col-6">{player.name}</h2>
                 {/* Edit and Delete buttons */}
-                <div className="d-flex justify-content-end gap-2 col-4">
+                <div className="d-flex justify-content-end gap-2 col-6">
                     <button
                         data-tooltip-id="button-tooltip"
                         data-tooltip-content="Editar jugador"
