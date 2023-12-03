@@ -14,6 +14,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'react-tooltip';
+import { HistoricalInfoPlayerComponent } from "../../components/historicalInfoPlayerComponent/HistoricalInfoPlayerComponent";
 
 
 export function PlayerDetailPage() {
@@ -23,6 +24,7 @@ export function PlayerDetailPage() {
     const [error, setError] = useState("") //not in use
 
     const [player, setPlayer] = useState([])
+    const [playerRef, setPlayerRef] = useState('');
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
     const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
@@ -81,7 +83,8 @@ export function PlayerDetailPage() {
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
-                setAge(calculateAge(res.data.birth)  )
+                setAge(calculateAge(res.data.birth))
+                setPlayerRef(res.data.ref);
                 
             } catch (error) {
                 if (error.response.status == 401 || error.response.status == 403) {
@@ -136,9 +139,9 @@ export function PlayerDetailPage() {
     return(
         <div className="container p-3">
             <div className="row col-6">
-                <h2 className="col-8">{player.name}</h2>
+                <h2 className="col-6">{player.name}</h2>
                 {/* Edit and Delete buttons */}
-                <div className="d-flex justify-content-end gap-2 col-4">
+                <div className="d-flex justify-content-end gap-2 col-6">
                     <button
                         data-tooltip-id="button-tooltip"
                         data-tooltip-content="Editar jugador"
@@ -167,11 +170,11 @@ export function PlayerDetailPage() {
                 </div>
             </div>
             
-            <div className="d-flex gap-3 flex-row mt-2">
+            <div className="d-flex justify-content-between flex-row mt-2">
                 
-                <form className="d-grid gap-2" onSubmit={update}>
-                    <div className="row ps-2">
-                        <div className="card gap-2 p-2 bg-light col-8">
+                <div className="col-6">
+                    <form className="d-grid gap-2" onSubmit={update}>
+                        <div className="card gap-2 p-2 bg-light col-12">
                             <div className="form-group row">
                                 <label className="col-2 col-form-label">Id:</label>
                                 <div className="col-4">
@@ -252,29 +255,35 @@ export function PlayerDetailPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-4 d-flex justify-content-center">
-                            <img className="w-50" src={positionImage} alt="positionImage" />
-                        </div>
-                        
-                    </div>
-                    {isEditing && (
-                        <div className="d-flex justify-content-start">
-                            <button className="btn btn-primary" type="submit">Guardar cambios</button>
-                        </div>
-                    )}
+                        {isEditing && (
+                            <div className="d-flex justify-content-start">
+                                <button className="btn btn-primary" type="submit">Guardar cambios</button>
+                            </div>
+                        )}
+                    </form>
+                </div>
 
-                </form>
-                
-                <div className="col-3">
-                    
-                    <div className="d-flex justify-content-end">
-                        <div className="card col-6 h-50">
+
+
+                <div className="col-6 d-flex justify-content-center">
+                    <div className="col-6 d-flex justify-content-end">
+                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
+                    </div>
+
+                    <div className="col-6 d-flex justify-content-center flex-column ">
+                        <div className="card w-50 h-50 m-auto mb-1">
                             <img className="w-100 h-100" src={images.PROFILE} alt="profile" />
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            <img className="w-50" src={positionImage} alt="positionImage" />
                         </div>
                     </div>
                 </div>
-
+              
+                
             </div>
+
+
             <h2 className="mt-4">Ficheros del jugador</h2>
             <div className="my-2">
                 <SearchBarComponent onSearch={handleSearch} type="files"></SearchBarComponent>
