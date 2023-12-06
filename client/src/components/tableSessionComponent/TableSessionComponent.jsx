@@ -24,7 +24,7 @@ export function TableSessionComponent({idTable='', data, type='other', personali
         <div className='overflow-scroll card bg-light my-2 myDiv'>
             <table id={idTable} className="table table-hover border caption-top table-sm table-bordered table-striped">
                 <caption>{caption}</caption>
-                <thead className="bg-light position-sticky top-0 ">
+                <thead className="position-sticky top-0 table-primary">
 
                         <tr className='text-center'>
                             <th>Nombre</th>
@@ -57,7 +57,7 @@ export function TableSessionComponent({idTable='', data, type='other', personali
                     
                     {data.map((element) => {
                         return (
-                            <tr className="tableRow text-center" key={element.id} >
+                            <tr className={type != 'allSessions' ? 'sessionRow text-center' : 'text-center'} key={element.id} >
                                 <td>{element.name}</td>
                                 {type == 'allSessions' &&
                                     <>
@@ -67,25 +67,21 @@ export function TableSessionComponent({idTable='', data, type='other', personali
                                         </Tooltip>
                                     </>
                                 }
-                                {/* <td>{element.date}</td>
-                                <Tooltip title={element.drillTitle}>
-                                    <td>{reduceLength(element.drillTitle, 3)}</td>
-                                </Tooltip> */}
                                 <td>{element.totalTime}</td>
                                 <td>{element.totalDistance}</td>
-                                <td>{element.dtMin}</td>
+                                <td className='bg-info'>{element.dtMin}</td>
                                 <td>{element.zone4}</td>
                                 <td>{element.zone5}</td>
                                 <td>{element.zone6}</td>
                                 <td>{element.hsr}</td>
-                                <td>{element.hsrMin}</td>
+                                <td className='bg-info'>{element.hsrMin}</td>
                                 <td>{element.maxSpeed}</td>
                                 <td>{element.spints}</td>
                                 <td>{element.sprintDistance}</td>
                                 <td>{element.accelerations}</td>
                                 <td>{element.decelerations}</td>
-                                <td>{element.accMin}</td>
-                                <td>{element.decMin}</td>
+                                <td className='bg-info'>{element.accMin}</td>
+                                <td className='bg-info'>{element.decMin}</td>
                                 <td>{element.hmlDistance}</td>
                             </tr>
                         )

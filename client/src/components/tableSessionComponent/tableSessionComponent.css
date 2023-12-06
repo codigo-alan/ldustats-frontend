@@ -1,3 +1,7 @@
 .myDiv{
     max-height: 350px;
 }
+
+.table tbody .sessionRow:last-child td{
+    background-color: #fff3cd;
+}
