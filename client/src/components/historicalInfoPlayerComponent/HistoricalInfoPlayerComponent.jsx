@@ -54,12 +54,12 @@ export function HistoricalInfoPlayerComponent({playerRef}) {
                      data-tooltip-id="info-tooltip"
                      data-tooltip-content="Máximos registros"
                      data-tooltip-place="top">
-                    <p className="fw-bold text-end">Velocidad: {historicalInfo.velocity}</p>
-                    <p className="fw-bold text-end">Distancia: {historicalInfo.distance}</p>
-                    <p className="fw-bold text-end">Sprints: {historicalInfo.sprints}</p>
-                    <p className="fw-bold text-end">Sprints Dist.: {historicalInfo.sprintsDistance}</p>
-                    <p className="fw-bold text-end">Aceleraciones: {historicalInfo.accelerations}</p>
-                    <p className="fw-bold text-end">Desaceleraciones: {historicalInfo.decelerations}</p>
+                    <p className="fw-bold text-end historicalItem">Velocidad: {historicalInfo.velocity}</p>
+                    <p className="fw-bold text-end historicalItem">Distancia: {historicalInfo.distance}</p>
+                    <p className="fw-bold text-end historicalItem">Sprints: {historicalInfo.sprints}</p>
+                    <p className="fw-bold text-end historicalItem">Sprints Dist.: {historicalInfo.sprintsDistance}</p>
+                    <p className="fw-bold text-end historicalItem">Aceleraciones: {historicalInfo.accelerations}</p>
+                    <p className="fw-bold text-end historicalItem">Desaceleraciones: {historicalInfo.decelerations}</p>
                 </div>}
                 <Tooltip id="info-tooltip" className="tooltip"></Tooltip>
             
