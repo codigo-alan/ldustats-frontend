@@ -4,4 +4,5 @@
 
 .table tbody .sessionRow:last-child td{
     background-color: #fff3cd;
+    border-top: solid 2px black;
 }
