@@ -38,5 +38,5 @@ The project is structured as follows:
 
 ## Host information
 
-This project are hosted on Netlify and can be finded in [ldustats.netlify.app](https://ldustats.netlify.app)
+This project is hosted on Netlify and can be finded in [ldustats.netlify.app](https://ldustats.netlify.app)
 
