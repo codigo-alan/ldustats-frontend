@@ -36,3 +36,7 @@ The project is structured as follows:
 * Django and Django Rest Framework for the server side 👉👉 [ldustats-backend](https://github.com/codigo-alan/ldustats-backend) ⚙️
 * PostgreSQL 🗄️
 
+## Host information
+
+This project are hosted on Netlify and can be finded in [ldustats.netlify.app](https://ldustats.netlify.app)
+
