@@ -15,6 +15,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'react-tooltip';
 import { HistoricalInfoPlayerComponent } from "../../components/historicalInfoPlayerComponent/HistoricalInfoPlayerComponent";
+import { ChartComponent } from "../../components/chartComponent/ChartComponent";
 
 
 export function PlayerDetailPage() {
@@ -122,6 +123,7 @@ export function PlayerDetailPage() {
 
         }
         getPlayerFiles(sessionsByPlayerId)
+        console.log(sessionsByPlayerId);
       }, [sessionsByPlayerId])
     //change value of id list files with player session
     useEffect(() => {
@@ -136,8 +138,27 @@ export function PlayerDetailPage() {
 
     }, [filesIdList])
 
+    const initialData = [
+        { time: '2018-12-22', value: 32.51 },
+        { time: '2018-12-23', value: 31.11 },
+        { time: '2018-12-24', value: 27.02 },
+        { time: '2018-12-25', value: 27.32 },
+        { time: '2018-12-26', value: 25.17 },
+        { time: '2018-12-27', value: 28.89 },
+        { time: '2018-12-28', value: 25.46 },
+        { time: '2018-12-29', value: 23.92 },
+        { time: '2018-12-30', value: 22.68 },
+        { time: '2018-12-31', value: 22.67 },
+    ];
+    const sessionsMaped = 
+        sessionsByPlayerId.map(
+            s => ({ time: s.date, value: Number(s.maxSpeed) })).sort((a, b) => a.time - b.time);
+    
+    console.log(sessionsMaped);
+
     return(
         <div className="container p-3">
+            <ChartComponent  data={initialData}></ChartComponent>
             <div className="row col-6">
                 <h2 className="col-6">{player.name}</h2>
                 {/* Edit and Delete buttons */}

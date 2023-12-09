@@ -11,19 +11,11 @@ export function HistoricalInfoPlayerComponent({playerRef}) {
     const {register, setValue} = useForm();
     const [historicalInfo, setHistoricalInfo] = useState(undefined);
 
-    useEffect( () => {
-        if (historicalInfo != undefined) {
-            console.log(historicalInfo);
-        }
-
-    }, [historicalInfo]);
-
     //Change value of playerId param
     useEffect( () => {
         async function getPlayerHistorical() {
             try {
                 const res = await getHistoricalInfoById(playerRef);
-                console.log(res.status);
                 if (res.status == 200) {
                     setHistoricalInfo(
                         new HistoricalInfo(
