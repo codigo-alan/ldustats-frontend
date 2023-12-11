@@ -7,9 +7,8 @@ import { Tooltip } from 'react-tooltip';
 import './historicalInfoPlayer.css'
 import { ModalChartData } from "../../components/modalChartData/ModalChartData";
 
-export function HistoricalInfoPlayerComponent({playerRef}) {
+export function HistoricalInfoPlayerComponent({playerRef, playerSessions}) {
     
-    const {register, setValue} = useForm();
     const [historicalInfo, setHistoricalInfo] = useState(undefined);
 
     //modal
@@ -17,6 +16,8 @@ export function HistoricalInfoPlayerComponent({playerRef}) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [playerSessionsByDate, setPlayerSessionsByDate] = useState([]);
 
     const initialData = [
         { time: '2018-12-22', value: 32.51 },
@@ -30,6 +31,16 @@ export function HistoricalInfoPlayerComponent({playerRef}) {
         { time: '2018-12-30', value: 22.68 },
         { time: '2018-12-31', value: 22.67 },
     ];
+
+    //Change of playerSessions prop
+    useEffect( () => {
+        if ((playerSessions != undefined) && (playerSessions.length > 0)) {
+            //setPlayerSessionsByDate()
+            console.log(playerSessions);
+            //Obtain foreach value (maxSpeed, totalDistance, etc)
+            // and foreach date the maxvalue
+        }
+    }, [playerSessions])
 
 
     //Change value of playerId param

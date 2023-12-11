@@ -126,7 +126,6 @@ export function PlayerDetailPage() {
 
         }
         getPlayerFiles(sessionsByPlayerId)
-        console.log(sessionsByPlayerId);
       }, [sessionsByPlayerId])
 
     //change value of id list files with player session
@@ -283,7 +282,7 @@ export function PlayerDetailPage() {
 
                 <div className="col-6 d-flex justify-content-center">
                     <div className="col-6 d-flex justify-content-end">
-                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
+                        <HistoricalInfoPlayerComponent playerRef={playerRef} playerSessions={sessionsByPlayerId}></HistoricalInfoPlayerComponent>
                     </div>
 
                     <div className="col-6 d-flex justify-content-center flex-column ">

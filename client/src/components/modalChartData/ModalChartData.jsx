@@ -11,15 +11,16 @@ export function ModalChartData({show, handleClose, initialData}) {
               <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <ChartComponent data={initialData}></ChartComponent>
+            {initialData && <ChartComponent data={initialData}></ChartComponent> }
+              
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                   Close
               </Button>
-              <Button variant="primary" onClick={handleClose}>
+              {/* <Button variant="primary" onClick={handleClose}>
                   Save Changes
-              </Button>
+              </Button> */}
           </Modal.Footer>
       </Modal>
   );
