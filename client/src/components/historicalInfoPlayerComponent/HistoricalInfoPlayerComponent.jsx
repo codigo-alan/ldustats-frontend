@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { getHistoricalInfoById } from "../../services/sessions.services";
@@ -7,7 +6,7 @@ import { Tooltip } from 'react-tooltip';
 import './historicalInfoPlayer.css'
 import { ModalChartData } from "../../components/modalChartData/ModalChartData";
 import { obtainDateSet, obtainDrillTitle } from "../../utils/ObtainDistinct";
-import { obtainMaxValues } from "./HistoricalInfoPlayer";
+import { obtainMaxValues, obtainModalTitle } from "./HistoricalInfoPlayer";
 
 export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) {
     
@@ -17,31 +16,17 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) 
     const [drills, setDrills] = useState([]);
     const [maxValues, setMaxValues] = useState([]);
     const [maxValuesToModal, setMaxValuesToModal] = useState([]);
+    const [modalTitle, setModalTitle] = useState('');
 
     //modal
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = (element) => {
-        console.log(element);
         setMaxValuesToModal(maxValues.filter( (e) => e.columnName == element));
+        setModalTitle(obtainModalTitle(element));
         setShow(true);
     }
-
-    const [playerSessionsByDate, setPlayerSessionsByDate] = useState([]);
-
-    const initialData = [
-        { time: '2018-12-22', value: 32.51 },
-        { time: '2018-12-23', value: 31.11 },
-        { time: '2018-12-24', value: 27.02 },
-        { time: '2018-12-25', value: 27.32 },
-        { time: '2018-12-26', value: 25.17 },
-        { time: '2018-12-27', value: 28.89 },
-        { time: '2018-12-28', value: 25.46 },
-        { time: '2018-12-29', value: 23.92 },
-        { time: '2018-12-30', value: 22.68 },
-        { time: '2018-12-31', value: 22.67 },
-    ];
 
     //Change of playerSessions prop
     useEffect( () => {
@@ -55,13 +40,8 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) 
     useEffect( () => {
         if (dates.length > 0 && drills.length > 0) {
             setMaxValues(obtainMaxValues(playerSessions, dates, drills, historicalColumns));
-            //TODO need pass max values with some filter to modal
         }
     }, [dates, drills])
-
-    /* useEffect( () => {
-        //console.log(maxValues)
-    }, [maxValues]) */
 
 
     //Change value of playerId param
@@ -72,7 +52,7 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) 
                 if (res.status == 200) {
                     setHistoricalInfo(
                         new HistoricalInfo(
-                            res.data['maxSpeed'], //TODO temporal example access
+                            res.data['maxSpeed'], //other type of access for example
                             res.data.totalDistance,
                             res.data.sprints,
                             res.data.sprintsDistance,
@@ -110,7 +90,7 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) 
                 <Tooltip id="info-tooltip" className="tooltip"></Tooltip>
             
         </div>
-        <ModalChartData show={show} handleClose={handleClose} initialData={initialData} itemsByCol={maxValuesToModal}></ModalChartData>
+        <ModalChartData show={show} handleClose={handleClose} itemsByCol={maxValuesToModal} title={modalTitle} drillTitles={drills}></ModalChartData>
         </>
 
     )

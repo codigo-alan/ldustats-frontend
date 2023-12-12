@@ -4,46 +4,53 @@ import { ChartComponent } from "../chartComponent/ChartComponent";
 import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
-export function ModalChartData({show, handleClose, initialData, itemsByCol = []}) {
+export function ModalChartData({show, handleClose, itemsByCol = [], title = '', drillTitles = []}) {
   
     const [itemsToShow, setItemsToSHow] = useState([]);
+    const [currentValue, setCurrentValue] = useState('Sprint U19');
 
+    const handleChange = (event) => {
+        setCurrentValue(event.target.value);
+    }
+
+    //change of selected option or show state modal
     useEffect( () => {
-        if (itemsByCol.length > 0) {
-            console.log(itemsByCol.map( (item) => ({time: item.date, value: item.columnValue})))
+        if (currentValue && (show === true)) {
+            console.log(itemsByCol)
+            setItemsToSHow(itemsByCol
+                .filter( (item) => item.drill == currentValue )
+                .map( (itemFiltered) => ({time: itemFiltered.date, value: itemFiltered.columnValue})));
         }
 
-    }, [itemsByCol]);
+    }, [currentValue, show]);
 
 
 
   return (
       <Modal show={show} onHide={handleClose} size='lg'>
           <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              {initialData && (
-                <>
-                    <div className="col-4">
-                        <Form.Select size='sm' aria-label="Default select example">
-                        <option>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        </Form.Select>
-                    </div>
-                    <ChartComponent data={initialData}></ChartComponent>
-                </>)}
-              
+              {itemsByCol && (
+                  <>
+                      <div className="col-4 pb-2">
+                          <Form.Select size='sm' value={currentValue} onChange={handleChange}>
+                              {drillTitles.map((option, index) => (
+                                  <option key={index} value={option}>
+                                      {option}
+                                  </option>
+                              ))}
+                          </Form.Select>
+                      </div>
+                      <ChartComponent data={itemsToShow}></ChartComponent>
+                  </>)}
+
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                   Close
               </Button>
-              {/* <Button variant="primary" onClick={handleClose}>
-                  Save Changes
-              </Button> */}
           </Modal.Footer>
       </Modal>
   );

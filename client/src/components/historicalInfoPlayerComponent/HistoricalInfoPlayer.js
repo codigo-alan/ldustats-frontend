@@ -18,3 +18,33 @@ export function obtainMaxValues(sessions = [], dates = [], drills = [], columns 
     };
     return maxValues;
 }
+
+
+export function obtainModalTitle(column) {
+
+    switch (column) {
+        case 'maxSpeed':
+            return 'Velocidad máxima';
+
+        case 'totalDistance':
+            return 'Distancia total';
+            break;
+
+        case 'spints':
+            return 'Sprints';
+
+        case 'sprintDistance':
+            return 'Sprints distancia';
+
+        case 'accelerations':
+            return 'Aceleraciones';
+
+        case 'decelerations':
+            return 'Desaceleraciones';
+
+
+        default:
+            return 'Gráfica';
+    }
+    
+}
