@@ -3,7 +3,7 @@ import { TableSessionComponent } from "../../components/tableSessionComponent/Ta
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
-import { obtainDrillTitleCount } from "../../utils/ObtainDistinct";
+import { obtainDrillTitle } from "../../utils/ObtainDistinct";
 import { Tooltip } from 'react-tooltip';
 import { transformToTextDate } from "../../utils/DateFormat";
 import { ExcelReportComponent } from "../../components/excelReportComponent/ExcelReportComponent";
@@ -51,7 +51,7 @@ export function FileDetailPage() {
 
     useEffect( () => {
         if (sessions.length > 0) {
-            setDrillTitlesSet(obtainDrillTitleCount(sessions));
+            setDrillTitlesSet(obtainDrillTitle(sessions));
             setTextDate(transformToTextDate(sessions[0]?.date));
         }
     }, [sessions]);

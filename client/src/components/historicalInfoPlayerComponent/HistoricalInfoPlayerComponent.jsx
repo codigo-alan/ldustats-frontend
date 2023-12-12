@@ -6,16 +6,27 @@ import { HistoricalInfo } from "../../models/HistoricalInfo";
 import { Tooltip } from 'react-tooltip';
 import './historicalInfoPlayer.css'
 import { ModalChartData } from "../../components/modalChartData/ModalChartData";
+import { obtainDateSet, obtainDrillTitle } from "../../utils/ObtainDistinct";
+import { obtainMaxValues } from "./HistoricalInfoPlayer";
 
-export function HistoricalInfoPlayerComponent({playerRef, playerSessions}) {
+export function HistoricalInfoPlayerComponent({playerRef, playerSessions = []}) {
     
     const [historicalInfo, setHistoricalInfo] = useState(undefined);
+    const historicalColumns = ['maxSpeed', 'totalDistance', 'spints', 'sprintDistance', 'accelerations', 'decelerations' ];
+    const [dates, setDates] = useState([]);
+    const [drills, setDrills] = useState([]);
+    const [maxValues, setMaxValues] = useState([]);
+    const [maxValuesToModal, setMaxValuesToModal] = useState([]);
 
     //modal
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = (element) => {
+        console.log(element);
+        setMaxValuesToModal(maxValues.filter( (e) => e.columnName == element));
+        setShow(true);
+    }
 
     const [playerSessionsByDate, setPlayerSessionsByDate] = useState([]);
 
@@ -34,13 +45,23 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions}) {
 
     //Change of playerSessions prop
     useEffect( () => {
-        if ((playerSessions != undefined) && (playerSessions.length > 0)) {
-            //setPlayerSessionsByDate()
-            console.log(playerSessions);
-            //Obtain foreach value (maxSpeed, totalDistance, etc)
-            // and foreach date the maxvalue
+        if (playerSessions.length > 0) {
+            setDates(obtainDateSet(playerSessions));
+            setDrills(obtainDrillTitle(playerSessions));
         }
     }, [playerSessions])
+
+    //Change of dates list or drills list
+    useEffect( () => {
+        if (dates.length > 0 && drills.length > 0) {
+            setMaxValues(obtainMaxValues(playerSessions, dates, drills, historicalColumns));
+            //TODO need pass max values with some filter to modal
+        }
+    }, [dates, drills])
+
+    /* useEffect( () => {
+        //console.log(maxValues)
+    }, [maxValues]) */
 
 
     //Change value of playerId param
@@ -51,7 +72,7 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions}) {
                 if (res.status == 200) {
                     setHistoricalInfo(
                         new HistoricalInfo(
-                            res.data.maxSpeed,
+                            res.data['maxSpeed'], //TODO temporal example access
                             res.data.totalDistance,
                             res.data.sprints,
                             res.data.sprintsDistance,
@@ -79,17 +100,17 @@ export function HistoricalInfoPlayerComponent({playerRef, playerSessions}) {
                      data-tooltip-id="info-tooltip"
                      data-tooltip-content="Máximos registros"
                      data-tooltip-place="top">
-                    <p className="fw-bold text-end historicalItem" onClick={handleShow}>Velocidad: {historicalInfo.velocity}</p>
-                    <p className="fw-bold text-end historicalItem">Distancia: {historicalInfo.distance}</p>
-                    <p className="fw-bold text-end historicalItem">Sprints: {historicalInfo.sprints}</p>
-                    <p className="fw-bold text-end historicalItem">Sprints Dist.: {historicalInfo.sprintsDistance}</p>
-                    <p className="fw-bold text-end historicalItem">Aceleraciones: {historicalInfo.accelerations}</p>
-                    <p className="fw-bold text-end historicalItem">Desaceleraciones: {historicalInfo.decelerations}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[0])}>Velocidad: {historicalInfo.velocity}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[1])} >Distancia: {historicalInfo.distance}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[2])} >Sprints: {historicalInfo.sprints}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[3])} >Sprints Dist.: {historicalInfo.sprintsDistance}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[4])} >Aceleraciones: {historicalInfo.accelerations}</p>
+                    <p className="fw-bold text-end historicalItem" onClick={ () => handleShow(historicalColumns[5])} >Desaceleraciones: {historicalInfo.decelerations}</p>
                 </div>}
                 <Tooltip id="info-tooltip" className="tooltip"></Tooltip>
             
         </div>
-        <ModalChartData show={show} handleClose={handleClose} initialData={initialData}></ModalChartData>
+        <ModalChartData show={show} handleClose={handleClose} initialData={initialData} itemsByCol={maxValuesToModal}></ModalChartData>
         </>
 
     )

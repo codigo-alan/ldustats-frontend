@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { calculateCompleteSession } from "../../utils/CalculateCompleteSession";
 import { TableSessionComponent } from "../../components/tableSessionComponent/TableSessionComponent";
 import { ExcelReportComponent } from "../../components/excelReportComponent/ExcelReportComponent";
-import { obtainDrillTitleCount } from "../../utils/ObtainDistinct";
+import { obtainDrillTitle } from "../../utils/ObtainDistinct";
 
 export function SessionPlayerDetail() {
 
@@ -37,7 +37,7 @@ export function SessionPlayerDetail() {
 
         if (sessions.length > 0) {
             setSessionsComplete([calculateCompleteSession(sessions)]);
-            setDrillTitleSet(obtainDrillTitleCount(sessions));
+            setDrillTitleSet(obtainDrillTitle(sessions));
         }
 
     }, [sessions] );
