@@ -32,7 +32,8 @@ export function PlayerDetailPage() {
     const [filesWithPlayer, setFilesWithPlayer] = useState([]);
     const [isEditing, setIsEditing] = useState(false) //comprobe if is editing the player
     const [filesWithPlayerFiltered, setFilesWithPlayerFiltered] = useState([]);
-    
+
+    //search function
     const handleSearch = (query) => {
         setFilesWithPlayerFiltered(filesWithPlayer.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
     };
@@ -41,6 +42,7 @@ export function PlayerDetailPage() {
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
 
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
+
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
@@ -99,6 +101,7 @@ export function PlayerDetailPage() {
         getPlayer(); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
+
     //Change value of player
     useEffect(() => {
         async function getPlayerSessions(ref) {
@@ -112,6 +115,7 @@ export function PlayerDetailPage() {
         getPlayerSessions(player.ref); //execute the async function
         
       }, [player]);
+
       //Change value of sessions of the player
       useEffect(() => {
         function getPlayerFiles(sessions) {
@@ -123,6 +127,7 @@ export function PlayerDetailPage() {
         }
         getPlayerFiles(sessionsByPlayerId)
       }, [sessionsByPlayerId])
+
     //change value of id list files with player session
     useEffect(() => {
         async function getFiles(idList) {
@@ -136,8 +141,18 @@ export function PlayerDetailPage() {
 
     }, [filesIdList])
 
+    
+
+    /* const sessionsMaped = 
+        sessionsByPlayerId.map(
+            s => ({ time: s.date, value: Number(s.maxSpeed) })).sort((a, b) => a.time - b.time);
+    
+    console.log(sessionsMaped); */
+
     return(
+       
         <div className="container p-3">
+
             <div className="row col-6">
                 <h2 className="col-6">{player.name}</h2>
                 {/* Edit and Delete buttons */}
@@ -169,9 +184,9 @@ export function PlayerDetailPage() {
                     <Tooltip id="button-tooltip" />
                 </div>
             </div>
-            
+
             <div className="d-flex justify-content-between flex-row mt-2">
-                
+
                 <div className="col-6">
                     <form className="d-grid gap-2" onSubmit={update}>
                         <div className="card gap-2 p-2 bg-light col-12">
@@ -267,7 +282,7 @@ export function PlayerDetailPage() {
 
                 <div className="col-6 d-flex justify-content-center">
                     <div className="col-6 d-flex justify-content-end">
-                        <HistoricalInfoPlayerComponent playerRef={playerRef}></HistoricalInfoPlayerComponent>
+                        <HistoricalInfoPlayerComponent playerRef={playerRef} playerSessions={sessionsByPlayerId}></HistoricalInfoPlayerComponent>
                     </div>
 
                     <div className="col-6 d-flex justify-content-center flex-column ">
@@ -279,8 +294,8 @@ export function PlayerDetailPage() {
                         </div>
                     </div>
                 </div>
-              
-                
+
+
             </div>
 
 
@@ -292,5 +307,8 @@ export function PlayerDetailPage() {
                 <TableComponent data={filesWithPlayerFiltered} type={'files'} idPlayer={player.ref}></TableComponent>
             </div>
         </div>
+
+
+
     )
 }
