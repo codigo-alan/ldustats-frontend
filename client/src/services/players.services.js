@@ -11,7 +11,7 @@ addInterceptors(playersApi);
 export const getAllPlayers = () => {
     return playersApi.get('/');
 }
-
+//TODO add team column, may be change in backend again
 export const getPlayerById = (id) => playersApi.get(`/${id}`);  
 
 export const addPlayer = (player, ) => playersApi.post('/', player);
