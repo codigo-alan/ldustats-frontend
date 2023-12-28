@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { addPlayer } from "../../services/players.services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions } from "../../models/Organisation";
+import { positions, teams } from "../../models/Organisation";
 
 export function AddPlayerPage() {
 
@@ -10,8 +10,10 @@ export function AddPlayerPage() {
     const navigate = useNavigate()
 
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
+    const teamOptions = [teams.u19, teams.u16, teams.u15, teams.u14];
     const save = handleSubmit(async data => {
         try {
+            data.team = data.team.toLowerCase(); //convert team to lower case
             const res = await addPlayer(data);
             toast.success(`Agregado exitosamente\n${res.data.name}`)
             navigate("/players/" + res.data.id)
@@ -72,6 +74,23 @@ export function AddPlayerPage() {
                                 {...register('position', { required: true })}
                             >
                                 {options.map((option, index) => {
+                                    return <option key={index} >
+                                        {option}
+                                    </option>
+                                })}
+                            </select>
+                            {errors.position && <span className="text-danger" >Campo requerido</span>}
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-3 col-form-label">Equipo:</label>
+                        <div className="col-8">
+                            <select
+                                className="form-select"
+                                placeholder="Equipo"
+                                {...register('team', { required: true })}
+                            >
+                                {teamOptions.map((option, index) => {
                                     return <option key={index} >
                                         {option}
                                     </option>

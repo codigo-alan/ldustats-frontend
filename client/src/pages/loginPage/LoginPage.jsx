@@ -28,7 +28,7 @@ export function LoginPage() {
         if (activeUser) {
             localStorage.setItem("activeUser", JSON.stringify(activeUser));
             toast.success(`Logueado exitosamente\n${activeUser.name}`)
-            navigate("/players")
+            navigate("/teams")
         }
 
     }, [activeUser]);

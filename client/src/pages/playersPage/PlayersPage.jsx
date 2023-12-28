@@ -23,7 +23,7 @@ export function PlayersPage() {
 
     async function getPlayers() {
       try {
-        const res = await getAllPlayers();
+        const res = await getAllPlayers(localStorage.getItem('team'));
         setPlayers(res.data);
         setPlayersFiltered(res.data); 
       } catch (error) {

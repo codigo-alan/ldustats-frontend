@@ -8,16 +8,17 @@ const playersApi = axios.create({
 
 addInterceptors(playersApi);
 
-export const getAllPlayers = () => {
-    return playersApi.get('/');
+export const getAllPlayers = (team) => {
+    return playersApi.get('/',
+    {params: {teamParam: team}});
 }
-//TODO add team column, may be change in backend again
+//TODO not works this endpoint
 export const getPlayerById = (id) => playersApi.get(`/${id}`);  
 
 export const addPlayer = (player, ) => playersApi.post('/', player);
 
 export const deletePlayer = (id, ) => playersApi.delete(`/${id}`)
-
+//TODO add team column
 export const updatePlayer = (id, player, ) => playersApi.put(`/${id}/`, player)
 
 export const getSessionsByPlayer = (playerId, ) => playersApi.get(`/${playerId}/sessions`); 

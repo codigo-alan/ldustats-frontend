@@ -12,6 +12,7 @@ import { FileDetailPage } from './pages/filesDetailPage/FilesDetailPage';
 import { SessionPlayerDetail } from './pages/sessionPlayerDetail/SessionPlayerDetail';
 import { LoginPage } from "./pages/loginPage/LoginPage";
 import { RegisterPage } from "./pages/registerPage/RegisterPage";
+import { TeamsPage } from './pages/teamsPage/TeamsPage';
 
 
 export function App() {
@@ -31,6 +32,7 @@ export function App() {
           <Route path='/files/:id/:idplayer' element={<SessionPlayerDetail />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/user-add' element={<RegisterPage />}></Route>
+          <Route path='/teams' element={<TeamsPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
         </Routes>
         <Toaster></Toaster>
