@@ -5,7 +5,7 @@ import { getFilesByIds } from "../../services/files.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions } from "../../models/Organisation";
+import { positions, teams } from "../../models/Organisation";
 import images from "../../assets/images";
 import { calculateAge } from "../../utils/CalculateAge";
 import { TableComponent } from "../../components/tableComponent/TableComponent";
@@ -40,12 +40,14 @@ export function PlayerDetailPage() {
 
     //select options
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
+    const teamOptions = [teams.u19, teams.u16, teams.u15, teams.u14];
 
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
 
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
+            //data.team = data.team.toLowerCase(); //convert to lower in the backend, not needed here
             const res = await updatePlayer(id, data)
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
@@ -78,6 +80,7 @@ export function PlayerDetailPage() {
             try {
                 const res = await getPlayerById(id);
                 setPlayer(res.data)
+                console.log(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
                 setValue('id', res.data.id) 
@@ -85,6 +88,7 @@ export function PlayerDetailPage() {
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
+                setValue('team', res.data.team.toUpperCase())
                 setAge(calculateAge(res.data.birth))
                 setPlayerRef(res.data.ref);
                 
@@ -141,13 +145,6 @@ export function PlayerDetailPage() {
 
     }, [filesIdList])
 
-    
-
-    /* const sessionsMaped = 
-        sessionsByPlayerId.map(
-            s => ({ time: s.date, value: Number(s.maxSpeed) })).sort((a, b) => a.time - b.time);
-    
-    console.log(sessionsMaped); */
 
     return(
        
@@ -242,6 +239,24 @@ export function PlayerDetailPage() {
                                         })}
                                     </select>
                                     {errors.position && <span className="text-danger" >Campo requerido</span>}
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-3 col-form-label">Equipo:</label>
+                                <div className="col-8">
+                                    <select
+                                        className="form-select"
+                                        /* onChange={onOptionChangeHandler} */
+                                        disabled={!isEditing}
+                                        {...register('team', { required: true })}
+                                    >
+                                        {teamOptions.map((option, index) => {
+                                            return <option key={index} >
+                                                {option}
+                                            </option>
+                                        })}
+                                    </select>
+                                    {errors.team && <span className="text-danger" >Campo requerido</span>}
                                 </div>
                             </div>
                             <div className="form-group row">
