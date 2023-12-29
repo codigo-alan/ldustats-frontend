@@ -32,7 +32,6 @@ export function App() {
           <Route path='/files/:id/:idplayer' element={<SessionPlayerDetail />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/user-add' element={<RegisterPage />}></Route>
-          <Route path='/teams' element={<TeamsPage />}></Route>
           <Route path='/not-found-route' element={<NotFoundPage />}></Route>
         </Routes>
         <Toaster></Toaster>

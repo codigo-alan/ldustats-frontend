@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 export function TeamsPage() {
 
+    //TODO not in use
+
     const navigate = useNavigate();
     const [isTeamSelected, setIsTeamSelected] = useState(false);
 

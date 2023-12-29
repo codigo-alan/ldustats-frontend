@@ -27,8 +27,9 @@ export function LoginPage() {
 
         if (activeUser) {
             localStorage.setItem("activeUser", JSON.stringify(activeUser));
+            localStorage.setItem('team', 'u19'); //set u19 by default
             toast.success(`Logueado exitosamente\n${activeUser.name}`)
-            navigate("/teams")
+            navigate("/players")
         }
 
     }, [activeUser]);
