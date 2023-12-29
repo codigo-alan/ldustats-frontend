@@ -12,13 +12,13 @@ export const getAllPlayers = (team) => {
     return playersApi.get('/',
     {params: {teamParam: team}});
 }
-//TODO not works this endpoint
+
 export const getPlayerById = (id) => playersApi.get(`/${id}`);  
 
 export const addPlayer = (player, ) => playersApi.post('/', player);
 
 export const deletePlayer = (id, ) => playersApi.delete(`/${id}`)
-//TODO add team column
+
 export const updatePlayer = (id, player, ) => playersApi.put(`/${id}/`, player)
 
 export const getSessionsByPlayer = (playerId, ) => playersApi.get(`/${playerId}/sessions`); 
