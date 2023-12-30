@@ -3,25 +3,40 @@ import { addPlayer } from "../../services/players.services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { positions, teams } from "../../models/Organisation";
+import { useEffect, useState } from "react";
+import { getAllTeams } from "../../services/teams.services";
 
 export function AddPlayerPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
     const navigate = useNavigate()
 
+    const [playerTeamId, setPlayerTeamId] = useState(''); //TODO setValue en el form por defecto
+    const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
-    const teamOptions = [teams.u19, teams.u16, teams.u15, teams.u14];
+
     const save = handleSubmit(async data => {
         try {
-            data.team = data.team.toLowerCase(); //convert team to lower case
             const res = await addPlayer(data);
             toast.success(`Agregado exitosamente\n${res.data.name}`)
             navigate("/players/" + res.data.id)
         } catch (error) {
             toast.error('Error al crear el jugador')
         }
-         
     })
+
+    //First init
+    useEffect( () => {
+
+        async function getTeams() {
+            const res = await getAllTeams();
+            setTeams(res.data);
+            setPlayerTeamId(JSON.parse(localStorage.getItem('team')).id)
+        }
+
+        getTeams() 
+
+    }, [])
 
     return (
         <div className="container p-2">
@@ -90,11 +105,11 @@ export function AddPlayerPage() {
                                 placeholder="Equipo"
                                 {...register('team', { required: true })}
                             >
-                                {teamOptions.map((option, index) => {
-                                    return <option key={index} >
-                                        {option}
-                                    </option>
-                                })}
+                                {teams.map((option) => {
+                                            return <option key={option.id} value={option.id} >
+                                                {option.name?.toUpperCase()}
+                                            </option>
+                                        })}
                             </select>
                             {errors.position && <span className="text-danger" >Campo requerido</span>}
                         </div>

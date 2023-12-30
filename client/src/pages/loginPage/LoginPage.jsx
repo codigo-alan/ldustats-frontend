@@ -4,12 +4,14 @@ import { toast } from "react-hot-toast";
 import { loginUser } from "../../services/auth.services";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
+import { getAllTeams } from "../../services/teams.services";
 
 export function LoginPage() {
 
     const { register, handleSubmit, formState:{errors} } = useForm();
     const navigate = useNavigate();
     const [activeUser, setActiveUser] = useState(null);
+    const [teams, setTeams] = useState([]); //teams obtained from a request to API
 
     //at call of login delete local storage to delete token and user
     useEffect(() => {
@@ -25,14 +27,29 @@ export function LoginPage() {
 
     useEffect(() => {
 
+        
+        async function getTeams() {
+            const res = await getAllTeams();
+            setTeams(res.data);
+        }
+        
+
         if (activeUser) {
             localStorage.setItem("activeUser", JSON.stringify(activeUser));
-            localStorage.setItem('team', 'u19'); //set u19 by default
+            getTeams()
+        }
+
+    }, [activeUser]);
+
+    useEffect(() => {
+
+        if (teams.length > 0) {
+            localStorage.setItem('team', JSON.stringify(teams[0])); //set u19 by default
             toast.success(`Logueado exitosamente\n${activeUser.name}`)
             navigate("/players")
         }
 
-    }, [activeUser]);
+    }, [teams]);
 
     const logIn = handleSubmit(async data => {
         try {

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
+import { getAllTeams } from "../../services/teams.services";
 import { getPlayerById, deletePlayer, updatePlayer, getSessionsByPlayer } from "../../services/players.services";
 import { getFilesByIds } from "../../services/files.services";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions, teams } from "../../models/Organisation";
+import { positions } from "../../models/Organisation";
 import images from "../../assets/images";
 import { calculateAge } from "../../utils/CalculateAge";
 import { TableComponent } from "../../components/tableComponent/TableComponent";
@@ -25,6 +26,8 @@ export function PlayerDetailPage() {
 
     const [player, setPlayer] = useState([])
     const [playerRef, setPlayerRef] = useState('');
+    const [playerTeamId, setPlayerTeamId] = useState('');
+    const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
     const [sessionsByPlayerId, setSessionsByPlayerId] = useState([]);
@@ -40,7 +43,6 @@ export function PlayerDetailPage() {
 
     //select options
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
-    const teamOptions = [teams.u19, teams.u16, teams.u15, teams.u14];
 
     const { register, handleSubmit, formState:{errors}, setValue } = useForm()
 
@@ -54,7 +56,7 @@ export function PlayerDetailPage() {
         } catch (error) {
             toast.error(`Error al actualizar el jugador\n${res.data.name}`)
         }
-        
+        //TODO placeholder the current Team of the player
    })
 
     function getPositionImage(position) {
@@ -73,6 +75,16 @@ export function PlayerDetailPage() {
                 
         }
     }
+
+    //First init of Page
+    useEffect( () => {
+        async function getTeams() {
+            const res = await getAllTeams();
+            setTeams(res.data);
+        }
+
+        getTeams()
+    }, []);
     
     //Change value of id
     useEffect( () => {
@@ -80,7 +92,6 @@ export function PlayerDetailPage() {
             try {
                 const res = await getPlayerById(id);
                 setPlayer(res.data)
-                console.log(res.data)
                 //TODO if not update after a change in input, its load the value
                 //changed on input
                 setValue('id', res.data.id) 
@@ -88,16 +99,20 @@ export function PlayerDetailPage() {
                 setValue('name', res.data.name) 
                 setValue('birth', res.data.birth) 
                 setValue('position', res.data.position)
-                setValue('team', res.data.team.toUpperCase())
                 setAge(calculateAge(res.data.birth))
                 setPlayerRef(res.data.ref);
+                setPlayerTeamId(res.data.team)
                 
             } catch (error) {
-                if (error.response.status == 401 || error.response.status == 403) {
-                    navigate(`/login`)
+                if (error.response != undefined) {
+                    if (error.response.status == 401 || error.response.status == 403) {
+                        navigate(`/login`)
+                    } else {
+                        setError(error.response.status)
+                        toast.error('Error al cargar datos del jugador')
+                    }
                 } else {
-                    setError(error.response.status)
-                    toast.error('Error al cargar datos del jugador')
+                    toast.error('Error inesperado durante la carga')
                 }
             }
         }
@@ -105,6 +120,16 @@ export function PlayerDetailPage() {
         getPlayer(); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
+
+    //change value of player team id and teams
+    useEffect( () => {
+
+        if (playerTeamId != '' && teams.length > 0) {
+            const teamName = teams.find( team => team.id === playerTeamId)?.name.toUpperCase()
+            setValue('team', teamName)
+        }
+        
+    }, [playerTeamId, teams]);
 
     //Change value of player
     useEffect(() => {
@@ -117,11 +142,11 @@ export function PlayerDetailPage() {
         setPositionImage(getPositionImage(player.position));
         if (player.name == undefined) return; //to avoid keys and avoid error of undefined name
         getPlayerSessions(player.ref); //execute the async function
-        
-      }, [player]);
 
-      //Change value of sessions of the player
-      useEffect(() => {
+    }, [player]);
+
+    //Change value of sessions of the player
+    useEffect(() => {
         function getPlayerFiles(sessions) {
 
             let filesId = [];
@@ -130,7 +155,7 @@ export function PlayerDetailPage() {
 
         }
         getPlayerFiles(sessionsByPlayerId)
-      }, [sessionsByPlayerId])
+    }, [sessionsByPlayerId])
 
     //change value of id list files with player session
     useEffect(() => {
@@ -141,7 +166,7 @@ export function PlayerDetailPage() {
             setFilesWithPlayerFiltered(res.data);
         }
 
-        getFiles(filesIdList) 
+        getFiles(filesIdList)
 
     }, [filesIdList])
 
@@ -250,9 +275,9 @@ export function PlayerDetailPage() {
                                         disabled={!isEditing}
                                         {...register('team', { required: true })}
                                     >
-                                        {teamOptions.map((option, index) => {
-                                            return <option key={index} >
-                                                {option}
+                                        {teams.map((option) => {
+                                            return <option key={option.id} value={option.id} >
+                                                {option.name.toUpperCase()}
                                             </option>
                                         })}
                                     </select>
