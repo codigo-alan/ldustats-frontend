@@ -11,7 +11,7 @@ export function AddPlayerPage() {
     const { register, handleSubmit, formState:{errors} } = useForm()
     const navigate = useNavigate()
 
-    const [playerTeamId, setPlayerTeamId] = useState(''); //TODO setValue en el form por defecto
+    const [playerTeamId, setPlayerTeamId] = useState('');
     const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
 
@@ -106,7 +106,7 @@ export function AddPlayerPage() {
                                 {...register('team', { required: true })}
                             >
                                 {teams.map((option) => {
-                                            return <option key={option.id} value={option.id} >
+                                            return <option key={option.id} value={option.id} defaultValue={playerTeamId}>
                                                 {option.name?.toUpperCase()}
                                             </option>
                                         })}

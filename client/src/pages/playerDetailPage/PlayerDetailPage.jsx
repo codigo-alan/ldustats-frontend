@@ -26,7 +26,6 @@ export function PlayerDetailPage() {
 
     const [player, setPlayer] = useState([])
     const [playerRef, setPlayerRef] = useState('');
-    const [playerTeamId, setPlayerTeamId] = useState('');
     const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const [age, setAge] = useState('0') //player age obtained from calculate function
     const [positionImage, setPositionImage] = useState(images.FIELD)
@@ -49,14 +48,12 @@ export function PlayerDetailPage() {
     //call handleSubmit of the useForm(), data is a JSON of all fields of form
     const update = handleSubmit(async data => {
         try {
-            //data.team = data.team.toLowerCase(); //convert to lower in the backend, not needed here
             const res = await updatePlayer(id, data)
             setPlayer(data)
             toast.success(`Actualizado exitosamente\n${res.data.name}`)
         } catch (error) {
             toast.error(`Error al actualizar el jugador\n${res.data.name}`)
         }
-        //TODO placeholder the current Team of the player
    })
 
     function getPositionImage(position) {
@@ -101,7 +98,7 @@ export function PlayerDetailPage() {
                 setValue('position', res.data.position)
                 setAge(calculateAge(res.data.birth))
                 setPlayerRef(res.data.ref);
-                setPlayerTeamId(res.data.team)
+                setValue('team', res.data.team)
                 
             } catch (error) {
                 if (error.response != undefined) {
@@ -120,16 +117,6 @@ export function PlayerDetailPage() {
         getPlayer(); //call above declared function to get player when id(obtained from params) changes
 
     }, [id] )
-
-    //change value of player team id and teams
-    useEffect( () => {
-
-        if (playerTeamId != '' && teams.length > 0) {
-            const teamName = teams.find( team => team.id === playerTeamId)?.name.toUpperCase()
-            setValue('team', teamName)
-        }
-        
-    }, [playerTeamId, teams]);
 
     //Change value of player
     useEffect(() => {
