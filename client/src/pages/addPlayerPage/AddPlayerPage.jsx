@@ -8,10 +8,10 @@ import { getAllTeams } from "../../services/teams.services";
 
 export function AddPlayerPage() {
 
-    const { register, handleSubmit, formState:{errors} } = useForm()
+    const { register, handleSubmit, formState:{errors}, setValue } = useForm()
     const navigate = useNavigate()
 
-    const [playerTeamId, setPlayerTeamId] = useState('');
+    const [playerTeamId, setPlayerTeamId] = useState(JSON.parse(localStorage.getItem('team')).id);
     const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
 
@@ -23,7 +23,14 @@ export function AddPlayerPage() {
         } catch (error) {
             toast.error('Error al crear el jugador')
         }
+        console.log(data)
     })
+
+    const handleChange = (event) => {
+        console.log(event.target.value)
+        setValue('team', event.target.value)
+        setPlayerTeamId(event.target.value)
+    }
 
     //First init
     useEffect( () => {
@@ -31,7 +38,7 @@ export function AddPlayerPage() {
         async function getTeams() {
             const res = await getAllTeams();
             setTeams(res.data);
-            setPlayerTeamId(JSON.parse(localStorage.getItem('team')).id)
+            setValue('team', JSON.parse(localStorage.getItem('team')).id)
         }
 
         getTeams() 
@@ -103,10 +110,13 @@ export function AddPlayerPage() {
                             <select
                                 className="form-select"
                                 placeholder="Equipo"
-                                {...register('team', { required: true })}
+                                value={playerTeamId}
+                                onChange={handleChange}
+                                /* {...register('team', {required: true})} */
+                                
                             >
                                 {teams.map((option) => {
-                                            return <option key={option.id} value={option.id} defaultValue={playerTeamId}>
+                                            return <option key={option.id} value={option.id} >
                                                 {option.name?.toUpperCase()}
                                             </option>
                                         })}
