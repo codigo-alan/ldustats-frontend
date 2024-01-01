@@ -6,26 +6,38 @@ import { useNavigate } from "react-router-dom";
 import { FileSelectorComponent } from "../../components/fileSelectorComponent/FileSelectorComponent";
 import toast from "react-hot-toast";
 import { deleteFile } from "../../services/files.services";
+import { TeamSelectorComponent } from "../../components/teamSelectorComponent/TeamSelectorComponent";
+import { getAllTeams } from "../../services/teams.services";
 
 
 export function FilesPage(){
     const [files, setFiles] = useState([]); //declare files
     const [filesFiltered, setFilesFiltered] = useState([]);
+    const [teams, setTeams] = useState([]);
+    const [teamId, setTeamId] = useState('');
     const navigate = useNavigate();
   
     const handleSearch = (query) => {
-        setFilesFiltered(files.filter((e) => e.date.toLowerCase().includes(query.toLowerCase())))
+        setFilesFiltered(files.filter((e) => 
+            e.date.toLowerCase().includes(query.toLowerCase()) && e.team == teamId))
     };
+
+    //When team selector change, need change the value of this self teamId
+    const handleTeamChange = (newTeamId) => {
+        console.log(newTeamId)
+        setTeamId(JSON.parse(localStorage.getItem('team')).id)
+    }
 
     /*
         get Files and set the value
     */
     useEffect( () => {
+
         async function getFiles() {
             try {
                 const res = await getAllFiles();
                 setFiles(res.data);
-                setFilesFiltered(res.data);
+                //setFilesFiltered(res.data); //TODO remove when back is ready
             } catch (error) {
                 if(error.response.status == 401 || error.response.status == 403) { //if unauthorized or without credentials
                     navigate(`/login`)
@@ -33,9 +45,31 @@ export function FilesPage(){
             }
         }
 
+        async function getTeams() {
+            try {
+                const res = await getAllTeams();
+                setTeams(res.data);
+                setTeamId(JSON.parse(localStorage.getItem('team')).id)
+            } catch (error) {
+                toast.error(error)
+            }
+        }
+
         getFiles();
+        getTeams();
 
     }, []);
+
+    //Change at teamId or files
+    //TODO add when back is ready
+    useEffect(() => {
+
+        if (teamId != '' && files.length > 0) {
+            setFilesFiltered(files.filter((e) =>
+                e.team == teamId))
+        }
+
+    }, [files, teamId]);
 
     const addFileToList = (newFile) => {
         console.log(files);
@@ -60,8 +94,12 @@ export function FilesPage(){
 
     return (
         <div className="container p-3">
-            <div>
-                <h2>Ficheros subidos</h2>
+            <div className="row">
+                <h2 className="col-auto">Ficheros subidos</h2>
+                <TeamSelectorComponent
+                    teamOptions={teams}
+                    currentTeamId={teamId}
+                    onSelectionChange={handleTeamChange}/>
             </div>
             <div className="my-2 row">
                 <div className="col-6">

@@ -19,6 +19,7 @@ export function FileSelectorComponent({addedFile}) {
     const [createdId, setCreatedId] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [fileWithId, setFileWithId] = useState(null);
+    const [teamId, setTeamId] = useState(JSON.parse(localStorage.getItem('team')).id);
 
     function obtainOneDate(result) {
         return (result != undefined && result.length != 0 && result[0]['Session Date'] != undefined) ?
@@ -43,18 +44,21 @@ export function FileSelectorComponent({addedFile}) {
     };
 
     const save = handleSubmit(() => {
-        addModifiedFile(new File(date)); //add file to backend with formated date
+        console.log(teamId)
+        //addModifiedFile(new File(date, teamId)); //add file to backend with formated date
     });
 
     async function addModifiedFile(newFile) {
         const res = await addFile(newFile);
         const idFromResponse = JSON.parse(res.request.response).id; // obtain the created id from the http response
         const dateFromResponse = JSON.parse(res.request.response).date; //obtain the date in the same format of db
+        const teamFromResponse = JSON.parse(res.request.response).team; //obtain the team id from the http response
         setCreatedId(idFromResponse); 
-        setFileWithId(new FileWithId(idFromResponse, dateFromResponse));
+        setFileWithId(new FileWithId(idFromResponse, dateFromResponse, teamFromResponse));
     }
 
     // execute when createdId of http response file changes
+    //To create sessions with the FK of the created file
     useEffect(() => {
 
         if (createdId != null) {

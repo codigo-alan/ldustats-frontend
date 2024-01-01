@@ -23,7 +23,6 @@ export function PlayersPage() {
 
   //When team selector change, need change the value of this self teamId
   const handleTeamChange = (newTeamId) => {
-    console.log(newTeamId)
     setTeamId(JSON.parse(localStorage.getItem('team')).id)
   }
 
@@ -78,10 +77,6 @@ export function PlayersPage() {
   }, [players, teamId]);
 
 
-
-  
-
-//TODO add selector component to teams and change team id to new request
   return (
     <div className="container p-3">
       <div className="row">

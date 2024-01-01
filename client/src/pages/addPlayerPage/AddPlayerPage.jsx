@@ -23,11 +23,9 @@ export function AddPlayerPage() {
         } catch (error) {
             toast.error('Error al crear el jugador')
         }
-        console.log(data)
     })
 
     const handleChange = (event) => {
-        console.log(event.target.value)
         setValue('team', event.target.value)
         setPlayerTeamId(event.target.value)
     }
