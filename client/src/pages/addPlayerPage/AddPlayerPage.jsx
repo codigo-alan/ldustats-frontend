@@ -2,14 +2,19 @@ import { useForm } from "react-hook-form";
 import { addPlayer } from "../../services/players.services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { positions } from "../../models/Organisation";
+import { positions, teams } from "../../models/Organisation";
+import { useEffect, useState } from "react";
+import { getAllTeams } from "../../services/teams.services";
 
 export function AddPlayerPage() {
 
-    const { register, handleSubmit, formState:{errors} } = useForm()
+    const { register, handleSubmit, formState:{errors}, setValue } = useForm()
     const navigate = useNavigate()
 
+    const [playerTeamId, setPlayerTeamId] = useState(JSON.parse(localStorage.getItem('team')).id);
+    const [teams, setTeams] = useState([]); //teams obtained from a request to API
     const options = [positions.GOALKEEPER, positions.DEFENDER, positions.MIDFIELD, positions.FORWARD];
+
     const save = handleSubmit(async data => {
         try {
             const res = await addPlayer(data);
@@ -18,8 +23,25 @@ export function AddPlayerPage() {
         } catch (error) {
             toast.error('Error al crear el jugador')
         }
-         
     })
+
+    const handleChange = (event) => {
+        setValue('team', event.target.value)
+        setPlayerTeamId(event.target.value)
+    }
+
+    //First init
+    useEffect( () => {
+
+        async function getTeams() {
+            const res = await getAllTeams();
+            setTeams(res.data);
+            setValue('team', JSON.parse(localStorage.getItem('team')).id)
+        }
+
+        getTeams() 
+
+    }, [])
 
     return (
         <div className="container p-2">
@@ -76,6 +98,26 @@ export function AddPlayerPage() {
                                         {option}
                                     </option>
                                 })}
+                            </select>
+                            {errors.position && <span className="text-danger" >Campo requerido</span>}
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-3 col-form-label">Equipo:</label>
+                        <div className="col-8">
+                            <select
+                                className="form-select"
+                                placeholder="Equipo"
+                                value={playerTeamId}
+                                onChange={handleChange}
+                                /* {...register('team', {required: true})} */
+                                
+                            >
+                                {teams.map((option) => {
+                                            return <option key={option.id} value={option.id} >
+                                                {option.name?.toUpperCase()}
+                                            </option>
+                                        })}
                             </select>
                             {errors.position && <span className="text-danger" >Campo requerido</span>}
                         </div>

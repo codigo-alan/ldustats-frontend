@@ -12,6 +12,7 @@ import { FileDetailPage } from './pages/filesDetailPage/FilesDetailPage';
 import { SessionPlayerDetail } from './pages/sessionPlayerDetail/SessionPlayerDetail';
 import { LoginPage } from "./pages/loginPage/LoginPage";
 import { RegisterPage } from "./pages/registerPage/RegisterPage";
+import { TeamsPage } from './pages/teamsPage/TeamsPage';
 
 
 export function App() {
