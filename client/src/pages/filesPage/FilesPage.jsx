@@ -24,7 +24,6 @@ export function FilesPage(){
 
     //When team selector change, need change the value of this self teamId
     const handleTeamChange = (newTeamId) => {
-        console.log(newTeamId)
         setTeamId(JSON.parse(localStorage.getItem('team')).id)
     }
 
@@ -37,7 +36,6 @@ export function FilesPage(){
             try {
                 const res = await getAllFiles();
                 setFiles(res.data);
-                //setFilesFiltered(res.data); //TODO remove when back is ready
             } catch (error) {
                 if(error.response.status == 401 || error.response.status == 403) { //if unauthorized or without credentials
                     navigate(`/login`)
@@ -61,7 +59,6 @@ export function FilesPage(){
     }, []);
 
     //Change at teamId or files
-    //TODO add when back is ready
     useEffect(() => {
 
         if (teamId != '' && files.length > 0) {
@@ -71,11 +68,7 @@ export function FilesPage(){
 
     }, [files, teamId]);
 
-    const addFileToList = (newFile) => {
-        console.log(files);
-        setFilesFiltered([...filesFiltered, newFile]);
-        console.log(newFile.id);
-    }
+    const addFileToList = (newFile) => setFiles([...files, newFile]);
 
     const removeFile = async (removedFileId) => {
         const accepted = window.confirm(`Desea eliminar el archivo ${removedFileId} y todas sus sesiones?`);

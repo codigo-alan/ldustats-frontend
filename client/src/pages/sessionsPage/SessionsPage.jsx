@@ -30,7 +30,6 @@ export function SessionsPage() {
         if (sessions.length != 0) {
             setDateSet(obtainDateSet(sessions));
         }else setDateSet([]);
-        console.log(sessions);
 
     }, [sessions] );
 

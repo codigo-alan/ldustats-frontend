@@ -19,7 +19,7 @@ export function FileSelectorComponent({addedFile}) {
     const [createdId, setCreatedId] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [fileWithId, setFileWithId] = useState(null);
-    const [teamId, setTeamId] = useState(JSON.parse(localStorage.getItem('team')).id);
+    //const [teamId, setTeamId] = useState(JSON.parse(localStorage.getItem('team')).id);
 
     function obtainOneDate(result) {
         return (result != undefined && result.length != 0 && result[0]['Session Date'] != undefined) ?
@@ -27,6 +27,7 @@ export function FileSelectorComponent({addedFile}) {
     }
 
     const handleFileChange = (event) => {
+        //setTeamId(JSON.parse(localStorage.getItem('team')).id)
         const selectedFile = event.target.files[0];
         const reader = new FileReader();
 
@@ -44,8 +45,8 @@ export function FileSelectorComponent({addedFile}) {
     };
 
     const save = handleSubmit(() => {
-        console.log(teamId)
-        //addModifiedFile(new File(date, teamId)); //add file to backend with formated date
+        const currentTeamId = JSON.parse(localStorage.getItem('team')).id //teamId selected in localStorage
+        addModifiedFile(new File(date, currentTeamId)); //add file to backend with formated date
     });
 
     async function addModifiedFile(newFile) {
@@ -87,7 +88,6 @@ export function FileSelectorComponent({addedFile}) {
             });
             if (errors == 0) {
                 toast.success(`Se ha cargado el archivo sin errores`);
-                //console.log(sessions);
             } else {
                 toast(`Se ha cargado el archivo con ${errors} errores.`);
             }

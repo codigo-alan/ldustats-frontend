@@ -16,7 +16,6 @@ export function ModalChartData({show, handleClose, itemsByCol = [], title = '', 
     //change of selected option or show state modal
     useEffect( () => {
         if (currentValue && (show === true)) {
-            console.log(itemsByCol)
             setItemsToSHow(itemsByCol
                 .filter( (item) => item.drill == currentValue )
                 .map( (itemFiltered) => ({time: itemFiltered.date, value: itemFiltered.columnValue})));
