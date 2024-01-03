@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import { Tooltip } from 'react-tooltip';
 
 export function TeamSelectorComponent({teamOptions=[], onSelectionChange}) {
 
@@ -16,13 +16,18 @@ export function TeamSelectorComponent({teamOptions=[], onSelectionChange}) {
 
     return (
         <form className='col-2'>
-            <select className='form-select' onChange={handleChange} value={teamId}>
+            <select
+                className='form-select' onChange={handleChange} value={teamId}
+                data-tooltip-id="info-tooltip"
+                data-tooltip-content="Selecciona equipo"
+                data-tooltip-place="right">
                 {teamOptions.map((option) => {
                     return <option key={option.id} value={option.id}  >
                         {option.name.toUpperCase()}
                     </option>
                 })}
             </select>
+            <Tooltip id='info-tooltip' />
         </form>
     );
 }
