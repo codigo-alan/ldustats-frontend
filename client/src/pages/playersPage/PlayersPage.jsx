@@ -6,6 +6,9 @@ import { SearchBarComponent } from "../../components/searchBarComponent/SearchBa
 import { useNavigate } from "react-router-dom";
 import { getAllTeams } from "../../services/teams.services";
 import { TeamSelectorComponent } from "../../components/teamSelectorComponent/TeamSelectorComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { Tooltip } from 'react-tooltip';
 
 export function PlayersPage() {
 
@@ -24,6 +27,10 @@ export function PlayersPage() {
   //When team selector change, need change the value of this self teamId
   const handleTeamChange = (newTeamId) => {
     setTeamId(JSON.parse(localStorage.getItem('team')).id)
+  }
+
+  const toAddPlayer = () => {
+    navigate(`/player-add`)
   }
 
    /*
@@ -87,8 +94,22 @@ export function PlayersPage() {
           onSelectionChange={handleTeamChange}>
         </TeamSelectorComponent>
       </div>
-      <div className="my-2">
-        <SearchBarComponent onSearch={handleSearch}></SearchBarComponent>
+      <div className="my-2 row">
+        <div className="col-6">
+          <SearchBarComponent onSearch={handleSearch}></SearchBarComponent>
+        </div>
+        <div className="col-6 d-flex justify-content-end">
+          <button className="btn btn-primary"
+            data-tooltip-id="info-tooltip"
+            data-tooltip-content="Agregar jugador"
+            data-tooltip-place="left"
+            onClick={toAddPlayer}> 
+              <FontAwesomeIcon icon={faAdd} className="me-1"/> 
+              Agregar jugador
+          </button>
+
+          <Tooltip id='info-tooltip'/>
+        </div>
       </div>
       <div className="row">
         <TableComponent data={playersFiltered} type={'players'}></TableComponent>

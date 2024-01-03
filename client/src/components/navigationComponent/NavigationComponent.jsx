@@ -37,7 +37,7 @@ export function NavigationComponent() {
                     <Nav className="col-12 d-flex justify-content-between">
                         <NavLink className="navLink" to="/players">Jugadores</NavLink>
                         <NavLink className="navLink" to="/files">Ficheros</NavLink>
-                        <NavLink className="navLink" to="player-add">Agregar jugador</NavLink>
+                        {/* <NavLink className="navLink" to="player-add">Agregar jugador</NavLink> */}
                         {user?.staff 
                             ? <NavLink className="navLink" to="/user-add">Agregar usuario</NavLink>
                             : <></>}
