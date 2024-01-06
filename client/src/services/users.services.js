@@ -13,8 +13,9 @@ export const getUser = (idUser) => usersApi.get('/',
     {params: {idUser: idUser}});
 
 //data will be username and password
-export const addUser = (data) => usersApi.post('/', 
-{params: {username: data.userName, password: data.password} });
+/* export const addUser = (data) => usersApi.post('/', 
+{params: {username: data.userName, password: data.password} }); */
+export const addUser = (data) => usersApi.post('/', data);
 
 export const deleteUser = (id) => usersApi.delete(`/${id}`);
 

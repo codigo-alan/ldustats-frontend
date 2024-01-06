@@ -17,6 +17,7 @@ export function RegisterPage() {
             navigate("/players")
         } catch (error) {
             toast.error('No se ha podido registrar el usuario');
+            console.log(error)
         }
          
     });
@@ -34,9 +35,9 @@ export function RegisterPage() {
                                 type="text"
                                 placeholder="Nombre de usuario"
                                 className="form-control"
-                                {...register('userName', { required: true })}
+                                {...register('username', { required: true })}
                             />
-                            {errors.userName && <span className="text-danger">Campo requerido</span>}
+                            {errors.username && <span className="text-danger">Campo requerido</span>}
                         </div>
                     </div>
                     <div className="form-group row">
