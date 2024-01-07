@@ -10,14 +10,11 @@ export function RegisterPage() {
 
     const SignUp = handleSubmit(async data => {
         try {
-            console.log(data.userName);
             const res = await addUser(data)
-            toast.success(`Creado exitosamente\n${res.data.userName}`)
-            
+            toast.success(`Creado exitosamente\n${res.data.username}`)
             navigate("/players")
         } catch (error) {
             toast.error('No se ha podido registrar el usuario');
-            console.log(error)
         }
          
     });
